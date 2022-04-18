@@ -27,9 +27,8 @@ import de.cuuky.varo.listener.helper.cancelable.CancelAbleType;
 import de.cuuky.varo.listener.helper.cancelable.VaroCancelAble;
 import de.cuuky.varo.logger.logger.EventLogger.LogType;
 import de.cuuky.varo.spawns.Spawn;
-import de.cuuky.varo.spigot.updater.VaroUpdateResultSet;
-import de.cuuky.varo.spigot.updater.VaroUpdateResultSet.UpdateResult;
 import de.cuuky.varo.utils.ModUtils;
+import org.bukkit.scoreboard.DisplaySlot;
 
 public class PlayerJoinListener implements Listener {
 
@@ -60,33 +59,19 @@ public class PlayerJoinListener implements Listener {
 		vplayer.setPlayer(player);
 		vplayer.onEvent(BukkitEventType.JOINED);
 
-		if (player.isOp()) {
-			VaroUpdateResultSet updater = Main.getVaroUpdater().getLastResult();
-			if (updater != null) {
-				UpdateResult result = updater.getUpdateResult();
-				String updateVersion = updater.getVersionName();
+		vplayer.getScoreboard().setEnabled(false);
+		vplayer.getStats().setShowScoreboard(false);
+		vplayer.getScoreboard().sendScoreBoard();
+		vplayer.update();
 
-				switch (result) {
-				case UPDATE_AVAILABLE:
-					if (Main.getVaroGame().getGameState() == GameState.LOBBY)
-						vplayer.getVersionAdapter().sendTitle("§cUpdate available", "You are using an outdated plugin version!");
-					player.sendMessage(Main.getPrefix() + "§cVaro update available!§7 Use §l/" + ConfigSetting.COMMAND_VARO_NAME.getValueAsString() + " update§7 to update now. New version: " + updateVersion);
-					break;
-				case TEST_BUILD:
-					if (Main.getVaroGame().getGameState() == GameState.LOBBY)
-						vplayer.getVersionAdapter().sendTitle("§cTEST-BUILD", "");
-					player.sendMessage(Main.getPrefix() + "§cYou are running a test build! This version may be unstable! Please check our discord reguarly for updates " + Main.DISCORD_INVITE);
-					break;
-				default:
-					break;
-				}
-			}
+		if (vplayer.getStats().isSpectator()) {
+			VersionUtils.getVersionAdapter().setXpCooldown(player, Integer.MAX_VALUE);
+		} else {
+			VersionUtils.getVersionAdapter().setXpCooldown(player, 0);
+			if (vplayer.getTeam() == null && Main.getVaroGame().getGameState() == GameState.LOBBY)
+				vplayer.sendMessage(Main.getPrefix() + "§c!Achtung! §eDu konntest nicht an deinem Teamspawn spawnen, da du in keinem Team bist.");
 		}
 
-		if(vplayer.getStats().isSpectator())
-			VersionUtils.getVersionAdapter().setXpCooldown(player, Integer.MAX_VALUE);
-		else
-			VersionUtils.getVersionAdapter().setXpCooldown(player, 0);
 
 		event.setJoinMessage(null);
 		if (VersionUtils.getServerSoftware() == ServerSoftware.MAGMA)

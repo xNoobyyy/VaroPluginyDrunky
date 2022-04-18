@@ -1,0 +1,32 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Intro -----------
+# Beschreibung: Hier kannst du Einstellungen zum Intro vornehmen.
+# 
+#  intro.lines:
+#   Alle Titel für das Suro-Intro
+#   Default-Value: [&a%name%, &6...du bist gestrandet..., &c...auf einer Insel..., &6...genau so wie..., &c%players% weitere Spieler auch!, &aJa?, &6dann viel Glück bei..., &cMINECRAFT SURO!, &cWach auf!, &c10!, , , , , &c5!, &c4!, &c3!, &c2!, &c1!, &cGO!]
+# -------------------------
+
+intro:
+  lines:
+  - '&a%name%'
+  - '&6...du bist gestrandet...'
+  - '&c...auf einer Insel...'
+  - '&6...genau so wie...'
+  - '&c%players% weitere Spieler auch!'
+  - '&aJa?'
+  - "&6dann viel Gl\xfcck bei..."
+  - '&cMINECRAFT SURO!'
+  - '&cWach auf!'
+  - '&c10!'
+  - ''
+  - ''
+  - ''
+  - ''
+  - '&c5!'
+  - '&c4!'
+  - '&c3!'
+  - '&c2!'
+  - '&c1!'
+  - '&cGO!'

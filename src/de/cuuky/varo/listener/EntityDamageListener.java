@@ -38,7 +38,6 @@ public class EntityDamageListener implements Listener {
 
 		if (vp.isInProtection()) {
 			event.setCancelled(true);
-			return;
 		}
 	}
 }

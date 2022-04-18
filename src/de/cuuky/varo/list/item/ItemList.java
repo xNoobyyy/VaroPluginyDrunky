@@ -109,10 +109,12 @@ public abstract class ItemList extends VaroList {
 
 	@Override
 	public List<?> getAsList() {
+		while (items.remove(null)) { }
 		return items;
 	}
 
 	public List<ItemStack> getItems() {
+		while (items.remove(null)) { }
 		return items;
 	}
 

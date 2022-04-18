@@ -24,16 +24,5 @@ public class SortCommand extends VaroCommand {
 		}
 
 		SortResult result = new PlayerSort().sortPlayers();
-		switch (result) {
-		case SORTED_WELL:
-			sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_SORT_SORTED_WELL.getValue(vp));
-			break;
-		case NO_SPAWN_WITH_TEAM:
-			sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_SORT_NO_SPAWN_WITH_TEAM.getValue(vp));
-			break;
-		case NO_SPAWN:
-			sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_SORT_NO_SPAWN.getValue(vp));
-			break;
-		}
 	}
 }

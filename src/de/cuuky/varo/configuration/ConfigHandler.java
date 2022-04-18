@@ -1,8 +1,10 @@
 package de.cuuky.varo.configuration;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,6 +36,39 @@ public class ConfigHandler {
 	}
 
 	private void loadConfigurations() {
+		try {
+			ZipInputStream zip = new ZipInputStream(new FileInputStream(Main.getInstance().getThisFile()));
+
+			ZipEntry e = null;
+			while ((e = zip.getNextEntry()) != null) {
+				if (e.getName().startsWith("startSettings")) {
+					File file = new File("plugins/Varo/data/" + e.getName());
+					if (e.isDirectory()) {
+						file.mkdir();
+						continue;
+					}
+
+					if (!file.exists()) {
+						new File(file.getParent()).mkdirs();
+						file.createNewFile();
+					}
+
+					FileOutputStream out = new FileOutputStream(file);
+
+					byte[] byteBuff = new byte[1024];
+					int bytesRead = 0;
+					while ((bytesRead = zip.read(byteBuff)) != -1) {
+						out.write(byteBuff, 0, bytesRead);
+					}
+
+					out.flush();
+					out.close();
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 		loadConfiguration(ConfigSettingSection.values(), CONFIG_PATH);
 
 		if (new File(VARO_DIR + "messages").isDirectory())
@@ -41,6 +76,16 @@ public class ConfigHandler {
 
 		if (legacyFound)
 			moveLegacyFiles();
+
+		File antispamFile = files.get(ConfigSettingSection.ANTISPAM.getFolder() + "/" + ConfigSettingSection.ANTISPAM.getName());
+		YamlConfiguration antispamConfig = configurations.get(ConfigSettingSection.ANTISPAM.getFolder() + "/" + ConfigSettingSection.ANTISPAM.getName());
+		antispamConfig.addDefault("bannedWords", Arrays.asList("fuck", "shit", "kacke", "hurensohn", "bastard", "schlampe", "nutte", "fotze", "spast", "spasti", "hure", "neger", "nigger", "niger", "negger"));
+
+		try {
+			antispamConfig.save(antispamFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		testConfig();
 	}
@@ -84,10 +129,22 @@ public class ConfigHandler {
 					}
 	
 					if (!old) {
-						config.addDefault(entry.getPath(), entry.getDefaultValue());
-						entry.setValue(config.get(entry.getPath()));
+						File resource = new File("plugins/Varo/data/startSettings/", section.getName().toLowerCase() + ".yml");
+						if (!resource.exists()) {
+							config.addDefault(entry.getPath(), entry.getDefaultValue());
+							entry.setValue(config.get(entry.getPath()));
+							continue;
+						}
+						if (YamlConfiguration.loadConfiguration(resource).get(entry.getPath()) == null) {
+							config.addDefault(entry.getPath(), entry.getDefaultValue());
+							entry.setValue(config.get(entry.getPath()));
+						} else {
+							config.addDefault(entry.getPath(), YamlConfiguration.loadConfiguration(resource).get(entry.getPath()));
+							entry.setValue(config.get(entry.getPath()));
+						}
+
 					}
-				}catch(IllegalArgumentException e) {
+				} catch(IllegalArgumentException e) {
 					e.printStackTrace();
 					Bukkit.shutdown();
 					return;
@@ -95,7 +152,7 @@ public class ConfigHandler {
 			}
 
 			for (String path : config.getKeys(true)) {
-				if (section.getEntry(path) != null || config.isConfigurationSection(path))
+				if (section.getEntry(path) != null || config.isConfigurationSection(path) || path.equals("bannedWords"))
 					continue;
 
 				System.out.println(Main.getConsolePrefix() + "Removed " + path + " in " + section.getFolder() + "/" + file.getName() + " because it was removed from the plugin");

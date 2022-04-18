@@ -64,7 +64,6 @@ public class VaroPlayerDisconnect {
 
 		new Alert(AlertType.DISCONNECT, ConfigMessages.ALERT_DISCONNECT_TOO_OFTEN.getValue(null, vp));
 		Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.ALERT, ConfigMessages.ALERT_DISCONNECT_TOO_OFTEN.getValue(null, vp));
-		Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_TOO_OFTEN, vp);
 		this.remove();
 		return true;
 	}

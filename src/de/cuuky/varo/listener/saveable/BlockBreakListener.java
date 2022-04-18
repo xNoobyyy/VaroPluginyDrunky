@@ -47,8 +47,6 @@ public class BlockBreakListener implements Listener {
 		if (saveable.canModify(varoPlayer)) {
 			varoPlayer.sendMessage(ConfigMessages.CHEST_REMOVED_SAVEABLE).replace("%saveable%", block.getState() instanceof Chest ? "Chest" : "Furnace");
 			player.playSound(player.getLocation(), Sounds.NOTE_BASS_DRUM.bukkitSound(), 1, 1);
-			for (int i = 0; i < 3; i++)
-				player.getWorld().playEffect(block.getLocation(), Effect.SMOKE, 1);
 			saveable.remove();
 			return;
 		}

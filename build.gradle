@@ -106,11 +106,7 @@ void addModularInternal(String repoName, String fileName, boolean changingB) {
 }
 
 jar {
-	if (project.hasProperty('destinationDir'))
-		destinationDir = file(project.property('destinationDir').toString())
-
-	if (project.hasProperty('fileName'))
-		archiveFileName = project.property('fileName').toString()
+    archiveFileName = "VaroPlugin.jar"
 
     manifest {
         attributes(
@@ -137,10 +133,10 @@ processResources {
     }
 }
 
-java {
+/*java {
 	withJavadocJar()
 	withSourcesJar()
-}
+}*/
 
 test {
 	useJUnitPlatform()
@@ -150,27 +146,4 @@ test {
         outputs.upToDateWhen { false }
         showStandardStreams = true
     }
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			
-			pom {
-                name = 'VaroPlugin'
-                url = 'https://varoplugin.de'
-			}
-		}
-	}
-
-	repositories {
-		maven {
-			url 'https://repo.varoplugin.de/repository/maven-releases/'
-			credentials {
-                username project.hasProperty('repouser') ? project.property('repouser').toString() : null
-                password project.hasProperty('repopassword') ? project.property('repopassword').toString() : null
-            }
-		}
-	}
 }

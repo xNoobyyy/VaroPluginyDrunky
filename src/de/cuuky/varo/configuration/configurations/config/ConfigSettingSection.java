@@ -36,6 +36,7 @@ public enum ConfigSettingSection implements SectionConfiguration {
 	START("Start", Materials.ACTIVATOR_RAIL.parseMaterial(), "Hier kannst du Einstellungen zum Start deines Plugins vornehmen."),
 	STRIKE("Strike", Materials.PAPER.parseMaterial(), "Hier kannst du Einstellungen zu den Strikes vornehmen."),
 	TABLIST("TablistSettings", Material.PAINTING, "Hier kannst du Einstellungen zur Tablist vornehmen."),
+	ANTISPAM("AntiSpam", Materials.FILLED_MAP.parseMaterial(), "Hier kannst du Einstellungen zum AntiSpam vornehmen."),
 	TEAMS("Teams", Materials.DIAMOND_HELMET.parseMaterial(), "Hier kannst du Einstellungen zu Teams vornehmen."),
 	TELEGRAM("Telegram", Materials.DROPPER.parseMaterial(), "Alle Einstellungen zum Telegram-Bot."),
 	WORLD("World", Materials.GRASS.parseMaterial(), "Hier kannst du Einstellungen zur Welt vornehmen."),

@@ -23,14 +23,14 @@ public class CheckCombatCommand extends VaroCommand {
         }
 
         if (args.length != 0) {
-            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_HELP.getValue(vp));
+            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_HELP.getValue(vp, vp));
             return;
         }
 
         if (new CombatlogCheck(vp.getPlayer()).isCombatLog()) {
-            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_INCOMBAT.getValue(vp));
+            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_INCOMBAT.getValue(vp, vp));
         } else {
-            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_NOTINCOMBAT.getValue(vp));
+            sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_CHECKCOMBAT_NOTINCOMBAT.getValue(vp, vp));
         }
     }
 

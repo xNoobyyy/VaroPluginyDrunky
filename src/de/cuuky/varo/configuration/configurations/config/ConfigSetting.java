@@ -12,10 +12,17 @@ import de.cuuky.varo.game.suro.SuroStart;
 
 public enum ConfigSetting implements SectionEntry {
 
+	NIKS_DUMMER_CREEPER_EXPLOSIONS_EFFECT_ENABLED(ConfigSettingSection.WORLD, "niksDummerCreeperExplosionsEffectEnabled", true, "Eine Creeper Explosion wird mit Feuer Partikeln verbessert"),
+	FIRSTBLOOD_SOUND(ConfigSettingSection.DEATH, "firstbloodSound", -1, "Welcher Sound soll bei dem Firstblood abgespielt werden"),
 	ADD_TEAM_LIFE_ON_KILL(ConfigSettingSection.DEATH, "teamLife.addOnKill", -1, "Wie viele Leben ein Team bekommen soll,\nsobald es einen Spieler toetet.", "addTeamLifesOnKill"),
 	ALWAYS_TIME(ConfigSettingSection.WORLD, "setAlwaysTime", 1000, "Setzt die Zeit auf dem Server,\ndie dann so stehen bleibt.\nHinweis: Nacht = 13000, Tag = 1000", true),
 	ALWAYS_TIME_USE_AFTER_START(ConfigSettingSection.WORLD, "alwaysTimeUseAfterStart", false, "Ob die Zeit auch stehen bleiben soll,\nwenn das Projekt gestartet wurde."),
 	AUTOSETUP_BORDER(ConfigSettingSection.AUTOSETUP, "border", 2000, "Wie gross die Border beim\nAutoSetup gesetzt werden soll"),
+
+	// ANTISPAM
+	ANTISPAM_ENABLED(ConfigSettingSection.ANTISPAM, "antispam", true, "Ob Spieler bei dem spammen einer\nselben Nachricht eine Warnung/\nChat Sperre erhalten sollen."),
+	ANTICAPS_ENABLED(ConfigSettingSection.ANTISPAM, "anticaps", true, "Ob Spieler bei Caps Messages\neine Warnung/Chat\nSperre erhalten sollen."),
+	BANWORDS_ENABLED(ConfigSettingSection.ANTISPAM, "banwords", true, "Ob gebannte Wörter aus\n der Liste unten geblockt\n werden sollen."),
 
 	// AUTOSETUP
 	AUTOSETUP_ENABLED(ConfigSettingSection.AUTOSETUP, "enabled", false, "Wenn Autosetup aktiviert ist, werden beim\nStart des Servers alle Spawns automatisch gesetzt und\noptional ein Autostart eingerichtet."),
@@ -50,10 +57,10 @@ public enum ConfigSetting implements SectionEntry {
 
 	// CHAT
 	CAN_CHAT_BEFORE_START(ConfigSettingSection.CHAT, "canChatBeforeStart", true, "Ob die Spieler vor Start chatten koennen."),
-	BLOCK_CHAT_ADS(ConfigSettingSection.CHAT, "blockChatAds.enabled", true, "Wenn aktiviert, koennen keine Links in den oeffentlichen Chat gepostet werden."),
-	BLOCK_CHAT_ADS_AGRESSIVE(ConfigSettingSection.CHAT, "blockChatAds.agressive", true, "Wenn aktiviert, wird z.b. nicht nur \"varoplugin.de\" sondern auch \"varoplugin, de\" geblockt. Es kann aber in seltenen fällen zu false positives kommen. Diese Einstellung ist nur relevant wenn blockChatAds aktiviert ist."),
+	BLOCK_CHAT_ADS(ConfigSettingSection.CHAT, "blockChatAds.enabled", false, "Wenn aktiviert, koennen keine Links in den oeffentlichen Chat gepostet werden."),
+	BLOCK_CHAT_ADS_AGRESSIVE(ConfigSettingSection.CHAT, "blockChatAds.agressive", false, "Wenn aktiviert, wird z.b. nicht nur \"varoplugin.de\" sondern auch \"varoplugin, de\" geblockt. Es kann aber in seltenen fällen zu false positives kommen. Diese Einstellung ist nur relevant wenn blockChatAds aktiviert ist."),
 	CHAT_COOLDOWN_IF_STARTED(ConfigSettingSection.CHAT, "chatCooldown.ifStarted", false, "Ob der Chatcooldown auch aktiviert sein\\nsoll wenn das Projekt gestartet wurde.", "chatCooldownIfStarted"),
-	CHAT_COOLDOWN_IN_SECONDS(ConfigSettingSection.CHAT, "chatCooldown.inSeconds", 3, "Der Cooldown der Spieler im Chat,\nbevor sie wieder eine Nachricht senden koennen.\nOff = -1", "chatCooldownInSeconds"),
+	CHAT_COOLDOWN_IN_SECONDS(ConfigSettingSection.CHAT, "chatCooldown.inSeconds", -1, "Der Cooldown der Spieler im Chat,\nbevor sie wieder eine Nachricht senden koennen.\nOff = -1", "chatCooldownInSeconds"),
 
 	// WORLD
 	BLOCK_DESTROY_LOGGER(ConfigSettingSection.WORLD, "blockDestroyLogger", true, "Loggt alle abgebauten Bloecke, die ihr\nunten eintragt unter 'oreLogger.yml'", true),
@@ -87,15 +94,16 @@ public enum ConfigSetting implements SectionEntry {
 	CATCH_UP_SESSIONS(ConfigSettingSection.JOIN_SYSTEMS, "catchUpSessions", false, "NUR FÜR ERSTES JOIN SYSTEM\nStellt ein, ob man verpasste Folgen nachholen darf."),
 
 	// SERVERLIST
-	CHANGE_MOTD(ConfigSettingSection.SERVER_LIST, "changeMotd", true, "Ob das Plugin die Motd veraendern soll.\nHinweis: du kannst die Motd in der messages.yml aendern."),
-	CHAT_TRIGGER(ConfigSettingSection.TEAMS, "chatTrigger", "#", "Definiert den Buchstaben am Anfang einer\nNachricht, der den Teamchat ausloest."),
+	CHANGE_MOTD(ConfigSettingSection.SERVER_LIST, "changeMotd", false, "Ob das Plugin die Motd veraendern soll.\nHinweis: du kannst die Motd in der messages.yml aendern."),
+	CHAT_TRIGGER(ConfigSettingSection.TEAMS, "chatTrigger", "```", "Definiert den Buchstaben am Anfang einer\nNachricht, der den Teamchat ausloest."),
 
 	// COMBATLOG
 	COMBATLOG_TIME(ConfigSettingSection.COMBATLOG, "combatlogTime", 30, "Zeit, nachdem sich ein Spieler\nnach dem Kampf wieder ausloggen kann.\nOff = -1"),
 
 	// DEATH
 	DEATH_SOUND_ENABLED(ConfigSettingSection.DEATH, "deathSound.enabled", false, "Ob ein Sound fuer alle abgespielt werden soll,\nsobald ein Spieler stirbt", true),
-	DEATH_SOUND(ConfigSettingSection.DEATH, "deathSound.sound", Sounds.WITHER_IDLE.bukkitSound().name(), "Sound der abgespielt werden soll", true),
+	DEATH_SOUND(ConfigSettingSection.DEATH, "deathSound.sound", Sounds.AMBIENCE_THUNDER.bukkitSound().name(), "Sound der abgespielt werden soll", true),
+	DEATH_SOUND_INVOLVED(ConfigSettingSection.DEATH, "deathSound.soundInvolved", Sounds.NOTE_BASS.bukkitSound().name(), "Sound der für den Killer abgespielt werden soll\n-1 für den gleichen Sound wie alle anderen"),
 	DEBUG_OPTIONS(ConfigSettingSection.OTHER, "debugOptions", false, "Ob Debug Funktionen verfuegbar sein sollen.\nVorsicht: Mit Bedacht oder nur\nauf Anweisung nutzen!"),
 	BLOCK_ADVANCEMENTS(ConfigSettingSection.OTHER, "blockAdvancements", true, "Ob Advancements deaktiviert werden sollen [1.12+]"),
 	DISABLE_LABYMOD_FUNCTIONS(ConfigSettingSection.OTHER, "disableLabyModFunctions", false, "Ob die Addons von LabyMod beim Spieler\ndeaktviert werden sollen.\nFuer diese Funktion wird dieses Plugin automatisch installiert:\nhttps://www.spigotmc.org/resources/52423/"),
@@ -168,7 +176,7 @@ public enum ConfigSetting implements SectionEntry {
 	MASS_RECORDING_TIME(ConfigSettingSection.JOIN_SYSTEMS, "massRecordingTime", 15, "Die Laenge der Massenaufnahme, in der alle joinen koennen."),
 	MIN_BORDER_SIZE(ConfigSettingSection.BORDER, "minBorderSize", 300, "Wie klein die Border maximal werden kann."),
 
-	MINIMAL_SPECTATOR_HEIGHT(ConfigSettingSection.OTHER, "minimalSpectatorHeight", 70, "Wie tief die Spectator maximal fliegen koennen.\nOff = 0"),
+	MINIMAL_SPECTATOR_HEIGHT(ConfigSettingSection.OTHER, "minimalSpectatorHeight", 0, "Wie tief die Spectator maximal fliegen koennen.\nOff = 0"),
 
 	NAMETAGS_ENABLED(ConfigSettingSection.MAIN, "nametags.enabled", true, "Ob das Plugin die Nametags ueber\nden Koepfen der Spieler veraendern soll.\nHinweis: du kannst diese in der messages.yml einstellen.", true),
 	NAMETAGS_VISIBLE(ConfigSettingSection.MAIN, "nametags.visible", true, "Ob NameTags sichtbar sein sollen"),
@@ -203,11 +211,11 @@ public enum ConfigSetting implements SectionEntry {
 	PRE_PRODUCE_SESSIONS(ConfigSettingSection.JOIN_SYSTEMS, "preProduceSessions", 3, "FÜR BEIDE JOIN SYSTEME\nStellt ein, wie viele Folgen der Spieler zusaetzlich zu\nden Regulaeren vorproduzieren darf."),
 
 	// MAIN
-	PREFIX(ConfigSettingSection.MAIN, "prefix", "&7[&3Varo&7] ", "Prefix, der im Chat bzw. vor\nden Nachrichten angezeigt wird."),
+	PREFIX(ConfigSettingSection.MAIN, "prefix", "&7[&eVaro&7] ", "Prefix, der im Chat bzw. vor\nden Nachrichten angezeigt wird."),
 	PROJECT_NAME(ConfigSettingSection.MAIN, "projectname", "Varo", "Name deines Projektes, der in den\nNachrichten, am Scoreboard, etc. steht."),
-	PROJECTNAME_COLORCODE(ConfigSettingSection.MAIN, "projectnameColorcode", "&3", "Dieser Farbcode ist der Massgebende,\nder ueberall im Projekt verwendet wird.."),
+	PROJECTNAME_COLORCODE(ConfigSettingSection.MAIN, "projectnameColorcode", "&e", "Dieser Farbcode ist der Massgebende,\nder ueberall im Projekt verwendet wird.."),
 	MAIN_LANGUAGE(ConfigSettingSection.MAIN, "language.main", "de_de", "Alle Sprachentypen hier zu finden: https://minecraft-el.gamepedia.com/Language"),
-	MAIN_LANGUAGE_ALLOW_OTHER(ConfigSettingSection.MAIN, "language.allowOther", true, "Ob jeder Spieler eine eigene Sprache\nnutzen darf"),
+	MAIN_LANGUAGE_ALLOW_OTHER(ConfigSettingSection.MAIN, "language.allowOther", false, "Ob jeder Spieler eine eigene Sprache\nnutzen darf"),
 	RANDOM_CHEST_FILL_RADIUS(ConfigSettingSection.WORLD, "randomChestFillRadius", -1, "In welchem Radius die Kisten um den\nSpawn mit den in der Config angegebenen\nItems befuellt werden sollen.\nOff = -1"),
 	RANDOM_CHEST_MAX_ITEMS_PER_CHEST(ConfigSettingSection.WORLD, "randomChestMaxItems", 5, "Wie viele Items in eine Kiste sollen."),
 	REMOVE_HIT_COOLDOWN(ConfigSettingSection.OTHER, "removeHitDelay", false, "Entfernt den 1.9+ Hit delay"),
@@ -217,7 +225,7 @@ public enum ConfigSetting implements SectionEntry {
 	CRACKED_SERVER(ConfigSettingSection.MAIN, "crackedServer", false, "Ob der Server mit Mojang-UUIDs arbeiten soll.\nVorsicht: Spieler müssen neu eingetragen werden."),
 
 	// REPORT
-	REPORTSYSTEM_ENABLED(ConfigSettingSection.REPORT, "enabled", true, "Ob das Report-System angeschaltet sein soll."),
+	REPORTSYSTEM_ENABLED(ConfigSettingSection.REPORT, "enabled", false, "Ob das Report-System angeschaltet sein soll."),
 	RESET_SESSION_HOUR(ConfigSettingSection.MAIN, "resetSessionHour", 1, "Um welche Uhrzeit (24h) der Server den\nSpieler neue Sessions etc. gibt"),
 	RESPAWN_PROTECTION(ConfigSettingSection.DEATH, "respawnProtection", 120, "Wie lange in Sekunden Spieler\nnach Respawn geschuetzt sind"),
 	SCOREBOARD(ConfigSettingSection.MAIN, "scoreboard", true, "Ob das Scoreboard aktiviert sein soll.\nHinweis: das Scoreboard kannst du in\nder scoreboard.yml bearbeiten.", true),
@@ -234,7 +242,7 @@ public enum ConfigSetting implements SectionEntry {
 	START_AT_PLAYERS(ConfigSettingSection.START, "startAtPlayers", -1, "Startet das Projekt automatisch wenn die\nAnzahl der Online Spieler dieser entspricht."),
 
 	// START
-	STARTCOUNTDOWN(ConfigSettingSection.START, "startCountdown", 30, "Wie lange der Startcountdown\nbei Start in Sekunden ist."),
+	STARTCOUNTDOWN(ConfigSettingSection.START, "startCountdown", 60, "Wie lange der Startcountdown\nbei Start in Sekunden ist."),
 	STARTPERIOD_PROTECTIONTIME(ConfigSettingSection.PROTECTIONS, "startperiodProtectiontime", -1, "Laenge der Schutzzeit nach dem Start.\nOff = -1"),
 	STARTPERIOD_PROTECTIONTIME_BROADCAST_INTERVAL(ConfigSettingSection.PROTECTIONS, "startperiodProtectiontimeBcInterval", 60, "In welchen Sekundenabstaenden die restliche Schutzzeit\ngebroacastet werden soll"),
 	STOP_SERVER_ON_WIN(ConfigSettingSection.DEATH, "stopServerOnWin", -1, "Zeit in Sekunden, nachdem der Server nach\nWin eines Teams heruntergefahren wird."),
@@ -266,7 +274,7 @@ public enum ConfigSetting implements SectionEntry {
 	TEAMREQUEST_LOBBYITEM_INVITE_ITEM(ConfigSettingSection.TEAMS, "teamRequest.items.invite.item", Materials.DIAMOND_SWORD.parseItem(), "Item um andere Spieler in ein Team einzuladen"),
 	TEAMREQUEST_LOBBYITEM_INVITE_SLOT(ConfigSettingSection.TEAMS, "teamRequest.items.invite.slot", 0, "Slot des Items um andere Spieler in ein Team einzuladen"),
 	TEAMREQUEST_LOBBYITEM_LEAVE_ITEM(ConfigSettingSection.TEAMS, "teamRequest.items.leave.item", Materials.REDSTONE.parseItem(), "Item zum Verlassen eines Teams"),
-	TEAMREQUEST_LOBBYITEM_LEAVE_SLOT(ConfigSettingSection.TEAMS, "teamRequest.items.leave.slot", 8, "Slot des Items zum Verlassen eines Teams"),
+	TEAMREQUEST_LOBBYITEM_LEAVE_SLOT(ConfigSettingSection.TEAMS, "teamRequest.items.leave.slot", 6, "Slot des Items zum Verlassen eines Teams"),
 	TEAMREQUEST_LOBBYITEM_RENAME_ENABLED(ConfigSettingSection.TEAMS, "teamRequest.items.rename.enabled", true, "Ob die spieler in\nder Lobby ein Item haben\nsollen um ihren Teamnamen\nzu ändern"),
 	TEAMREQUEST_LOBBYITEM_RENAME_ITEM(ConfigSettingSection.TEAMS, "teamRequest.items.rename.item", Materials.NAME_TAG.parseItem(), "Item zum Umbenennen eines Teams"),
 	TEAMREQUEST_LOBBYITEM_RENAME_SLOT(ConfigSettingSection.TEAMS, "teamRequest.items.rename.slot", 4, "Slot des Items zum Umbenennen eines Teams"),
@@ -290,40 +298,43 @@ public enum ConfigSetting implements SectionEntry {
 
 	// TABLIST
 	TABLIST(ConfigSettingSection.TABLIST, "tablist", true, "Ob das Plugin die Tablist modfizieren soll\nMuss aktiviert sein, um folgende Einstellungen\nvorzunehmen.", true),
-	TABLIST_USE_HEADER(ConfigSettingSection.TABLIST, "useHeader", true, "Ob die Tablist einen Header haben soll.\nErfordert config reload und ggf. rejoin."),
-	TABLIST_USE_FOOTER(ConfigSettingSection.TABLIST, "useFooter", true, "Ob die Tablist einen Footer haben soll.\nErfordert config reload und ggf. rejoin."), // enable: config reload
+	TABLIST_USE_HEADER(ConfigSettingSection.TABLIST, "useHeader", false, "Ob die Tablist einen Header haben soll.\nErfordert config reload und ggf. rejoin."),
+	TABLIST_USE_FOOTER(ConfigSettingSection.TABLIST, "useFooter", false, "Ob die Tablist einen Footer haben soll.\nErfordert config reload und ggf. rejoin."), // enable: config reload
 	TABLIST_CHANGE_NAMES(ConfigSettingSection.TABLIST, "changeNames", true, "Ob die Namen in der Tablist modfiziert werden sollen."),
 	
 	// COMMANDS
 	COMMAND_VARO_ENABLED(ConfigSettingSection.COMMANDS, "varo.enabled", true, "Ob /varo aktiviert sein soll"),
 	COMMAND_VARO_NAME(ConfigSettingSection.COMMANDS, "varo.name", "varo", "Custom name für /varo"),
-	COMMAND_ANTIXRAY_ENABLED(ConfigSettingSection.COMMANDS, "antixray.enabled", true, "Ob /antixray aktiviert sein soll"),
+	COMMAND_ANTIXRAY_ENABLED(ConfigSettingSection.COMMANDS, "antixray.enabled", false, "Ob /antixray aktiviert sein soll"),
 	COMMAND_BROADCAST_ENABLED(ConfigSettingSection.COMMANDS, "broadcast.enabled", true, "Ob /broadcast aktiviert sein soll"),
-	COMMAND_CHATCLEAR_ENABLED(ConfigSettingSection.COMMANDS, "chatclear.enabled", true, "Ob /chatclear aktiviert sein soll"),
-	COMMAND_TIME_ENABLED(ConfigSettingSection.COMMANDS, "time.enabled", true, "Ob /day und /night aktiviert sein soll"),
+	COMMAND_CHATCLEAR_ENABLED(ConfigSettingSection.COMMANDS, "chatclear.enabled", false, "Ob /chatclear aktiviert sein soll"),
+	COMMAND_TIME_ENABLED(ConfigSettingSection.COMMANDS, "time.enabled", false, "Ob /day und /night aktiviert sein soll"),
 	COMMAND_FLY_ENABLED(ConfigSettingSection.COMMANDS, "fly.enabled", true, "Ob /fly und /unfly aktiviert sein soll"),
 	COMMAND_FREEZE_ENABLED(ConfigSettingSection.COMMANDS, "freeze.enabled", true, "Ob /freeze und /unfreeze aktiviert sein soll"),
 	COMMAND_GAMEMODE_ENABLED(ConfigSettingSection.COMMANDS, "gamemode.enabled", true, "Ob /gamemode aktiviert sein soll"),
-	COMMAND_HEAL_ENABLED(ConfigSettingSection.COMMANDS, "heal.enabled", true, "Ob /heal aktiviert sein soll"),
-	COMMAND_INFO_ENABLED(ConfigSettingSection.COMMANDS, "info.enabled", true, "Ob /info aktiviert sein soll"),
+	COMMAND_HEAL_ENABLED(ConfigSettingSection.COMMANDS, "heal.enabled", false, "Ob /heal aktiviert sein soll"),
+	COMMAND_INFO_ENABLED(ConfigSettingSection.COMMANDS, "info.enabled", false, "Ob /info aktiviert sein soll"),
 	COMMAND_INVSEE_ENABLED(ConfigSettingSection.COMMANDS, "invsee.enabled", true, "Ob /invsee aktiviert sein soll"),
-	COMMAND_MESSAGE_ENABLED(ConfigSettingSection.COMMANDS, "message.enabled", true, "Ob /message und /reply aktiviert sein soll"),
-	COMMAND_MUTE_ENABLED(ConfigSettingSection.COMMANDS, "mute.enabled", true, "Ob /mute und /unmute aktiviert sein soll"),
+	COMMAND_MESSAGE_ENABLED(ConfigSettingSection.COMMANDS, "message.enabled", false, "Ob /message und /reply aktiviert sein soll"),
+	COMMAND_MUTE_ENABLED(ConfigSettingSection.COMMANDS, "mute.enabled", false, "Ob /mute und /unmute aktiviert sein soll"),
 	COMMAND_PING_ENABLED(ConfigSettingSection.COMMANDS, "ping.enabled", true, "Ob /ping aktiviert sein soll"),
 	COMMAND_SPEED_ENABLED(ConfigSettingSection.COMMANDS, "speed.enabled", true, "Ob /speed aktiviert sein soll"),
 	COMMAND_VANISH_ENABLED(ConfigSettingSection.COMMANDS, "vanish.enabled", true, "Ob /vanish aktiviert sein soll"),
-	COMMAND_REPORT_ENABLED(ConfigSettingSection.COMMANDS, "report.enabled", true, "Ob /report aktiviert sein soll"),
-	COMMAND_USAGE_ENABLED(ConfigSettingSection.COMMANDS, "usage.enabled", true, "Ob /usage aktiviert sein soll"),
-	COMMAND_BORDER_ENABLED(ConfigSettingSection.COMMANDS, "border.enabled", true, "Ob /border aktiviert sein soll"),
+	COMMAND_REPORT_ENABLED(ConfigSettingSection.COMMANDS, "report.enabled", false, "Ob /report aktiviert sein soll"),
+	COMMAND_USAGE_ENABLED(ConfigSettingSection.COMMANDS, "usage.enabled", false, "Ob /usage aktiviert sein soll"),
+	COMMAND_BORDER_ENABLED(ConfigSettingSection.COMMANDS, "border.enabled", false, "Ob /border aktiviert sein soll"),
 	COMMAND_SETSPAWN_ENABLED(ConfigSettingSection.COMMANDS, "setworldspawn.enabled", true, "Ob /setworldspawn aktiviert sein soll"),
-	COMMAND_SPAWN_ENABLED(ConfigSettingSection.COMMANDS, "spawn.enabled", true, "Ob /spawn aktiviert sein soll"),
+	COMMAND_SPAWN_ENABLED(ConfigSettingSection.COMMANDS, "spawn.enabled", false, "Ob /spawn aktiviert sein soll"),
 	COMMAND_TR_ENABLED(ConfigSettingSection.COMMANDS, "tr.enabled", true, "Ob /tr aktiviert sein soll"),
 	COMMAND_TR_NAME(ConfigSettingSection.COMMANDS, "tr.name", "tr", "Custom name für /tr"),
-	COMMAND_WEATHER_ENABLED(ConfigSettingSection.COMMANDS, "weather.enabled", true, "Ob /sun, /rain und /thunder aktiviert sein soll"),
-	COMMAND_PROTECT_ENABLED(ConfigSettingSection.COMMANDS, "protect.enabled", true, "Ob /protect und /unprotect aktiviert sein soll"),
-	COMMAND_COUNTDOWN_ENABLED(ConfigSettingSection.COMMANDS, "countdown.enabled", true, "Ob /countdown aktiviert sein soll"),
-	COMMAND_PERFORMANCE_ENABLED(ConfigSettingSection.COMMANDS, "performance.enabled", true, "Ob /performance aktiviert sein soll"),
-	COMMAND_LANGUAGE_ENABLED(ConfigSettingSection.COMMANDS, "language.enabled", true, "Ob /language aktiviert sein soll"),
+	COMMAND_WEATHER_ENABLED(ConfigSettingSection.COMMANDS, "weather.enabled", false, "Ob /sun, /rain und /thunder aktiviert sein soll"),
+	COMMAND_PROTECT_ENABLED(ConfigSettingSection.COMMANDS, "protect.enabled", false, "Ob /protect und /unprotect aktiviert sein soll"),
+	COMMAND_COUNTDOWN_ENABLED(ConfigSettingSection.COMMANDS, "countdown.enabled", false, "Ob /countdown aktiviert sein soll"),
+	COMMAND_PERFORMANCE_ENABLED(ConfigSettingSection.COMMANDS, "performance.enabled", false, "Ob /performance aktiviert sein soll"),
+	COMMAND_LANGUAGE_ENABLED(ConfigSettingSection.COMMANDS, "language.enabled", false, "Ob /language aktiviert sein soll"),
+	COMMAND_VT_ENABLED(ConfigSettingSection.COMMANDS, "vt.enabled", true, "Ob /vt aktiviert sein soll"),
+	COMMAND_CLS_ENABLED(ConfigSettingSection.COMMANDS, "cls.enabled", true, "Ob /cls aktiviert sein soll"),
+	COMMAND_MIDDLE_ENABLED(ConfigSettingSection.COMMANDS, "middle.enabled", true, "Ob /middle aktiviert sein soll"),
 
 	// INTRO
 	INTRO_INTRO_LINES(ConfigSettingSection.INTRO, "intro.lines", SuroStart.DEFAULT_TITLES, "Alle Titel für das Suro-Intro");
@@ -333,7 +344,7 @@ public enum ConfigSetting implements SectionEntry {
 	private ConfigSettingSection section;
 	private boolean reducesPerformance;
 
-	private ConfigSetting(ConfigSettingSection section, String path, Object value, String description, String... oldPaths) {
+	ConfigSetting(ConfigSettingSection section, String path, Object value, String description, String... oldPaths) {
 		this.section = section;
 		this.path = path;
 		this.value = value;
@@ -342,7 +353,7 @@ public enum ConfigSetting implements SectionEntry {
 		this.oldPaths = oldPaths;
 	}
 
-	private ConfigSetting(ConfigSettingSection section, String path, Object value, String description, boolean reducesPerformance) {
+	ConfigSetting(ConfigSettingSection section, String path, Object value, String description, boolean reducesPerformance) {
 		this(section, path, value, description);
 
 		this.reducesPerformance = reducesPerformance;

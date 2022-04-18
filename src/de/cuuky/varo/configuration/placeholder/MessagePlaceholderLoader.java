@@ -11,6 +11,7 @@ import de.cuuky.varo.configuration.placeholder.varo.VaroGeneralMessagePlaceholde
 import de.cuuky.varo.configuration.placeholder.varo.VaroPlayerMessagePlaceholder;
 import de.cuuky.varo.entity.player.VaroPlayer;
 import de.cuuky.varo.entity.player.disconnect.VaroPlayerDisconnect;
+import de.cuuky.varo.game.state.GameState;
 import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;
@@ -74,6 +75,16 @@ public class MessagePlaceholderLoader {
 
         new VaroPlayerMessagePlaceholder("seconds", 1, "Ersetzt durch den Countdown des Spielers", (player) -> String.valueOf(player.getStats().getCountdown()));
         new VaroPlayerMessagePlaceholder("countdown", 1, "Ersetzt durch den Countdown des Spielers", (player) -> String.valueOf(player.getStats().getCountdown()));
+        new VaroPlayerMessagePlaceholder("time", 1, "Ersetzt durch den Countdown des Spielers", (player) -> {
+            if (ConfigSetting.PLAY_TIME.getValueAsInt() < 1 || Main.getVaroGame().getGameState() == GameState.LOBBY) return "null";
+            String secs = player.getStats().getCountdownSec(player.getStats().getCountdown());
+            String mins = player.getStats().getCountdownMin(player.getStats().getCountdown());
+            String hours = String.format("%02d", player.getStats().getCountdown() / 3600);
+            if ((player.getStats().getCountdown() / 3600) < 1) {
+                return mins + ":" + secs;
+            } else
+                return hours + ":" + mins + ":" + secs;
+        });
         new VaroPlayerMessagePlaceholder("hour", 1, "Ersetzt durch die verbleibenden Stunden der aktuellen Session des Spielers", (player) -> ConfigSetting.PLAY_TIME.getValueAsInt() < 1 ? "-" : String.format("%02d", player.getStats().getCountdown() / 3600));
         new VaroPlayerMessagePlaceholder("min", 1, "Ersetzt durch die verbleibenden Minuten der aktuellen Session des Spielers", (player) -> ConfigSetting.PLAY_TIME.getValueAsInt() < 1 ? "-" : String.format("%02d", (player.getStats().getCountdown() / 60) % 60));
         new VaroPlayerMessagePlaceholder("sec", 1, "Ersetzt durch die verbleibenden Sekunden der aktuellen Session des Spielers", (player) -> ConfigSetting.PLAY_TIME.getValueAsInt() < 1 ? "-" : String.format("%02d", player.getStats().getCountdown() % 60));
@@ -114,8 +125,8 @@ public class MessagePlaceholderLoader {
         new VaroPlayerMessagePlaceholder("playerID", 1, "Ersetzt durch die ID des Spielers", (player) -> String.valueOf(player.getId()));
         new VaroPlayerMessagePlaceholder("playerUUID", 1, "Ersetzt durch die UUID des Spielers", (player) -> String.valueOf(player.getUUID()));
         new VaroPlayerMessagePlaceholder("prefix", 1, "Ersetzt durch den Prefix des Spielers", VaroPlayer::getPrefix);
-        new VaroPlayerMessagePlaceholder("team", 1, "Ersetzt durch den Teamname des Spielers", (player) -> player.getTeam() != null ? player.getTeam().getDisplay() : "-");
-        new VaroPlayerMessagePlaceholder("teamID", 1, "Ersetzt durch die TeamID des Spielers", (player) -> player.getTeam() != null ? String.valueOf(player.getTeam().getId()) : "-");
+        new VaroPlayerMessagePlaceholder("team", 1, "Ersetzt durch den Teamname des Spielers", (player) -> player.getTeam() != null ? player.getTeam().getDisplay() : "-Teamlos-");
+        new VaroPlayerMessagePlaceholder("teamID", 1, "Ersetzt durch die TeamID des Spielers", (player) -> player.getTeam() != null ? String.valueOf(player.getTeam().getId()) : "0");
         new VaroPlayerMessagePlaceholder("rank", 1, "Ersetzt durch den Rangnamen des Spielers", (player) -> player.getRank() != null ? player.getRank().getDisplay() : "-");
         new VaroPlayerMessagePlaceholder("episodesPlayedPlus1", 1, "Ersetzt durch die gespielten Episoden+1 des Spielers", (player) -> String.valueOf(player.getStats().getSessionsPlayed() + 1));
         new VaroPlayerMessagePlaceholder("sessions", 1, "Ersetzt durch die Sessions des Spielers", (player) -> String.valueOf(player.getStats().getSessions()));

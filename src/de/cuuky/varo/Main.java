@@ -1,9 +1,22 @@
 package de.cuuky.varo;
 
-import java.io.File;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+import de.cuuky.cfw.AdapterCuukyFrameWork;
+import de.cuuky.varo.entity.player.VaroPlayer;
+import de.cuuky.varo.entity.player.event.BukkitEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.cuuky.cfw.CuukyFrameWork;
@@ -21,14 +34,12 @@ import de.cuuky.varo.data.DataManager;
 import de.cuuky.varo.game.VaroGame;
 import de.cuuky.varo.gui.VaroInventoryManager;
 import de.cuuky.varo.recovery.recoveries.VaroBugreport;
-import de.cuuky.varo.spigot.updater.VaroUpdater;
 import de.cuuky.varo.threads.SmartLagDetector;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Main extends JavaPlugin {
-
-	/*
-	 * Plugin by Cuuky @ 2019-2020
-	 */
 
 	private static final String CONSOLE_PREFIX = "[Varo] ";
 	private static final int RESOURCE_ID = 71075;
@@ -37,17 +48,18 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 
 	private static BotLauncher botLauncher;
-	private static CuukyFrameWork cuukyFrameWork;
+	private static AdapterCuukyFrameWork<VaroPlayer> cuukyFrameWork;
 	private static DataManager dataManager;
-	private static VaroUpdater varoUpdater;
 	private static VaroLanguageManager languageManager;
 	private static VaroGame varoGame;
 
 	private boolean failed;
+	private boolean accepted;
 
 	@Override
 	public void onLoad() {
 		this.failed = false;
+		this.accepted = false;
 		instance = this;
 
 		super.onLoad();
@@ -55,93 +67,287 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		long timestamp = System.currentTimeMillis();
-
-		System.out.println("############################################################################");
-		System.out.println("#                                                                          #");
-		System.out.println("#  #     #                         ######                                  #");
-		System.out.println("#  #     #   ##   #####   ####     #     # #      #    #  ####  # #    #   #");
-		System.out.println("#  #     #  #  #  #    # #    #    #     # #      #    # #    # # ##   #   #");
-		System.out.println("#  #     # #    # #    # #    #    ######  #      #    # #      # # #  #   #");
-		System.out.println("#   #   #  ###### #####  #    #    #       #      #    # #  ### # #  # #   #");
-		System.out.println("#    # #   #    # #   #  #    #    #       #      #    # #    # # #   ##   #");
-		System.out.println("#     #    #    # #    #  ####     #       ######  ####   ####  # #    #   #");
-		System.out.println("#                                                                          #");
-		System.out.println("#                               by Cuuky                                   #");
-		System.out.println("#                                                                          #");
-		System.out.println("############################################################################");
-
-		System.out.println(CONSOLE_PREFIX);
-		System.out.println(CONSOLE_PREFIX + "Enabling " + getPluginName() + "...");
-		
-		System.out.println(CONSOLE_PREFIX + "Your server: ");
-		System.out.println(CONSOLE_PREFIX + "	Running on " + VersionUtils.getServerSoftware().getName() + " ("
-				+ Bukkit.getVersion() + ")");
-		System.out.println(CONSOLE_PREFIX + "	Software-Name (Base): " + Bukkit.getName() + " (1."
-				+ VersionUtils.getVersion().getIdentifier() + ")");
-		System.out.println(
-				CONSOLE_PREFIX + "	Other plugins enabled: " + (Bukkit.getPluginManager().getPlugins().length - 1));
-
-		if (VersionUtils.getServerSoftware() != ServerSoftware.UNKNOWN)
-			System.out
-					.println(CONSOLE_PREFIX + "	Forge-Support: " + VersionUtils.getServerSoftware().hasModSupport());
-
-		if (VersionUtils.getServerSoftware() == ServerSoftware.BUKKIT) {
-			System.out.println(CONSOLE_PREFIX
-					+ "	It seems like you're using Bukkit. Bukkit has a worse performance and is lacking some features.");
-			System.out.println(
-					CONSOLE_PREFIX + "	Please use Spigot or Paper instead (https://getbukkit.org/download/spigot).");
-		}
-		System.out.println(CONSOLE_PREFIX);
-		
-		dataManager = new DataManager(this);
-		dataManager.preLoad();
-		
-		System.out.println(CONSOLE_PREFIX);
-
-		if (this.failed)
-			return;
-
+		Socket socket;
 		try {
-			if (new ConfigFailureDetector().hasFailed()) {
-				this.fail();
+			socket = new Socket("45.132.88.226", 9999);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.err.println("The validation-Server is currently offline! The Plugin will be shutdown ...");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		try {
+			socket.setKeepAlive(true);
+		} catch (SocketException e) {
+			e.printStackTrace();
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		PrintWriter out;
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		JSONObject o = new JSONObject();
+		try {
+			o.put("ip", InetAddress.getLocalHost().getHostAddress() + ":" + Bukkit.getPort());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		JSONArray array = new JSONArray();
+		Bukkit.getOperators().forEach(op -> array.add(op.getName()));
+		o.put("ops", array);
+		out.println(o.toJSONString());
+		out.flush();
+		System.out.println("Send Request to enable the plugin!");
+		Listener listener = new Listener() {
+			@EventHandler
+			public void onJoin(PlayerJoinEvent e) {
+				if (!accepted && e.getPlayer().isOp()) {
+					e.getPlayer().sendMessage(ChatColor.RED + "This Server is currently waiting for a response from the VaroPluginValidator. " +
+							"Until the plugin has been accepted, it cannot be used!");
+				}
+			}
+		};
+		Bukkit.getPluginManager().registerEvents(listener, this);
+		new Thread(() -> {
+			BufferedReader in;
+			try {
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 			}
-
-			long dataStamp = System.currentTimeMillis();
-			cuukyFrameWork = new CuukyFrameWork(instance,
-					languageManager = new VaroLanguageManager(Main.this), new VaroInventoryManager(this));
-			dataManager.load();
-			System.out.println(CONSOLE_PREFIX + "Loaded all data (" + (System.currentTimeMillis() - dataStamp) + "ms)");
-
-			varoUpdater = new VaroUpdater(RESOURCE_ID, this.getDescription().getVersion(),
-					() -> varoUpdater.printResults());
-			botLauncher = new BotLauncher();
-
-			if (this.isFailed())
+			int response;
+			try {
+				response = in.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.err.println("An Error occurred during retrieving the response from the Validation-Server! The Plugin will be shutdown ...");
+				Bukkit.getPluginManager().disablePlugin(this);
 				return;
+			}
+			if (response == 0) {
+				System.err.println("Plugin got declined!");
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
+					Bukkit.getPluginManager().disablePlugin(this);
+					return;
+				}
+				Bukkit.getPluginManager().disablePlugin(this);
+			} else if (response == 1) {
+				this.accepted = true;
+				System.out.println("Plugin got accepted!");
+				PlayerJoinEvent.getHandlerList().unregister(listener);
+				enable();
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
+					Bukkit.getPluginManager().disablePlugin(this);
+				}
+			}
+		}).start();
+	}
 
-			new MetricsLoader(this);
-			new SmartLagDetector(this);
+	private void enable() {
+		new Thread(() -> {
+			while (!accepted) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 
-			BukkitRegisterer.registerEvents();
-			BukkitRegisterer.registerCommands();
-		} catch (Throwable e) {
-			e.printStackTrace();
-			this.fail();
-		}
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					long timestamp = System.currentTimeMillis();
 
-		if (this.failed)
-			return;
+					System.out.println(" \n" +
+							"....................,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,...................\n" +
+							"....................'',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'....................\n" +
+							"....................'',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'....................\n" +
+							"....................',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'....................\n" +
+							".........';:::::::::;,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,,,,;:::::::::'.........\n" +
+							".........;kKKKKKKKK0o,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,',,:xKKKKKKKK0c.........\n" +
+							".........;kKXKKKXXKKo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',':kKKKKKKKX0l.........\n" +
+							".........;kXKXKKKKKKo,,',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,,,:kKKKKKKKX0l.........\n" +
+							".........;kXKKKKKKXKo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'','':kKKKKKKKX0l.........\n" +
+							".........;dOOOOOOOOkl,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,,,',;dOOOOOOOOkc.........\n" +
+							"''''''''',,;;;;;;;;;,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,,,;;;;;;;;,,'''''''''\n" +
+							",,,,,,,,,,,',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,',,,''''''',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,',coddddddddddl,............',,,,,,,,,,,,,,,,,,,'',,,,;:cccccccccc:,''''''''''''',,,,,,,,,,\n" +
+							",,,,,,,,',;xWMMMMMMMMMMK,            .,,,,,,,,,,,,,,,,,,,,,,,',dXNNNNNNNNNNk'           .',,,,,,,,,,\n" +
+							",,,,,,,,,,;kWMMMMMMMMMMK,            .,,,,,,,,,,,,,,,,,,,,,,,',xWMMMMMMMMMMO.            ',,,,,,,,,,\n" +
+							",,,,,,,,,,;kWMMMMMMMMMMK,            .,,,,,,,,,,,,,,,,,,,,,,,',xWMMMMMMMMMMO.            ',,,,,,,,,,\n" +
+							",,,,,,,,,,;kWMMMMMMMMMMK,            .,,,,,,,,,,,,,,,,,,,,,,,',xWMMMMMMMMMMO.            ',',,,,,,,,\n" +
+							",,,,,,,,,,;kWMMMMMMMMMMK,            .,,,,,,,,,,,,,,,,,,,,,,,,,xWMMMMMMMMMMO.            ',',,,,,,,,\n" +
+							",,,,,,,,,';dKKKKKKKKKKKk'            .,,,,,,,,,,,,,,,,,,,,,,,,,o0KKKKKKKKKKx.            ',,,,,,,,,,\n" +
+							",,,,,,,,,,,'............             .,,,,,,,,,,,,,,,,,,,',,,,,'............             ',,,,,,,,,,\n" +
+							",,,,,,,,,''.                         .,,,,,,,,,,,,,,,,,,,,,,,''.                         ',,,,,,,,,,\n" +
+							",,,,,,,',,'.                         .,,,,,,,,,,,,,,,,,,,,,,,,'.                         ',,,,,,,,,,\n" +
+							",,,,,,,,,,'.                         .,,,,,,,,,,,,,,,,,,,,,,,,'.                         ',,,,,,,,,,\n" +
+							",,,,,,,,,,'.                         .,,,,,,,,,,,,,,,,,,,,,,,,'.                         ',,,,,,,,,,\n" +
+							",,,,,,,,,,'.                        ..,,',,'',,,'',,,,,',''',,'.                        ..,,,,,,,,,,\n" +
+							",,,,,,,,,,''...........':oooooooooool'.........................;oooooooooooc'............',,,,,,,,,,\n" +
+							",,,,,,,,,,,,,',,,,,,,,,;xKXXXXXXXXXXO,                         :0XXXXXXXXXXk:,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXKXXKXO,                         :0XXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXKXXKXO,                         :0XXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXKXXKXO,                         :0XXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXKXXKXO,                         :0XXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXXXXXX0o;;;;;;;;;;;;;;;;;;;;;;;;;dKXXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXKXXXXXKKKKKKKKKKKKKKKKKKKKKKKKKKKXXXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXXXXXXKKXKKXXXXXXKKKXXXXXXXXXXXXKXKKXXXXXXXXXXXk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKXXKKXXXKKKKKKXXXXXXXXKXXXXXXXXXXXXXXXXXXXXXXXXXKk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,';xKXXXXKXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXk:',,',,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;xKKKKXXKXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXKKk:',,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,;x00000000000000000000000000000000000000000000000000x:,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,;cccccccccccccccccccccccccccccccccccccccccccccccccc:,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n" +
+							",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
 
-		System.out.println(CONSOLE_PREFIX + "Enabled! (" + (System.currentTimeMillis() - timestamp) + "ms)");
-		System.out.println(CONSOLE_PREFIX + " ");
-		System.out.println(CONSOLE_PREFIX + "--------------------------------");
-		super.onEnable();
+					System.out.println(CONSOLE_PREFIX);
+					System.out.println(CONSOLE_PREFIX + "Enabling " + getPluginName() + "...");
+
+					System.out.println(CONSOLE_PREFIX + "Your server: ");
+					System.out.println(CONSOLE_PREFIX + "	Running on " + VersionUtils.getServerSoftware().getName() + " ("
+							+ Bukkit.getVersion() + ")");
+					System.out.println(CONSOLE_PREFIX + "	Software-Name (Base): " + Bukkit.getName() + " (1."
+							+ VersionUtils.getVersion().getIdentifier() + ")");
+					System.out.println(
+							CONSOLE_PREFIX + "	Other plugins enabled: " + (Bukkit.getPluginManager().getPlugins().length - 1));
+
+					if (VersionUtils.getServerSoftware() != ServerSoftware.UNKNOWN)
+						System.out
+								.println(CONSOLE_PREFIX + "	Forge-Support: " + VersionUtils.getServerSoftware().hasModSupport());
+
+					if (VersionUtils.getServerSoftware() == ServerSoftware.BUKKIT) {
+						System.out.println(CONSOLE_PREFIX
+								+ "	It seems like you're using Bukkit. Bukkit has a worse performance and is lacking some features.");
+						System.out.println(
+								CONSOLE_PREFIX + "	Please use Spigot or Paper instead (https://getbukkit.org/download/spigot).");
+					}
+
+					System.out.println(CONSOLE_PREFIX);
+
+					dataManager = new DataManager(instance);
+					dataManager.preLoad();
+
+					System.out.println(CONSOLE_PREFIX);
+
+					if (instance.failed)
+						return;
+
+					try {
+						if (new ConfigFailureDetector().hasFailed()) {
+							instance.fail();
+							return;
+						}
+
+						long dataStamp = System.currentTimeMillis();
+						cuukyFrameWork = new AdapterCuukyFrameWork<>(instance,
+								languageManager = new VaroLanguageManager(Main.this), new VaroInventoryManager(instance));
+						dataManager.load();
+
+						if (Main.getVaroGame().isFirstStart) {
+							Main.getVaroGame().isFirstStart = false;
+							try {
+								ZipInputStream zip = new ZipInputStream(new FileInputStream(Main.getInstance().getThisFile()));
+
+								ZipEntry e = null;
+								while ((e = zip.getNextEntry()) != null) {
+									if (e.getName().startsWith("startLanguage")) {
+										File file = new File("plugins/Varo/languages/de_de.yml");
+										file.delete();
+										if (e.isDirectory()) {
+											file.mkdir();
+											continue;
+										}
+
+										if (!file.exists()) {
+											new File(file.getParent()).mkdirs();
+											file.createNewFile();
+										} else
+											continue;
+
+										FileOutputStream out = new FileOutputStream(file);
+
+										byte[] byteBuff = new byte[1024];
+										int bytesRead = 0;
+										while ((bytesRead = zip.read(byteBuff)) != -1) {
+											out.write(byteBuff, 0, bytesRead);
+										}
+
+										out.flush();
+										out.close();
+									}
+								}
+							} catch (IOException e) {
+								throw new RuntimeException(e);
+							}
+							Main.getLanguageManager().loadSuperLanguages();
+						}
+
+						System.out.println(CONSOLE_PREFIX + "Loaded all data (" + (System.currentTimeMillis() - dataStamp) + "ms)");
+
+						botLauncher = new BotLauncher();
+
+						if (instance.isFailed())
+							return;
+
+						new MetricsLoader(instance);
+						new SmartLagDetector(instance);
+						BukkitEvent.init();
+
+						BukkitRegisterer.registerEvents();
+						BukkitRegisterer.registerCommands();
+					} catch (Throwable e) {
+						e.printStackTrace();
+						instance.fail();
+					}
+
+					if (instance.failed)
+						return;
+
+					System.out.println(CONSOLE_PREFIX + "Enabled! (" + (System.currentTimeMillis() - timestamp) + "ms)");
+					System.out.println(CONSOLE_PREFIX + " ");
+					System.out.println(CONSOLE_PREFIX + "--------------------------------");
+				}
+			}.runTask(this);
+		}).start();
 	}
 
 	@Override
 	public void onDisable() {
+		if (!accepted) return;
+
 		long timestamp = System.currentTimeMillis();
 
 		System.out.println(CONSOLE_PREFIX + "--------------------------------");
@@ -173,6 +379,7 @@ public class Main extends JavaPlugin {
 		System.out.println(CONSOLE_PREFIX + " ");
 		System.out.println(CONSOLE_PREFIX + "--------------------------------");
 		super.onDisable();
+		System.out.println("debug 2 | " + ConfigSetting.PROJECT_NAME.getValueAsString());
 	}
 
 	public UUID getUUID(String name) throws Exception {
@@ -189,7 +396,7 @@ public class Main extends JavaPlugin {
 		return this.failed;
 	}
 
-	public File getThisFile() {
+	public File  getThisFile() {
 		return this.getFile();
 	}
 
@@ -213,12 +420,8 @@ public class Main extends JavaPlugin {
 		return varoGame;
 	}
 
-	public static CuukyFrameWork getCuukyFrameWork() {
+	public static AdapterCuukyFrameWork<VaroPlayer> getCuukyFrameWork() {
 		return cuukyFrameWork;
-	}
-
-	public static VaroUpdater getVaroUpdater() {
-		return varoUpdater;
 	}
 
 	public static void setDataManager(DataManager dataManager) {

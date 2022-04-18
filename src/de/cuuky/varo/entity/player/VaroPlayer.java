@@ -1,5 +1,8 @@
 package de.cuuky.varo.entity.player;
 
+import de.cuuky.cfw.clientadapter.board.nametag.CustomNametag;
+import de.cuuky.cfw.clientadapter.board.scoreboard.CustomScoreboard;
+import de.cuuky.cfw.clientadapter.board.tablist.CustomTablist;
 import de.cuuky.cfw.configuration.language.broadcast.MessageHolder;
 import de.cuuky.cfw.configuration.language.languages.LoadableMessage;
 import de.cuuky.cfw.player.CustomLanguagePlayer;
@@ -19,6 +22,7 @@ import de.cuuky.varo.alert.Alert;
 import de.cuuky.varo.alert.AlertType;
 import de.cuuky.varo.bot.discord.VaroDiscordBot;
 import de.cuuky.varo.bot.discord.register.BotRegister;
+import de.cuuky.varo.clientadapter.VaroBoardProvider;
 import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
 import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessages;
 import de.cuuky.varo.entity.player.event.BukkitEvent;
@@ -39,10 +43,7 @@ import de.cuuky.varo.serialize.identifier.VaroSerializeable;
 import de.cuuky.varo.vanish.Vanish;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -92,8 +93,10 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 	@VaroSerializeField(path = "guiAnimation")
 	private boolean guiAnimation = true;
 
-	private AnimatedScoreboard scoreboard;
-	private AnimatedTablist tablist;
+	private CustomNametag<VaroPlayer> nametag;
+	private CustomScoreboard<VaroPlayer> scoreboard;
+	private CustomTablist<VaroPlayer> tablist;
+	private VaroBoardProvider boardProvider;
 	private PlayerVersionAdapter versionAdapter;
 
 	private VaroTeam team;
@@ -222,7 +225,11 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 	@Override
 	public void onDeserializeEnd() {
 		this.player = Bukkit.getPlayer(getRealUUID()) != null ? Bukkit.getPlayer(getRealUUID()) : null;
-		this.guiSound = this.guiSoundName != null ? Sound.valueOf(this.guiSoundName) : null;
+		try {
+			this.guiSound = this.guiSoundName != null ? Sound.valueOf(this.guiSoundName) : null;
+		} catch(IllegalArgumentException ex) {
+			this.guiSound = null;
+		}
 		if (this.player != null)
 			setPlayer(this.player);
 		if (isOnline()) {
@@ -274,11 +281,7 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 
 				VersionUtils.getVersionAdapter().setXpCooldown(player, Integer.MAX_VALUE);
 				new Vanish(player);
-				player.setGameMode(GameMode.ADVENTURE);
 				player.setAllowFlight(true);
-				player.setFlying(true);
-				player.setHealth(player.getMaxHealth());
-				player.setFoodLevel(20);
 
 				if (!adminIgnore) {
 					player.getInventory().clear();
@@ -309,72 +312,15 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 	}
 
 	public void update() {
-		if (this.tablist != null)
-			this.tablist.queueUpdate();
+		if (VersionUtils.getVersion().isHigherThan(BukkitVersion.ONE_7))
+			if (ConfigSetting.TABLIST.getValueAsBoolean() && this.tablist != null)
+				this.tablist.update();
 
-		if (this.scoreboard != null)
-			this.scoreboard.queueUpdate();
+		if (ConfigSetting.SCOREBOARD.getValueAsBoolean() && this.scoreboard != null)
+			this.scoreboard.update();
 
-		if (this.player != null) {
-			if (ConfigSetting.TABLIST_CHANGE_NAMES.getValueAsBoolean() && VersionUtils.getVersion().isHigherThan(BukkitVersion.ONE_7))
-				this.player.setPlayerListName(this.getTablistName());
-			if (ConfigSetting.NAMETAGS_ENABLED.getValueAsBoolean())
-				Main.getDataManager().getNameTagGroup().update(this.player, ConfigSetting.NAMETAGS_VISIBLE.getValueAsBoolean(), this.getNametagName(), this.getNametagPrefix(), this.getNametagSuffix());
-		}
-	}
-
-	private String getTablistName() {
-		if (ConfigSetting.TABLIST_CHANGE_NAMES.getValueAsBoolean()) {
-			String listname = "";
-			if (this.getTeam() != null) {
-				if (this.getRank() == null) {
-					listname = ConfigMessages.TABLIST_PLAYER_WITH_TEAM.getValue(null, this);
-				} else {
-					listname = ConfigMessages.TABLIST_PLAYER_WITH_TEAM_RANK.getValue(null, this);
-				}
-			} else {
-				if (this.getRank() == null) {
-					listname = ConfigMessages.TABLIST_PLAYER_WITHOUT_TEAM.getValue(null, this);
-				} else {
-					listname = ConfigMessages.TABLIST_PLAYER_WITHOUT_TEAM_RANK.getValue(null, this);
-				}
-			}
-
-			if (BukkitVersion.ONE_8.isHigherThan(VersionUtils.getVersion()) && listname.length() > 16)
-				listname = listname.substring(0, 16);
-
-			return listname;
-		} else
-			return player.getName();
-	}
-	
-    private String getNametagName() {
-    	int teamId = this.getTeam() != null ? 9998 - this.getTeam().getId() : 9999;
-    	int rankLocation = this.getRank() != null ? 9998 - this.getRank().getTablistLocation() : 9999;
-    	String format = String.format("%04d%04d%.8s", rankLocation, teamId, this.player.getName());
-    	return format;
-    }
-
-	private String getNametagPrefix() {
-		String prefix = "";
-		if (this.team != null)
-			prefix = ConfigMessages.NAMETAG_PREFIX_TEAM.getValue(null, this);
-		if (this.team == null || prefix.length() > 16)
-			prefix = ConfigMessages.NAMETAG_PREFIX_NO_TEAM.getValue(null, this);
-		if (prefix.length() > 16)
-			prefix = prefix.substring(0, 16);
-		return prefix;
-	}
-
-	private String getNametagSuffix() {
-		String suffix = "";
-		if (this.team != null)
-			suffix = ConfigMessages.NAMETAG_SUFFIX_TEAM.getValue(null, this);
-		if (this.team == null || suffix.length() > 16)
-			suffix = ConfigMessages.NAMETAG_SUFFIX_NO_TEAM.getValue(null, this);
-		if (suffix.length() > 16)
-			suffix = suffix.substring(0, 16);
-		return suffix;
+		if (ConfigSetting.NAMETAGS_ENABLED.getValueAsBoolean() && this.nametag != null)
+			this.nametag.update();
 	}
 
 	public void saveTeleport(Location location) {
@@ -397,7 +343,11 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 		return name;
 	}
 
-	public AnimatedScoreboard getScoreboard() {
+	public CustomNametag<VaroPlayer> getNametag() {
+		return this.nametag;
+	}
+
+	public CustomScoreboard<VaroPlayer> getScoreboard() {
 		return this.scoreboard;
 	}
 
@@ -516,45 +466,17 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 	}
 
 	public void setPlayer(Player player) {
-		Player oldPlayer = this.player;
 		this.player = player;
 
 		if (player != null) {
 			this.versionAdapter = new PlayerVersionAdapter(player);
-
-			ScoreboardInstance scoreboardInstance = ScoreboardInstance.newInstance(this.getPlayer());
-
-			if (ConfigSetting.SCOREBOARD.getValueAsBoolean()) {
-				this.scoreboard = new AnimatedScoreboard(Main.getInstance(), scoreboardInstance, Main.getDataManager().getScoreboardConfig().getTitle(), Main.getDataManager().getScoreboardConfig().getScoreboard()) {
-					@Override
-					protected String processString(String input) {
-						return VaroPlayer.this.replacePlaceHolders(input);
-					}
-				};
-				this.scoreboard.setEnabled(this.stats.isShowScoreboard());
-			}
-
-			if (VersionUtils.getVersion().isHigherThan(BukkitVersion.ONE_7) && ConfigSetting.TABLIST.getValueAsBoolean() && (ConfigSetting.TABLIST_USE_HEADER.getValueAsBoolean() || ConfigSetting.TABLIST_USE_FOOTER.getValueAsBoolean())) {
-				this.tablist = new AnimatedTablist(Main.getInstance(), this, Main.getDataManager().getTablistConfig().getHeader(), Main.getDataManager().getTablistConfig().getFooter()){
-					@Override
-					protected String processString(String input) {
-						return VaroPlayer.this.replacePlaceHolders(input);
-					}
-				};
-
-				this.tablist.setHeaderEnabled(ConfigSetting.TABLIST_USE_HEADER.getValueAsBoolean());
-				this.tablist.setFooterEnabled(ConfigSetting.TABLIST_USE_FOOTER.getValueAsBoolean());
-			}
-
-			if (ConfigSetting.NAMETAGS_ENABLED.getValueAsBoolean())
-				Main.getDataManager().getNameTagGroup().register(scoreboardInstance, ConfigSetting.NAMETAGS_VISIBLE.getValueAsBoolean(), this.getNametagName(), this.getNametagPrefix(), this.getNametagSuffix());
+			this.scoreboard = Main.getCuukyFrameWork().getClientAdapterManager().registerBoard(new CustomScoreboard<>(this));
+			this.nametag = Main.getCuukyFrameWork().getClientAdapterManager().registerBoard(new CustomNametag<>(this));
+			this.tablist = Main.getCuukyFrameWork().getClientAdapterManager().registerBoard(new CustomTablist<>(this));
 		} else {
-			if (this.scoreboard != null)
-				this.scoreboard.destroy();
-			if (this.tablist != null)
-				this.tablist.destroy();
-			if(oldPlayer != null)
-				Main.getDataManager().getNameTagGroup().unRegister(oldPlayer);
+			this.scoreboard.remove();
+			this.nametag.remove();
+			this.tablist.remove();
 
 			this.versionAdapter = null;
 			this.scoreboard = null;
@@ -630,7 +552,7 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 
 		if (isOnline()) {
 			update();
-			LobbyItem.giveOrRemoveTeamItems(this);
+			LobbyItem.giveItems(this.player);
 		}
 
 		// Main#getVaroGame may not be initialized yet
@@ -640,7 +562,7 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 
 	@Override
 	public BoardUpdateHandler<VaroPlayer> getUpdateHandler() {
-		throw new Error("Unimplemented");
+		return this.boardProvider == null ? this.boardProvider = new VaroBoardProvider(this) : this.boardProvider;
 	}
 
 	/**

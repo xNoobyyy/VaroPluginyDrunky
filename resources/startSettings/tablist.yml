@@ -1,0 +1,10 @@
+header:
+- ' '
+- '%projectname%'
+- ' '
+footer:
+- ' '
+- '&7Online: %colorcode%%online%'
+- '&7Lebend: %colorcode%%remaining%'
+- '&7Registriert: %colorcode%%players%'
+- ' '

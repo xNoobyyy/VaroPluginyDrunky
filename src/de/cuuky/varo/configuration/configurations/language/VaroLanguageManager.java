@@ -1,5 +1,6 @@
 package de.cuuky.varo.configuration.configurations.language;
 
+import com.google.common.io.Files;
 import de.cuuky.cfw.configuration.language.Language;
 import de.cuuky.cfw.configuration.language.LanguageManager;
 import de.cuuky.cfw.configuration.language.broadcast.MessageHolder;
@@ -15,8 +16,14 @@ import de.cuuky.varo.entity.player.VaroPlayer;
 import de.cuuky.varo.entity.team.VaroTeam;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class VaroLanguageManager extends LanguageManager {
 
@@ -82,7 +89,7 @@ public class VaroLanguageManager extends LanguageManager {
         if (Main.getVaroGame() != null) {
 	        for (int rank : getConvNumbers(replaced, "%topplayer-")) {
 	            VaroPlayer player = Main.getVaroGame().getTopScores().getPlayer(rank);
-	            replaced = replaced.replace("%topplayer-" + rank + "%", (player == null ? "-" : player.getName()));
+	            replaced = replaced.replace("%topplayer-" + rank + "%", (player == null ? "Unbekannt" : player.getName().toLowerCase()));
 	        }
 
 	        for (int rank : getConvNumbers(replaced, "%topplayerkills-")) {
@@ -92,7 +99,7 @@ public class VaroLanguageManager extends LanguageManager {
 
 	        for (int rank : getConvNumbers(replaced, "%topteam-")) {
 	            VaroTeam team = Main.getVaroGame().getTopScores().getTeam(rank);
-	            replaced = replaced.replace("%topteam-" + rank + "%", (team == null ? "-" : team.getName()));
+	            replaced = replaced.replace("%topteam-" + rank + "%", (team == null ? "Unbekannt" : team.getName().toLowerCase()));
 	        }
 
 	        for (int rank : getConvNumbers(replaced, "%topteamkills-")) {
@@ -129,4 +136,9 @@ public class VaroLanguageManager extends LanguageManager {
     public MessageHolder broadcastMessage(LoadableMessage message) {
         return this.broadcastMessage(message, null);
     }
+
+    public void loadSuperLanguages() {
+        super.loadLanguages();
+    }
+
 }

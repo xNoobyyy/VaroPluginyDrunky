@@ -168,6 +168,12 @@ public class Stats implements VaroSerializeable {
 	public String getCountdownMin(int sec) {
 		int min = sec / 60;
 
+		return min + "";
+	}
+
+	public String getCountdownMinWithZero(int sec) {
+		int min = sec / 60;
+
 		if (min < 10)
 			return "0" + min;
 		else

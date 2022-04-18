@@ -27,6 +27,7 @@ public class VaroMainHeartbeatThread extends BukkitRunnable {
 	private int protectionTime, noKickDistance, playTime;
 	private boolean showDistanceToBorder, showTimeInActionBar;
 	private VaroGame game;
+	private ArrayList<VaroPlayer> nearbyPlayerMessage = new ArrayList<>();
 
 	public VaroMainHeartbeatThread() {
 		this.game = Main.getVaroGame();
@@ -96,14 +97,15 @@ public class VaroMainHeartbeatThread extends BukkitRunnable {
 							vp.getPlayer().kickPlayer(ConfigMessages.KICK_SESSION_OVER.getValue(null, vp));
 							continue;
 						} else {
+							String replacement = (countdown == 1) ? "einer" : String.valueOf(countdown);
 							if (countdown == 1) {
 								if (!vp.canBeKicked(noKickDistance)) {
-									vp.sendMessage(ConfigMessages.QUIT_KICK_PLAYER_NEARBY).replace("%distance%", String.valueOf(ConfigSetting.NO_KICK_DISTANCE.getValueAsInt()));
-									countdown += 1;
-								} else
-									Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS, vp).replace("%countdown%", (countdown == 1) ? "einer" : String.valueOf(countdown));
-							} else
-								Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS, vp).replace("%countdown%", (countdown == 1) ? "einer" : String.valueOf(countdown));
+									if (!this.nearbyPlayerMessage.contains(vp)) {
+										vp.sendMessage(ConfigMessages.QUIT_KICK_PLAYER_NEARBY).replace("%distance%", String.valueOf(ConfigSetting.NO_KICK_DISTANCE.getValueAsInt()));
+										this.nearbyPlayerMessage.add(vp);
+									}
+								}
+							}
 						}
 					}
 

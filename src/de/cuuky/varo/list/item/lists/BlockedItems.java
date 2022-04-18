@@ -18,9 +18,10 @@ public class BlockedItems extends ItemList {
 
 	public boolean isBlocked(ItemStack itemstack) {
 		itemstack = fixItem(itemstack);
-		for (ItemStack stack : this.getItems())
+		for (ItemStack stack : this.getItems()) {
 			if (stack.equals(itemstack))
 				return true;
+		}
 
 		return false;
 	}

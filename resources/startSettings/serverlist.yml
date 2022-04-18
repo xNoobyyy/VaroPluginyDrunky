@@ -1,0 +1,18 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Serverlist -----------
+# Beschreibung: Hier kannst du die Anzeige des Servers in der Serverliste konfigurieren.
+# 
+#  changeMotd:
+#   Ob das Plugin die Motd veraendern soll.
+#   Hinweis: du kannst die Motd in der messages.yml aendern.
+#   Default-Value: false
+# 
+#  fakeMaxSlots:
+#   Setzt die maximalen Slots des Servers gefaked.
+#   Off = -1
+#   Default-Value: -1
+# -------------------------
+
+changeMotd: false
+fakeMaxSlots: -1

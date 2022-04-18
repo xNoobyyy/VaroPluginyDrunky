@@ -1,0 +1,30 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Report -----------
+# Beschreibung: Hier kannst du Einstellungen zum Report-System vornehmen.
+# 
+#  logReports:
+#   Ob alle Reports in der reports.yml
+#   festgehalten werden sollen.
+#   Default-Value: true
+# 
+#  reportDelay:
+#   Zeit in Sekunden, die ein Spieler warten muss,
+#   bevor er einen neuen Spieler reporten kann.
+#   Off = -1
+#   Default-Value: 30
+# 
+#  reportStaffMember:
+#   Ob Spieler mit der Permission
+#   'varo.report' reportet werden koennen.
+#   Default-Value: true
+# 
+#  enabled:
+#   Ob das Report-System angeschaltet sein soll.
+#   Default-Value: false
+# -------------------------
+
+logReports: true
+reportDelay: 30
+reportStaffMember: true
+enabled: true

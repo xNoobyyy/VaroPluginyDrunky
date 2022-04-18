@@ -2,6 +2,7 @@ package de.cuuky.varo.listener;
 
 import java.util.Date;
 
+import de.cuuky.varo.entity.player.stats.stat.Strike;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
@@ -95,10 +96,12 @@ public class PlayerLoginListener implements Listener {
 			event.disallow(Result.KICK_FULL, ConfigMessages.JOIN_KICK_SERVER_FULL.getValue(vp, vp));
 			break;
 		case NO_SESSIONS_LEFT:
-			event.disallow(Result.KICK_OTHER, ConfigMessages.JOIN_KICK_NO_SESSIONS_LEFT.getValue(vp, vp));
+			if (vp.getStats().getCountdown() == ConfigSetting.PLAY_TIME.getValueAsInt() * 60)
+				vp.getStats().addStrike(new Strike("no sessions left", vp, "CONSOLE"));
 			break;
 		case NO_PREPRODUCES_LEFT:
-			event.disallow(Result.KICK_OTHER, ConfigMessages.JOIN_KICK_NO_PREPRODUCES_LEFT.getValue(vp, vp));
+			if (vp.getStats().getCountdown() == ConfigSetting.PLAY_TIME.getValueAsInt() * 60)
+				vp.getStats().addStrike(new Strike("no sessions left", vp, "CONSOLE"));
 			break;
 		case NO_TIME:
 			Date current = new Date();

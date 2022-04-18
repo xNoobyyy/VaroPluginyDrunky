@@ -3,8 +3,13 @@ package de.cuuky.varo.game.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cuuky.cfw.hooking.hooks.chat.ChatHook;
+import de.cuuky.cfw.hooking.hooks.chat.ChatHookHandler;
+import de.cuuky.varo.entity.team.VaroTeam;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -39,14 +44,43 @@ public class LobbyItem {
 		
 		VaroPlayer varoPlayer = VaroPlayer.getPlayer(player);
 
-		hookItem(new ItemHook(player, new BuildItem().displayName(ConfigMessages.TEAMREQUEST_LOBBYITEM_INVITE_NAME.getValue(varoPlayer)).itemstack((ItemStack) ConfigSetting.TEAMREQUEST_LOBBYITEM_INVITE_ITEM.getValue())
-				.lore(ConfigMessages.TEAMREQUEST_LOBBYITEM_INVITE_LORE.getValue(varoPlayer)).deleteDamageAnnotation().build(), ConfigSetting.TEAMREQUEST_LOBBYITEM_INVITE_SLOT.getValueAsInt(), new ItemHookHandler() {
+		hookItem(new ItemHook(varoPlayer.getPlayer(), new BuildItem().displayName(ChatColor.RED + "Team verlassen").itemstack(Materials.RED_DYE.parseItem())
+				.lore(ChatColor.GRAY + "Rechtsklicke dieses Item, um\n" +
+						ChatColor.GRAY + "dein aktuelles Team wieder \n" +
+						ChatColor.GRAY + "zu verlassen!\n" +
+						" ").build(), 6, new ItemHookHandler() {
 
 			@Override
-			public void onInteractEntity(PlayerInteractEntityEvent event) {
+			public void onInteractEntity(PlayerInteractEntityEvent event) {}
+
+			@Override
+			public void onInteract(PlayerInteractEvent event) {
+				if (Main.getVaroGame().getGameState() != GameState.LOBBY)
+					return;
+
+				VaroPlayer player = VaroPlayer.getPlayer(event.getPlayer());
+				if (player.getTeam() != null) {
+					player.getTeam().removeMember(player);
+					player.sendMessage(Main.getPrefix() + "Team erfolgreich verlassen!");
+				} else
+					player.sendMessage(Main.getPrefix() + "Du bist in keinem Team!");
+
 				event.setCancelled(true);
-				event.getPlayer().updateInventory();
 			}
+
+			@Override
+			public void onEntityHit(EntityDamageByEntityEvent event) {}
+		}));
+
+		hookItem(new ItemHook(varoPlayer.getPlayer(), new BuildItem()
+				.lore(ChatColor.GRAY + "Schlage einen einen anderen\n" +
+						ChatColor.GRAY + "Spieler mit diesem Item, um\n" +
+						ChatColor.GRAY + "ihn in dein Team einzuladen!\n" +
+						" ")
+				.itemstack(Materials.BLAZE_ROD.parseItem()).displayName(ChatColor.GREEN + "Team erstellen").build(), 2, new ItemHookHandler() {
+
+			@Override
+			public void onInteractEntity(PlayerInteractEntityEvent event) {}
 
 			@Override
 			public void onInteract(PlayerInteractEvent event) {}
@@ -56,82 +90,65 @@ public class LobbyItem {
 				if (Main.getVaroGame().getGameState() != GameState.LOBBY)
 					return;
 
-				Player invited = (Player) event.getEntity();
+				Player hitted = (Player) event.getEntity();
+				Player damager = (Player) event.getDamager();
 
-				if (VaroTeamRequest.getByAll(VaroPlayer.getPlayer(invited), varoPlayer) != null)
-					player.performCommand("varoplugin tr accept " + invited.getName());
+				if (VaroTeamRequest.getByAll(VaroPlayer.getPlayer(hitted), VaroPlayer.getPlayer(damager)) != null)
+					damager.performCommand("varo tr accept " + hitted.getName());
 				else
-					player.performCommand("varoplugin tr invite " + invited.getName());
-				
+					damager.performCommand("varo tr invite " + hitted.getName());
+
 				event.setCancelled(true);
-				player.updateInventory();
+				damager.getItemInHand().setDurability((short) 0);
 			}
 		}));
-		
-		giveOrRemoveTeamItems(varoPlayer);
-	}
 
-	public static void giveOrRemoveTeamItems(VaroPlayer varoPlayer) {
-		if (!ConfigSetting.TEAMREQUEST_ENABLED.getValueAsBoolean() || !ConfigSetting.TEAMREQUEST_LOBBYITEMS.getValueAsBoolean() || Main.getVaroGame() == null || Main.getVaroGame().getGameState() != GameState.LOBBY)
-			return;
-		
-		if (varoPlayer.getTeam() == null) {
-			ItemStack air = Materials.AIR.parseItem();
-			Inventory inventory = varoPlayer.getPlayer().getInventory();
-			inventory.setItem(ConfigSetting.TEAMREQUEST_LOBBYITEM_LEAVE_SLOT.getValueAsInt(), air);
-			inventory.setItem(ConfigSetting.TEAMREQUEST_LOBBYITEM_RENAME_SLOT.getValueAsInt(), air);
-			return;
-		}
-		
-		hookItem(new ItemHook(varoPlayer.getPlayer(), new BuildItem().displayName(ConfigMessages.TEAMREQUEST_LOBBYITEM_LEAVE_NAME.getValue(varoPlayer)).itemstack((ItemStack) ConfigSetting.TEAMREQUEST_LOBBYITEM_LEAVE_ITEM.getValue())
-				.lore(ConfigMessages.TEAMREQUEST_LOBBYITEM_LEAVE_LORE.getValue(varoPlayer)).deleteDamageAnnotation().build(), ConfigSetting.TEAMREQUEST_LOBBYITEM_LEAVE_SLOT.getValueAsInt(), new ItemHookHandler() {
+		hookItem(new ItemHook(varoPlayer.getPlayer(), new BuildItem()
+				.lore(ChatColor.GRAY + "Rechtsklicke dieses Item, um\n" +
+						ChatColor.GRAY + "deinen aktuellen Teamnamen\n" +
+						ChatColor.GRAY + "zu ändern!\n" +
+						" ")
+				.itemstack(Materials.NAME_TAG.parseItem()).displayName(ChatColor.AQUA + "Teamname ändern").build(), 4, new ItemHookHandler() {
 
 			@Override
-			public void onInteractEntity(PlayerInteractEntityEvent event) {
-				event.setCancelled(true);
-				event.getPlayer().updateInventory();
-			}
+			public void onInteractEntity(PlayerInteractEntityEvent event) {}
 
 			@Override
 			public void onInteract(PlayerInteractEvent event) {
 				if (Main.getVaroGame().getGameState() != GameState.LOBBY)
 					return;
 
-				varoPlayer.getPlayer().performCommand("varoplugin tr leave");
-				
+				VaroPlayer vp = VaroPlayer.getPlayer(event.getPlayer());
+				if (vp.getTeam() != null) {
+					Main.getCuukyFrameWork().getHookManager().registerHook(new ChatHook(event.getPlayer(), ConfigMessages.TEAMREQUEST_ENTER_TEAMNAME.getValue(null, vp), new ChatHookHandler() {
+
+						@Override
+						public boolean onChat(AsyncPlayerChatEvent event) {
+							String message = event.getMessage();
+							if (message.equalsIgnoreCase("cancel")) {
+								vp.sendMessage(Main.getPrefix() + "§7Aktion erfolgreich abgebrochen!");
+							} else {
+								if (!message.matches(VaroTeam.NAME_REGEX)) {
+									vp.sendMessage(Main.getPrefix() + ConfigMessages.TEAM_NAME_INVALID.getValue());
+									return false;
+								}
+								vp.sendMessage(Main.getPrefix() + Main.getColorCode() + "Teamname " + ChatColor.GRAY + "erfolgreich geändert");
+								vp.getTeam().setName(message);
+							}
+							return true;
+						}
+					}));
+					vp.sendMessage(Main.getPrefix() + "§7Gib zum Abbruch §ccancel§7 ein.");
+				} else {
+					varoPlayer.sendMessage(Main.getPrefix() + "Du bist in keinem Team!");
+				}
+
 				event.setCancelled(true);
-				varoPlayer.getPlayer().updateInventory();
 			}
 
 			@Override
-			public void onEntityHit(EntityDamageByEntityEvent event) {}
+			public void onEntityHit(EntityDamageByEntityEvent event) { }
 		}));
-		
-		if (ConfigSetting.TEAMREQUEST_LOBBYITEM_RENAME_ENABLED.getValueAsBoolean())
-			hookItem(new ItemHook(varoPlayer.getPlayer(), new BuildItem().displayName(ConfigMessages.TEAMREQUEST_LOBBYITEM_RENAME_NAME.getValue(varoPlayer)).itemstack((ItemStack) ConfigSetting.TEAMREQUEST_LOBBYITEM_RENAME_ITEM.getValue())
-					.lore(ConfigMessages.TEAMREQUEST_LOBBYITEM_RENAME_LORE.getValue(varoPlayer)).deleteDamageAnnotation().build(), ConfigSetting.TEAMREQUEST_LOBBYITEM_RENAME_SLOT.getValueAsInt(), new ItemHookHandler() {
-	
-				@Override
-				public void onInteractEntity(PlayerInteractEntityEvent event) {
-					event.setCancelled(true);
-					event.getPlayer().updateInventory();
-				}
-	
-				@Override
-				public void onInteract(PlayerInteractEvent event) {
-					if (Main.getVaroGame().getGameState() != GameState.LOBBY)
-						return;
-
-					if (varoPlayer.getTeam() != null)
-						varoPlayer.getTeam().createNameChangeChatHook(varoPlayer, null);
-
-					event.setCancelled(true);
-					varoPlayer.getPlayer().updateInventory();
-				}
-	
-				@Override
-				public void onEntityHit(EntityDamageByEntityEvent event) {}
-			}));
 	}
 
 	public static void removeHooks() {

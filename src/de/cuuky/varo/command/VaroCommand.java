@@ -44,13 +44,13 @@ public abstract class VaroCommand {
 		new EventsCommand();
 		new ExportCommand();
 		new StatsCommand();
-		new UpdateCommand();
 		new FinaleCommand();
 		new PlaceholderCommand();
 		new BugreportCommand();
 		new ReviveCommand();
 		new PlaytimeCommand();
 		new CheckCombatCommand();
+		new PortalCommand();
 		new CommandCommand();
 		// new TestCommand();
 	}

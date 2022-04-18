@@ -1,0 +1,74 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- World -----------
+# Beschreibung: Hier kannst du Einstellungen zur Welt vornehmen.
+# 
+#  niksDummerCreeperExplosionsEffectEnabled:
+#   Eine Creeper Explosion wird mit Feuer Partikeln verbessert
+#   Default-Value: true
+# 
+#  setAlwaysTime:
+#   Setzt die Zeit auf dem Server,
+#   die dann so stehen bleibt.
+#   Hinweis: Nacht = 13000, Tag = 1000
+#   Default-Value: 1000
+# 
+#  alwaysTimeUseAfterStart:
+#   Ob die Zeit auch stehen bleiben soll,
+#   wenn das Projekt gestartet wurde.
+#   Default-Value: false
+# 
+#  blockDestroyLogger:
+#   Loggt alle abgebauten Bloecke, die ihr
+#   unten eintragt unter 'oreLogger.yml'
+#   Default-Value: true
+# 
+#  blockUserPortals:
+#   Ob geblockt werden soll, dass
+#   Spieler ihre eigenen Portal
+#   bauen koennen
+#   Default-Value: true
+# 
+#  entityTracer:
+#   Ob Wassertropfen Items oder Projektilen
+#   folgen sollen
+#   Default-Value: false
+# 
+#  randomChestFillRadius:
+#   In welchem Radius die Kisten um den
+#   Spawn mit den in der Config angegebenen
+#   Items befuellt werden sollen.
+#   Off = -1
+#   Default-Value: -1
+# 
+#  randomChestMaxItems:
+#   Wie viele Items in eine Kiste sollen.
+#   Default-Value: 5
+# 
+#  setNameTagOverSpawn:
+#   Ob Nametags ueber den
+#   Spawns erscheinen sollen
+#   Default-Value: true
+# 
+#  nametagSpawnHeight:
+#   Wie hoch ueber den Spawns
+#   die Nametags sein sollen
+#   Default-Value: 3
+# 
+#  spawnProtectionRadius:
+#   Radius, in dem die Spieler
+#   nicht am Spawn bauen koennen.
+#   Default-Value: 0
+# -------------------------
+
+niksDummerCreeperExplosionsEffectEnabled: true
+setAlwaysTime: 1000
+alwaysTimeUseAfterStart: false
+blockDestroyLogger: true
+blockUserPortals: true
+entityTracer: false
+randomChestFillRadius: -1
+randomChestMaxItems: 5
+setNameTagOverSpawn: false
+nametagSpawnHeight: 3
+spawnProtectionRadius: 0

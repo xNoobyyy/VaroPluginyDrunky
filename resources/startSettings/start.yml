@@ -1,0 +1,53 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Start -----------
+# Beschreibung: Hier kannst du Einstellungen zum Start deines Plugins vornehmen.
+#
+#  canMoveBeforeStart:
+#   Ob die Spieler sich vor Start bewegen koennen.
+#   Default-Value: false
+#
+#  doRandomTeamAtStart:
+#   Groesse der Teams, in die die Teamlosen beim Start eingeordnet werden.
+#   Ausgeschaltet = -1
+#   Default-Value: -1
+#
+#  doSortAtStart:
+#   Ob beim Start /sort ausgefuehrt werden soll.
+#   Default-Value: true
+#
+#  doSpawnGenerateAtStart:
+#   Ob die Spawnloecher am Start basierend auf den
+#   derzeitigen Spielern generiert werden sollen
+#   Default-Value: false
+#
+#  removePlayersAbsentAtStart:
+#   Ob das Plugin alle Spieler, die nicht beim
+#   Start dabei sind vom Projekt entferenen soll.
+#   Default-Value: false
+#
+#  spawnTeleportAtLobbyPhase:
+#   Ob die Spieler, wenn
+#   fuer sie ein Spawn gesetzt wurde auch in
+#   diesem spawnen sollen, sobald sie joinen.
+#   Default-Value: true
+#
+#  startAtPlayers:
+#   Startet das Projekt automatisch wenn die
+#   Anzahl der Online Spieler dieser entspricht.
+#   Default-Value: -1
+#
+#  startCountdown:
+#   Wie lange der Startcountdown
+#   bei Start in Sekunden ist.
+#   Default-Value: 60
+# -------------------------
+
+canMoveBeforeStart: true
+doRandomTeamAtStart: -1
+doSortAtStart: true
+doSpawnGenerateAtStart: false
+removePlayersAbsentAtStart: false
+spawnTeleportAtLobbyPhase: false
+startAtPlayers: -1
+startCountdown: 90

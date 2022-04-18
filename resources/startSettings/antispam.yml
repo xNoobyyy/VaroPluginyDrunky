@@ -1,0 +1,43 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- AntiSpam -----------
+# Beschreibung: Hier kannst du Einstellungen zum AntiSpam vornehmen.
+# 
+#  antispam:
+#   Ob Spieler bei dem spammen einer
+#   selben Nachricht eine Warnung/
+#   Chat Sperre erhalten sollen.
+#   Default-Value: true
+# 
+#  anticaps:
+#   Ob Spieler bei Caps Messages
+#   eine Warnung/Chat
+#   Sperre erhalten sollen.
+#   Default-Value: true
+# 
+#  banwords:
+#   Ob gebannte Wörter aus
+#    der Liste unten geblockt
+#    werden sollen.
+#   Default-Value: true
+# -------------------------
+
+antispam: true
+anticaps: true
+banwords: true
+bannedWords:
+- fuck
+- shit
+- kacke
+- hurensohn
+- bastard
+- schlampe
+- nutte
+- fotze
+- spast
+- spasti
+- hure
+- neger
+- nigger
+- niger
+- negger

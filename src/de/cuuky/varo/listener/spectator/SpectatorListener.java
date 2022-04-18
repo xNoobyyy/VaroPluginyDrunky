@@ -64,29 +64,6 @@ public class SpectatorListener implements Listener {
             }
         }
 
-        if (!event.isCancelled()) {
-            Player damager = new EntityDamageByEntityUtil(event).getDamager();
-            if (damager != null)
-            	this.checkWorldInteract(event, damager);
-        }
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-    	if(event.getBlock() == null || event.getBlock().getType() != Materials.FIRE.parseMaterial() || event.getPlayer().getItemInHand() == null
-        		|| !(event.getPlayer().getItemInHand().getType() == Materials.FLINT_AND_STEEL.parseMaterial() || event.getPlayer().getItemInHand().getType() == Materials.FIRE_CHARGE.parseMaterial()))
-    		this.checkWorldInteract(event, event.getPlayer());
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        this.checkWorldInteract(event, event.getPlayer());
-    }
-
-    @EventHandler
-    public void onProjectile(ProjectileLaunchEvent event) {
-        if (event.getEntity().getShooter() instanceof Player)
-            this.checkWorldInteract(event, (Player) event.getEntity().getShooter());
     }
 
     @EventHandler
@@ -117,7 +94,6 @@ public class SpectatorListener implements Listener {
     public void onInteractEntity(PlayerInteractEntityEvent event) {
         if (Main.getVaroGame().getGameState() == GameState.LOBBY && !event.getPlayer().isOp())
             event.setCancelled(true);
-        else this.checkWorldInteract(event, event.getPlayer());
     }
 
     @EventHandler
@@ -127,8 +103,6 @@ public class SpectatorListener implements Listener {
             event.setCancelled(true);
         else if (vp.isInProtection() && (!vp.isAdminIgnore() && vp.getStats().getState() != PlayerState.SPECTATOR))
             event.setCancelled(true);
-        else
-        	this.checkWorldInteract(event, event.getPlayer());
     }
 
     @EventHandler
@@ -137,8 +111,6 @@ public class SpectatorListener implements Listener {
     		Player player = (Player) event.getAttacker();
     		if (Main.getVaroGame().getGameState() == GameState.LOBBY && !player.isOp())
                 event.setCancelled(true);
-            else
-            	this.checkWorldInteract(event, player);
     	}
     }
 
@@ -148,8 +120,6 @@ public class SpectatorListener implements Listener {
     		Player player = (Player) event.getEntity();
     		if (Main.getVaroGame().getGameState() == GameState.LOBBY && !player.isOp())
                 event.setCancelled(true);
-            else
-            	this.checkWorldInteract(event, player);
     	}
     }
 
@@ -157,14 +127,12 @@ public class SpectatorListener implements Listener {
     public void onItemDrop(PlayerPickupItemEvent event) {
         if (Main.getVaroGame().getGameState() == GameState.LOBBY && !event.getPlayer().isOp())
             event.setCancelled(true);
-        else this.checkWorldInteract(event, event.getPlayer());
     }
 
     @EventHandler
     public void onItemPickup(PlayerDropItemEvent event) {
         if (Main.getVaroGame().getGameState() == GameState.LOBBY && !event.getPlayer().isOp())
             event.setCancelled(true);
-        else this.checkWorldInteract(event, event.getPlayer());
     }
 
     @EventHandler
@@ -176,7 +144,6 @@ public class SpectatorListener implements Listener {
                     tp.setY(ConfigSetting.MINIMAL_SPECTATOR_HEIGHT.getValueAsInt());
                     event.setTo(tp);
                     VaroPlayer vp = VaroPlayer.getPlayer(event.getPlayer());
-                    vp.sendMessage(ConfigMessages.NOPERMISSION_NO_LOWER_FLIGHT, vp);
                 }
     }
 
@@ -188,9 +155,5 @@ public class SpectatorListener implements Listener {
         
         return player.getGameMode() != GameMode.SURVIVAL || VaroPlayer.getPlayer(player).getStats().isSpectator();
     }
-    
-    private void checkWorldInteract(Cancellable event, Player player) {
-        if (!event.isCancelled() && shouldCancelSpectatorEvent(player) && !player.isOp())
-        	event.setCancelled(true);
-    }
+
 }

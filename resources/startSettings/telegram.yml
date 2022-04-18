@@ -1,0 +1,27 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Telegram -----------
+# Beschreibung: Alle Einstellungen zum Telegram-Bot.
+# 
+#  botToken:
+#   Setzt den Bot Token des Telegrambots
+#   Default-Value: ENTER TOKEN HERE
+# 
+#  telegrambotEnabled:
+#   Ob der Telegrambot aktiviert werden soll.
+#   Default-Value: false
+# 
+#  eventChatId:
+#   In diesen Chat werden alle Events gepostet.
+#   Default-Value: -1
+# 
+#  videosChatId:
+#   Hier kannst du die ID des Chats angeben, wo
+#   die Videos der User gepostet werden sollen.
+#   Default-Value: -1
+# -------------------------
+
+botToken: ENTER TOKEN HERE
+telegrambotEnabled: false
+eventChatId: -1
+videosChatId: -1

@@ -1,0 +1,196 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Commands -----------
+# Beschreibung: Hier kannst Commands aktivieren oder deaktivieren (Neustart erforderlich)
+# 
+#  varo.enabled:
+#   Ob /varo aktiviert sein soll
+#   Default-Value: true
+# 
+#  varo.name:
+#   Custom name für /varo
+#   Default-Value: varo
+# 
+#  antixray.enabled:
+#   Ob /antixray aktiviert sein soll
+#   Default-Value: false
+# 
+#  broadcast.enabled:
+#   Ob /broadcast aktiviert sein soll
+#   Default-Value: true
+# 
+#  chatclear.enabled:
+#   Ob /chatclear aktiviert sein soll
+#   Default-Value: false
+# 
+#  time.enabled:
+#   Ob /day und /night aktiviert sein soll
+#   Default-Value: false
+# 
+#  fly.enabled:
+#   Ob /fly und /unfly aktiviert sein soll
+#   Default-Value: true
+# 
+#  freeze.enabled:
+#   Ob /freeze und /unfreeze aktiviert sein soll
+#   Default-Value: true
+# 
+#  gamemode.enabled:
+#   Ob /gamemode aktiviert sein soll
+#   Default-Value: true
+# 
+#  heal.enabled:
+#   Ob /heal aktiviert sein soll
+#   Default-Value: false
+# 
+#  info.enabled:
+#   Ob /info aktiviert sein soll
+#   Default-Value: false
+# 
+#  invsee.enabled:
+#   Ob /invsee aktiviert sein soll
+#   Default-Value: true
+# 
+#  message.enabled:
+#   Ob /message und /reply aktiviert sein soll
+#   Default-Value: false
+# 
+#  mute.enabled:
+#   Ob /mute und /unmute aktiviert sein soll
+#   Default-Value: false
+# 
+#  ping.enabled:
+#   Ob /ping aktiviert sein soll
+#   Default-Value: true
+# 
+#  speed.enabled:
+#   Ob /speed aktiviert sein soll
+#   Default-Value: true
+# 
+#  vanish.enabled:
+#   Ob /vanish aktiviert sein soll
+#   Default-Value: true
+# 
+#  report.enabled:
+#   Ob /report aktiviert sein soll
+#   Default-Value: false
+# 
+#  usage.enabled:
+#   Ob /usage aktiviert sein soll
+#   Default-Value: false
+# 
+#  border.enabled:
+#   Ob /border aktiviert sein soll
+#   Default-Value: false
+# 
+#  setworldspawn.enabled:
+#   Ob /setworldspawn aktiviert sein soll
+#   Default-Value: true
+# 
+#  spawn.enabled:
+#   Ob /spawn aktiviert sein soll
+#   Default-Value: false
+# 
+#  tr.enabled:
+#   Ob /tr aktiviert sein soll
+#   Default-Value: true
+# 
+#  tr.name:
+#   Custom name für /tr
+#   Default-Value: tr
+# 
+#  weather.enabled:
+#   Ob /sun, /rain und /thunder aktiviert sein soll
+#   Default-Value: false
+# 
+#  protect.enabled:
+#   Ob /protect und /unprotect aktiviert sein soll
+#   Default-Value: false
+# 
+#  countdown.enabled:
+#   Ob /countdown aktiviert sein soll
+#   Default-Value: false
+# 
+#  performance.enabled:
+#   Ob /performance aktiviert sein soll
+#   Default-Value: false
+# 
+#  language.enabled:
+#   Ob /language aktiviert sein soll
+#   Default-Value: false
+# 
+#  vt.enabled:
+#   Ob /vt aktiviert sein soll
+#   Default-Value: true
+# 
+#  cls.enabled:
+#   Ob /cls aktiviert sein soll
+#   Default-Value: true
+# 
+#  middle.enabled:
+#   Ob /middle aktiviert sein soll
+#   Default-Value: true
+# -------------------------
+
+varo:
+  enabled: true
+  name: varo
+antixray:
+  enabled: true
+broadcast:
+  enabled: true
+chatclear:
+  enabled: true
+time:
+  enabled: true
+fly:
+  enabled: true
+freeze:
+  enabled: true
+gamemode:
+  enabled: true
+heal:
+  enabled: true
+info:
+  enabled: true
+invsee:
+  enabled: true
+message:
+  enabled: true
+mute:
+  enabled: true
+ping:
+  enabled: true
+speed:
+  enabled: true
+vanish:
+  enabled: true
+report:
+  enabled: true
+usage:
+  enabled: true
+border:
+  enabled: true
+setworldspawn:
+  enabled: true
+spawn:
+  enabled: true
+tr:
+  enabled: true
+  name: tr
+weather:
+  enabled: true
+protect:
+  enabled: true
+countdown:
+  enabled: true
+performance:
+  enabled: true
+language:
+  enabled: true
+vt:
+  enabled: true
+cls:
+  enabled: true
+middle:
+  enabled: true

@@ -28,7 +28,7 @@ public class PlayerMoveListener implements Listener {
 		Player player = event.getPlayer();
 		VaroPlayer vp = VaroPlayer.getPlayer(player);
 
-		if (VaroCancelAble.getCancelAble(vp, CancelAbleType.FREEZE) != null || Main.getVaroGame().isStarting() && !vp.getStats().isSpectator()) {
+		if (VaroCancelAble.getCancelAble(vp, CancelAbleType.FREEZE) != null && !vp.getStats().isSpectator()) {
 			event.setTo(from);
 			return;
 		}

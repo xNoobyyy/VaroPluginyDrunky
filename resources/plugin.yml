@@ -1,7 +1,7 @@
-name: @name@
-author: @author@
-authors: [Korne127, LeStegii, Almighty-Satan]
-version: @version@
+name: Varo
+author: Nooby
+authors: [Cuuky, Korne127, LeStegii, Almighty-Satan]
+version: 69420
 softdepend: [PlaceholderAPI, LabyModAPI, TelegramPlugin, PermissionsEx, LabyModAPI]
 loadbefore: [CuukyFrameWork, JDA]
 api-version: 1.13

@@ -10,19 +10,20 @@ import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessa
 public class ProtectionTime {
 
 	private BukkitTask scheduler;
+	private int timer;
 
 	public ProtectionTime() {
 		startGeneralTimer(ConfigSetting.STARTPERIOD_PROTECTIONTIME.getValueAsInt());
 	}
 
-	public ProtectionTime(int timer) {
-		startGeneralTimer(timer);
+	public ProtectionTime(int t) {
+		startGeneralTimer(t);
 	}
 
-	private void startGeneralTimer(int timer) {
+	private void startGeneralTimer(int t) {
+		Main.getVaroGame().setCanHunger(false);
+		timer = t;
 		this.scheduler = new BukkitRunnable() {
-
-			private int protectionTimer = timer;
 
 			@Override
 			public void run() {
@@ -31,14 +32,14 @@ public class ProtectionTime {
 					return;
 				}
 
-				if (this.protectionTimer == 0) {
+				if (timer == 0) {
 					Main.getLanguageManager().broadcastMessage(ConfigMessages.PROTECTION_TIME_OVER);
 					Main.getVaroGame().setProtection(null);
 					scheduler.cancel();
-				} else if (protectionTimer % ConfigSetting.STARTPERIOD_PROTECTIONTIME_BROADCAST_INTERVAL.getValueAsInt() == 0 && this.protectionTimer != timer)
-					Main.getLanguageManager().broadcastMessage(ConfigMessages.PROTECTION_TIME_UPDATE).replace("%minutes%", getCountdownMin(protectionTimer)).replace("%seconds%", getCountdownSec(protectionTimer));
+				} else if (timer % ConfigSetting.STARTPERIOD_PROTECTIONTIME_BROADCAST_INTERVAL.getValueAsInt() == 0 && timer != t)
+					Main.getLanguageManager().broadcastMessage(ConfigMessages.PROTECTION_TIME_UPDATE).replace("%minutes%", getCountdownMin(timer)).replace("%seconds%", getCountdownSec(timer));
 
-				this.protectionTimer--;
+				timer--;
 			}
 		}.runTaskTimer(Main.getInstance(), 1L, 20L);
 	}

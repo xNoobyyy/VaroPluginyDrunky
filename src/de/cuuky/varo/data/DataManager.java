@@ -1,5 +1,7 @@
 package de.cuuky.varo.data;
 
+import de.cuuky.cfw.clientadapter.board.CustomBoardType;
+import de.cuuky.varo.clientadapter.VaroBoardProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,8 +17,6 @@ import de.cuuky.varo.broadcast.Broadcaster;
 import de.cuuky.varo.command.custom.CustomCommandManager;
 import de.cuuky.varo.configuration.ConfigHandler;
 import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
-import de.cuuky.varo.configuration.configurations.config.ScoreboardConfig;
-import de.cuuky.varo.configuration.configurations.config.TablistConfig;
 import de.cuuky.varo.configuration.placeholder.MessagePlaceholderLoader;
 import de.cuuky.varo.data.plugin.LibraryLoader;
 import de.cuuky.varo.entity.player.VaroPlayer;
@@ -45,8 +45,6 @@ public class DataManager {
 
 	private VaroLoggerManager varoLoggerManager;
 	private ConfigHandler configHandler;
-	private ScoreboardConfig scoreboardConfig;
-	private TablistConfig tablistConfig;
 	private NameTagGroup nameTagGroup;
 	private LibraryLoader libraryLoader;
 	private VaroGameHandler varoGameHandler;
@@ -74,8 +72,6 @@ public class DataManager {
 	public void preLoad() {
 		this.configHandler = new ConfigHandler();
 		this.libraryLoader = new LibraryLoader();
-		this.scoreboardConfig = new ScoreboardConfig();
-		this.tablistConfig = new TablistConfig();
 		this.nameTagGroup = new NameTagGroup();
 		this.varoLoggerManager = new VaroLoggerManager();
 		new DefaultPresetLoader();
@@ -83,12 +79,13 @@ public class DataManager {
 
 	public void load() {
 		new MessagePlaceholderLoader();
+		VaroBoardProvider.update();
 		this.propertiesReader = new ServerPropertiesReader();
 		this.varoPlayerHandler = new VaroPlayerHandler();
 		this.varoTeamHandler = new VaroTeamHandler();
 		this.varoGameHandler = new VaroGameHandler();
 		if (Main.getVaroGame().getGameState() == GameState.LOBBY)
-			VaroPlayer.getOnlinePlayer().forEach(LobbyItem::giveOrRemoveTeamItems);
+			VaroPlayer.getOnlinePlayer().forEach( p -> LobbyItem.giveItems(p.getPlayer()));
 		this.spawnHandler = new SpawnHandler();
 		this.reportHandler = new ReportHandler();
 		this.alertHandler = new AlertHandler();
@@ -102,6 +99,13 @@ public class DataManager {
 		if (ConfigSetting.BLOCK_ADVANCEMENTS.getValueAsBoolean()
 				&& !VersionUtils.getVersion().isHigherThan(BukkitVersion.ONE_11))
 			VersionUtils.setMinecraftServerProperty("announce-player-achievements", false);
+
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.NAMETAG,
+				ConfigSetting.NAMETAGS_ENABLED.getValueAsBoolean());
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.SCOREBOARD,
+				ConfigSetting.SCOREBOARD.getValueAsBoolean());
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.TABLIST,
+				ConfigSetting.TABLIST.getValueAsBoolean());
 
 		Bukkit.getServer().setSpawnRadius(ConfigSetting.SPAWN_PROTECTION_RADIUS.getValueAsInt());
 		VaroUtils.setWorldToTime();
@@ -137,11 +141,20 @@ public class DataManager {
 		Main.getCuukyFrameWork().getPlaceholderManager().clear();
 		this.configHandler.reload();
 		Main.getLanguageManager().loadLanguages();
+		VaroBoardProvider.update();
+
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.NAMETAG,
+				ConfigSetting.NAMETAGS_ENABLED.getValueAsBoolean());
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.SCOREBOARD,
+				ConfigSetting.SCOREBOARD.getValueAsBoolean());
+		Main.getCuukyFrameWork().getClientAdapterManager().setBoardTypeEnabled(CustomBoardType.TABLIST,
+				ConfigSetting.TABLIST.getValueAsBoolean());
 	}
 
 	public void reloadPlayerClients() {
-		for (VaroPlayer vp : VaroPlayer.getOnlinePlayer())
+		for (VaroPlayer vp : VaroPlayer.getOnlinePlayer()) {
 			vp.update();
+		}
 	}
 
 	public void save() {
@@ -176,14 +189,6 @@ public class DataManager {
 
 	public ConfigHandler getConfigHandler() {
 		return this.configHandler;
-	}
-	
-	public ScoreboardConfig getScoreboardConfig() {
-		return scoreboardConfig;
-	}
-
-	public TablistConfig getTablistConfig() {
-		return tablistConfig;
 	}
 
 	public NameTagGroup getNameTagGroup() {

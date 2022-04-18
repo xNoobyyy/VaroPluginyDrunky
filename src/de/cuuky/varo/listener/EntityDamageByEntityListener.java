@@ -34,10 +34,6 @@ public class EntityDamageByEntityListener implements Listener {
 		Player p = (Player) event.getEntity(), damager = new EntityDamageByEntityUtil(event).getDamager();
 		VaroPlayer vp = VaroPlayer.getPlayer(p), vDamager = damager != null ? VaroPlayer.getPlayer(damager) : null;
 		if (Main.getVaroGame().getProtection() != null) {
-			if (damager == null)
-				vp.sendMessage(ConfigMessages.PROTECTION_TIME_RUNNING);
-			else
-				vDamager.sendMessage(ConfigMessages.PROTECTION_TIME_RUNNING, vDamager);
 			event.setCancelled(true);
 			return;
 		}
@@ -60,6 +56,5 @@ public class EntityDamageByEntityListener implements Listener {
 
 		event.setCancelled(true);
 		vDamager.sendMessage(ConfigMessages.COMBAT_FRIENDLY_FIRE);
-		return;
 	}
 }

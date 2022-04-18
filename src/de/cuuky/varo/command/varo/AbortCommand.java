@@ -27,4 +27,5 @@ public class AbortCommand extends VaroCommand {
 		Bukkit.getOnlinePlayers().forEach(player -> LobbyItem.giveItems(player));
 		sender.sendMessage(Main.getPrefix() + ConfigMessages.VARO_COMMANDS_ABORT_COUNTDOWN_STOPPED.getValue(vp));
 	}
+
 }

@@ -1,0 +1,30 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- TablistSettings -----------
+# Beschreibung: Hier kannst du Einstellungen zur Tablist vornehmen.
+# 
+#  tablist:
+#   Ob das Plugin die Tablist modfizieren soll
+#   Muss aktiviert sein, um folgende Einstellungen
+#   vorzunehmen.
+#   Default-Value: true
+# 
+#  useHeader:
+#   Ob die Tablist einen Header haben soll.
+#   Erfordert config reload und ggf. rejoin.
+#   Default-Value: false
+# 
+#  useFooter:
+#   Ob die Tablist einen Footer haben soll.
+#   Erfordert config reload und ggf. rejoin.
+#   Default-Value: false
+# 
+#  changeNames:
+#   Ob die Namen in der Tablist modfiziert werden sollen.
+#   Default-Value: true
+# -------------------------
+
+tablist: true
+useHeader: false
+useFooter: false
+changeNames: true

@@ -1,0 +1,35 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Chat -----------
+# Beschreibung: Hier kannst du Einstellungen zum Chat vornehmen
+# 
+#  canChatBeforeStart:
+#   Ob die Spieler vor Start chatten koennen.
+#   Default-Value: true
+# 
+#  blockChatAds.enabled:
+#   Wenn aktiviert, koennen keine Links in den oeffentlichen Chat gepostet werden.
+#   Default-Value: false
+# 
+#  blockChatAds.agressive:
+#   Wenn aktiviert, wird z.b. nicht nur "varoplugin.de" sondern auch "varoplugin, de" geblockt. Es kann aber in seltenen fällen zu false positives kommen. Diese Einstellung ist nur relevant wenn blockChatAds aktiviert ist.
+#   Default-Value: false
+# 
+#  chatCooldown.ifStarted:
+#   Ob der Chatcooldown auch aktiviert sein\nsoll wenn das Projekt gestartet wurde.
+#   Default-Value: false
+# 
+#  chatCooldown.inSeconds:
+#   Der Cooldown der Spieler im Chat,
+#   bevor sie wieder eine Nachricht senden koennen.
+#   Off = -1
+#   Default-Value: -1
+# -------------------------
+
+canChatBeforeStart: true
+blockChatAds:
+  enabled: false
+  agressive: false
+chatCooldown:
+  ifStarted: false
+  inSeconds: -1

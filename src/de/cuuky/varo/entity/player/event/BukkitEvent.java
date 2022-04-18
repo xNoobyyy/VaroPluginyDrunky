@@ -8,18 +8,20 @@ import de.cuuky.varo.entity.player.event.events.KickEvent;
 import de.cuuky.varo.entity.player.event.events.KillEvent;
 import de.cuuky.varo.entity.player.event.events.QuitEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BukkitEvent {
 
-    private static final List<BukkitEvent> events = Arrays.asList(new DeathEvent(),
-        new DeathNoLifesEvent(), new KickEvent(), new JoinEvent(), new QuitEvent(), new KillEvent());
+    private static List<BukkitEvent> events = new ArrayList<>();
 
     protected BukkitEventType eventType;
 
     protected BukkitEvent(BukkitEventType eventType) {
         this.eventType = eventType;
+
+        events.add(this);
     }
 
     public BukkitEvent(VaroPlayer player, BukkitEventType eventType) {
@@ -34,4 +36,14 @@ public class BukkitEvent {
 
     public void onExec(VaroPlayer player) {
     }
+
+    public static void init() {
+        new DeathEvent();
+        new DeathNoLifesEvent();
+        new KickEvent();
+        new JoinEvent();
+        new QuitEvent();
+        new KillEvent();
+    }
+
 }

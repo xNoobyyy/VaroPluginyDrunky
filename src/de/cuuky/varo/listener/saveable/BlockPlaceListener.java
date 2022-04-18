@@ -24,7 +24,7 @@ public class BlockPlaceListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPlace(BlockPlaceEvent event) {
-		new BukkitRunnable() {
+		(new BukkitRunnable() {
 			@Override
 			public void run() {
 				if (!Main.getVaroGame().hasStarted())
@@ -32,18 +32,18 @@ public class BlockPlaceListener implements Listener {
 
 				Block placed = event.getBlock();
 
-				if (!(placed.getType() == Material.CHEST))
+				if (placed.getType() != Material.CHEST)
 					return;
 
 				Chest chest = (Chest) placed.getState();
-				InventoryHolder ih = ((InventoryHolder) chest).getInventory().getHolder();
+				InventoryHolder ih = chest.getInventory().getHolder();
 
 				if (!(ih instanceof DoubleChest))
 					return;
 
 				Chest secChest = (Chest) ((DoubleChest) ih).getLeftSide();
 
-				if (chest.equals(secChest) && secChest != null)
+				if (chest.equals(secChest))
 					secChest = (Chest) ((DoubleChest) ih).getRightSide();
 
 				VaroSaveable saveable = VaroSaveable.getByLocation(secChest.getLocation());
@@ -56,13 +56,11 @@ public class BlockPlaceListener implements Listener {
 				if (saveable.canModify(player)) {
 					new VaroSaveable(SaveableType.CHEST, chest.getLocation(), player);
 					player.sendMessage(ConfigMessages.CHEST_SAVED_CHEST);
-					p.playSound(p.getLocation(), Sounds.NOTE_PLING.bukkitSound(), 1, 1);
-					p.getWorld().playEffect(chest.getLocation(), Effect.ENDER_SIGNAL, 1);
 					return;
 				}
 
 				event.getBlock().breakNaturally();
 			}
-		}.runTaskLater(Main.getInstance(), 1L);
+		}).runTaskLater(Main.getInstance(), 1L);
 	}
 }

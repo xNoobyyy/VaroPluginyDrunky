@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import de.cuuky.varo.command.essentials.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -15,40 +16,6 @@ import org.bukkit.plugin.Plugin;
 import de.cuuky.varo.Main;
 import de.cuuky.varo.combatlog.PlayerHit.HitListener;
 import de.cuuky.varo.command.VaroCommandListener;
-import de.cuuky.varo.command.essentials.AntiXrayCommand;
-import de.cuuky.varo.command.essentials.BorderCommand;
-import de.cuuky.varo.command.essentials.BroadcastCommand;
-import de.cuuky.varo.command.essentials.ChatClearCommand;
-import de.cuuky.varo.command.essentials.CountdownCommand;
-import de.cuuky.varo.command.essentials.DayCommand;
-import de.cuuky.varo.command.essentials.FlyCommand;
-import de.cuuky.varo.command.essentials.FreezeCommand;
-import de.cuuky.varo.command.essentials.GamemodeCommand;
-import de.cuuky.varo.command.essentials.HealCommand;
-import de.cuuky.varo.command.essentials.InfoCommand;
-import de.cuuky.varo.command.essentials.InvSeeCommand;
-import de.cuuky.varo.command.essentials.LanguageCommand;
-import de.cuuky.varo.command.essentials.MessageCommand;
-import de.cuuky.varo.command.essentials.MuteCommand;
-import de.cuuky.varo.command.essentials.NightCommand;
-import de.cuuky.varo.command.essentials.PerformanceCommand;
-import de.cuuky.varo.command.essentials.PingCommand;
-import de.cuuky.varo.command.essentials.ProtectCommand;
-import de.cuuky.varo.command.essentials.RainCommand;
-import de.cuuky.varo.command.essentials.ReplyCommand;
-import de.cuuky.varo.command.essentials.ReportCommand;
-import de.cuuky.varo.command.essentials.SetWorldspawnCommand;
-import de.cuuky.varo.command.essentials.SpawnCommand;
-import de.cuuky.varo.command.essentials.SpeedCommand;
-import de.cuuky.varo.command.essentials.SunCommand;
-import de.cuuky.varo.command.essentials.TeamRequestCommand;
-import de.cuuky.varo.command.essentials.ThunderCommand;
-import de.cuuky.varo.command.essentials.UnflyCommand;
-import de.cuuky.varo.command.essentials.UnfreezeCommand;
-import de.cuuky.varo.command.essentials.UnmuteCommand;
-import de.cuuky.varo.command.essentials.UnprotectCommand;
-import de.cuuky.varo.command.essentials.UsageCommand;
-import de.cuuky.varo.command.essentials.VanishCommand;
 import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
 import de.cuuky.varo.event.VaroEventListener;
 import de.cuuky.varo.game.world.listener.VaroWorldListener;
@@ -158,6 +125,9 @@ public final class BukkitRegisterer {
 		registerDynamicCommand("countdown", "Startet einen Countdown", new CountdownCommand(), ConfigSetting.COMMAND_COUNTDOWN_ENABLED);
 		registerDynamicCommand("performance", "Verbessert die Performance", new PerformanceCommand(), ConfigSetting.COMMAND_PERFORMANCE_ENABLED);
 		registerDynamicCommand("language", "Changes language of player", new LanguageCommand(), ConfigSetting.COMMAND_LANGUAGE_ENABLED, "lang");
+		registerDynamicCommand("vt", "Vt-Command", new VtCommand(), ConfigSetting.COMMAND_VT_ENABLED);
+		registerDynamicCommand("cls", "Cls-Command", new ClsCommand(), ConfigSetting.COMMAND_CLS_ENABLED);
+		registerDynamicCommand("middle", "Middle-Command", new MiddleCommand(), ConfigSetting.COMMAND_MIDDLE_ENABLED);
 	}
 
 	public static void registerEvents() {

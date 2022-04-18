@@ -31,9 +31,14 @@ public class ScoreboardCommand extends VaroCommand {
 			vp.sendMessage(ConfigMessages.VARO_COMMANDS_SCOREBOARD_DISABLED);
 			vp.getStats().setShowScoreboard(false);
 			vp.getScoreboard().setEnabled(false);
+			vp.getScoreboard().sendScoreBoard();
+			vp.update();
 		} else {
 			vp.getStats().setShowScoreboard(true);
 			vp.getScoreboard().setEnabled(true);
+			vp.getScoreboard().sendScoreBoard();
+			if (vp.getNametag() != null)
+				vp.getNametag().giveAll();
 			vp.sendMessage(ConfigMessages.VARO_COMMANDS_SCOREBOARD_ENABLED);
 		}
 

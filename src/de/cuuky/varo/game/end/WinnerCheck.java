@@ -25,7 +25,7 @@ public class WinnerCheck {
 	}
 
 	private void check() {
-		places = new HashMap<Integer, ArrayList<VaroPlayer>>();
+		places = new HashMap<>();
 		ArrayList<VaroPlayer> alive = VaroPlayer.getAlivePlayer();
 		if (!(alive.size() <= ConfigSetting.TEAMREQUEST_MAXTEAMMEMBERS.getValueAsInt() || alive.size() <= 2) || alive.size() == 0)
 			return;

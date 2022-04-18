@@ -1,0 +1,201 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Discord -----------
+# Beschreibung: Hier kannst du Einstellungen zum DiscordBot vornehmen.
+# 
+#  addPokalOnWin:
+#   Ob den Gewinnern Pokale hinter den
+#   Namen gesetzt werden sollen.
+#   Default-Value: true
+# 
+#  announcementChannelID:
+#   Gib hier den Channel an,
+#   in dem Nachrichten vom AutoStart geschrieben werden.
+#   Beispiel: Varo startet in ... Minuten.
+#   Default-Value: -1
+# 
+#  announcementPingRoleID:
+#   Gib hier die ID der Rolle ein, welche
+#   bei Nachrichtenauf Discord gepingt werden sollen.
+#   Hinweis: -1 = everyone
+#   Default-Value: -1
+# 
+#  commandTrigger:
+#   Stelle hier ein, womit man die
+#   Varo Commands Triggern kann.
+#   Beispiel: '!varo remaining'
+#   Default-Value: !varo 
+# 
+#  enabledPriviliges:
+#   Aktiviere diesen Eintrag nur, wenn
+#   du die besonderen Rechte
+#   des Discordbots aktiviert hast
+#   -> Priviliged Gateway Intents
+#   Aktiviere dies, sobald das Plugin meldet
+#   dass die Nutzer nicht auf dem Discord sind.
+#   Default-Value: false
+# 
+#  discordBotEnabled:
+#   Ob der DiscordBot fuer Events aktiviert werden soll.
+#   Hinweis: bitte fuer diesen Informationen unten ausfuellen
+#   Default-Value: false
+# 
+#  eventChannel.alert:
+#   ID's des Channels, wo die Benachrichtigungen gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.border:
+#   ID's des Channels, wo die Border Veränderungen gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.death:
+#   ID's des Channels, wo die Tode gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.joinLeave:
+#   ID's des Channels, wo die Joins/Leaves gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.kill:
+#   ID's des Channels, wo die Kills gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.strike:
+#   ID's des Channels, wo die Strikes gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.win:
+#   ID's des Channels, wo die Winnachricht gepostet wird.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannel.youtube:
+#   ID's des Channels, wo die YT-Videos gepostet werden.
+#   -1= EventChannelID wird genutzt
+#   Default-Value: -1
+# 
+#  eventChannelID:
+#   Gib hier die ChannelID des Channels an,
+#   in welchen der Bot Events posten soll.
+#   Rechtsklick auf den Channel -> 'Copy ChannelID'
+#   Wenn Option nicht vorhanden, schalte
+#   'developer options' in den Einstellungen von Discord ein.
+#   Default-Value: -1
+# 
+#  gameState:
+#   Stelle hier ein, was der Bot
+#   im Spiel als Name haben soll.
+#   Default-Value: Varo | Plugin by Cuuky - Contributors: Korne127, UeberallGebannt
+# 
+#  inviteLink:
+#   Stelle hier deinen Link zum Discord ein
+#   Default-Value: ENTER LINK HERE
+# 
+#  randomMessageColor:
+#   Ob die Nachrichten eine zufaellige Farbe haben sollen (nur bei Embeds)
+#   Default-Value: false
+# 
+#  useEmbeds:
+#   Ob die Nachrichten als Embed gesendet werden sollen
+#   Default-Value: true
+# 
+#  resultChannelID:
+#   Gib hier die Channel ID an, in der spaeter
+#   die Logs und die Gewinner gepostet werden sollen.
+#   Default-Value: -1
+# 
+#  serverGuildID:
+#   Gib hier die ServerID deines Servers an.
+#   Hinweis: Vorgangsweise, um die ID zu bekommen wie beim Channel.
+#   Default-Value: -1
+# 
+#  setTeamAsGroup:
+#   Ob die Spieler, die ein Team bekommen,
+#   diesen auch als Gruppe im Discord bekommen sollen.
+#   Default-Value: false
+# 
+#  botToken:
+#   Gib hier den Token an, welchen du auf
+#   der Bot Seite und 'create bot user' bekommst.
+#   Default-Value: ENTER TOKEN HERE
+# 
+#  verify.enabled:
+#   Ob das Verify System aktiviert werden soll.
+#   Dieses laesst die Spieler sich mit Discord-Accounts verbinden.
+#   Default-Value: false
+# 
+#  verify.optional:
+#   Ob das Verify-System optional sein soll
+#   Wenn deaktiviert: Nur verifizierte Spieler koennen
+#   den Server betreten
+#   Default-Value: false
+# 
+#  verify.registerChannelID:
+#   Gib hier die Channel ID des #verify - Channels
+#   an, wo sich die User verifizieren koennen.
+#   Default-Value: -1
+# 
+#  verify.mysql.enabled:
+#   Ob fuer die Speicherung der BotRegister
+#   eine MySQL Datenbank genutzt werden soll
+#   Default-Value: false
+# 
+#  verify.mysql.database:
+#   Datenbank, wo die BotRegister
+#   gespeichert werden sollen
+#   Default-Value: DATABASE_HERE
+# 
+#  verify.mysql.host:
+#   MySQL Host, zu welchem das Plugin sich verbinden soll
+#   Default-Value: HOST_HERE
+# 
+#  verify.mysql.password:
+#   Passwort fuer MySQL Nutzer,
+#   welcher auf die Datenbank zugreifen soll
+#   Default-Value: PASSWORD_HERE
+# 
+#  verify.mysql.user:
+#   MySQL Nutzer, welcher auf die Datenbank zugreifen soll
+#   Default-Value: USER_HERE
+# -------------------------
+
+addPokalOnWin: true
+announcementChannelID: -1
+announcementPingRoleID: -1
+commandTrigger: '!bv '
+enabledPriviliges: true
+discordBotEnabled: false
+eventChannel:
+  alert: -1
+  border: -1
+  death: -1
+  joinLeave: -1
+  kill: -1
+  strike: -1
+  win: -1
+  youtube: -1
+eventChannelID: -1
+gameState: "BärVaro Plugin | by Nooby & Nik"
+inviteLink: ENTER LINK HERE
+randomMessageColor: false
+useEmbeds: false
+resultChannelID: -1
+serverGuildID: -1
+setTeamAsGroup: false
+botToken: ENTER TOKEN HERE
+verify:
+  enabled: false
+  optional: false
+  registerChannelID: -1
+  mysql:
+    enabled: false
+    database: DATABASE_HERE
+    host: HOST_HERE
+    password: PASSWORD_HERE
+    user: USER_HERE

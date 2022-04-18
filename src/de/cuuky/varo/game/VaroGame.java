@@ -1,27 +1,15 @@
 package de.cuuky.varo.game;
 
-import java.awt.Color;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import de.cuuky.varo.api.VaroAPI;
-import de.cuuky.varo.api.event.events.game.VaroEndEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import de.cuuky.cfw.version.types.Sounds;
 import de.cuuky.varo.Main;
+import de.cuuky.varo.api.VaroAPI;
+import de.cuuky.varo.api.event.events.game.VaroEndEvent;
 import de.cuuky.varo.bot.discord.VaroDiscordBot;
 import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
 import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessages;
 import de.cuuky.varo.entity.player.VaroPlayer;
 import de.cuuky.varo.entity.player.stats.stat.YouTubeVideo;
+import de.cuuky.varo.entity.team.VaroTeam;
 import de.cuuky.varo.game.end.WinnerCheck;
 import de.cuuky.varo.game.leaderboard.TopScoreList;
 import de.cuuky.varo.game.lobby.LobbyItem;
@@ -35,13 +23,24 @@ import de.cuuky.varo.game.world.VaroWorldHandler;
 import de.cuuky.varo.game.world.border.decrease.BorderDecreaseDayTimer;
 import de.cuuky.varo.game.world.border.decrease.BorderDecreaseMinuteTimer;
 import de.cuuky.varo.game.world.generators.SpawnGenerator;
-import de.cuuky.varo.logger.logger.EventLogger.LogType;
 import de.cuuky.varo.recovery.recoveries.VaroBackup;
 import de.cuuky.varo.serialize.identifier.VaroSerializeField;
 import de.cuuky.varo.serialize.identifier.VaroSerializeable;
 import de.cuuky.varo.spawns.sort.PlayerSort;
 import de.cuuky.varo.threads.daily.dailycheck.checker.YouTubeCheck;
 import de.cuuky.varo.utils.VaroUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class VaroGame implements VaroSerializeable {
 
@@ -63,6 +62,15 @@ public class VaroGame implements VaroSerializeable {
     @VaroSerializeField(path = "lobby")
     private Location lobby;
 
+    @VaroSerializeField(path = "firstblood")
+    private boolean firstblood;
+
+    @VaroSerializeField(path = "deactivatePortal")
+    private boolean deactivatePortal;
+
+    @VaroSerializeField(path = "isFirstStart")
+    public boolean isFirstStart = false;
+
     private boolean finaleJoinStart, firstTime;
     private VaroMainHeartbeatThread mainThread;
     private VaroStartThread startThread;
@@ -70,6 +78,7 @@ public class VaroGame implements VaroSerializeable {
     private ProtectionTime protection;
     private VaroWorldHandler varoWorldHandler;
     private TopScoreList topScores;
+    private boolean canHunger;
 
     public VaroGame() {
         Main.setVaroGame(this);
@@ -91,8 +100,10 @@ public class VaroGame implements VaroSerializeable {
 
         this.varoWorldHandler = new VaroWorldHandler();
 
+        this.firstblood = true;
         this.gamestate = GameState.LOBBY;
         this.borderDecrease = new BorderDecreaseDayTimer(true);
+        this.canHunger = true;
     }
 
     public void prepareStart() {
@@ -133,7 +144,7 @@ public class VaroGame implements VaroSerializeable {
                 continue;
 
             Player pl = pl1.getPlayer();
-            pl.playSound(pl.getLocation(), Sounds.NOTE_PLING.bukkitSound(), 1, 1);
+            pl.playSound(pl.getLocation(), Sounds.LEVEL_UP.bukkitSound(), 1, 1);
             pl.setGameMode(GameMode.SURVIVAL);
             pl1.cleanUpPlayer();
         }
@@ -194,18 +205,9 @@ public class VaroGame implements VaroSerializeable {
         if (VaroAPI.getEventManager().executeEvent(new VaroEndEvent(this)))
             return;
 
+        sendWinnerTitle(check.getPlaces().get(1).get(0), check.getPlaces().get(1).get(0).getTeam());
+
         this.gamestate = GameState.END;
-
-        for (VaroPlayer vp : check.getPlaces().get(1)) {
-            if (!vp.isOnline())
-                continue;
-
-            Player p = vp.getPlayer();
-            p.getWorld().spawnEntity(p.getLocation().clone().add(1, 0, 0), EntityType.FIREWORK);
-            p.getWorld().spawnEntity(p.getLocation().clone().add(-1, 0, 0), EntityType.FIREWORK);
-            p.getWorld().spawnEntity(p.getLocation().clone().add(0, 0, 1), EntityType.FIREWORK);
-            p.getWorld().spawnEntity(p.getLocation().clone().add(0, 0, -1), EntityType.FIREWORK);
-        }
 
         String first = "";
         String second = "";
@@ -217,36 +219,37 @@ public class VaroGame implements VaroSerializeable {
             if (won == null)
                 break;
 
-            String names = "";
+            StringBuilder names = new StringBuilder();
             for (VaroPlayer vp : won)
-                names = names + (!won.toArray()[won.size() - 1].equals(vp) ? vp.getName() + (won.size() > 2 ? (won.toArray()[won.size() - 2].equals(vp) ? "" : ", ") : "") : ((won.size() == 1 ? "" : " & ") + vp.getName()));
-            names = names + (won.get(0).getTeam() != null ? " (#" + won.get(0).getTeam().getName() + ")" : "");
+                names.append(!won.toArray()[won.size() - 1].equals(vp) ? vp.getName() + (won.size() > 2 ? (won.toArray()[won.size() - 2].equals(vp) ? "" : ", ") : "") : ((won.size() == 1 ? "" : " & ") + vp.getName()));
+            names.append(won.get(0).getTeam() != null ? " (#" + won.get(0).getTeam().getName() + ")" : "");
 
             switch (i) {
                 case 1:
-                    first = names;
+                    first = names.toString();
                     break;
                 case 2:
-                    second = names;
+                    second = names.toString();
                     break;
                 case 3:
-                    third = names;
+                    third = names.toString();
                     break;
             }
         }
 
-        if (first.contains("&")) {
-            Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.WIN, ConfigMessages.ALERT_WINNER_TEAM.getValue().replace("%winnerPlayers%", first));
-            Main.getLanguageManager().broadcastMessage(ConfigMessages.GAME_WIN_TEAM).replace("%winnerPlayers%", first);
-        } else {
-            Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.WIN, ConfigMessages.ALERT_WINNER.getValue().replace("%player%", first));
-            Main.getLanguageManager().broadcastMessage(ConfigMessages.GAME_WIN).replace("%player%", first);
-        }
+        if (check.getPlaces().get(1).get(0) != null)
+            if (check.getPlaces().get(1).get(0).getTeam() != null) {
+                Bukkit.broadcastMessage(Main.getLanguageManager().replaceMessage("&2&lDas Team &e&l" + check.getPlaces().get(1).get(0).getTeam().getName() + " &8&l(&6&l" + (
+                        check.getPlaces().get(1)).get(0).getTeam().getId() + "&8&l) &2&lhat das VARO-Projekt gewonnen"));
+            } else {
+                Bukkit.broadcastMessage(Main.getLanguageManager().replaceMessage("&2&lDer Spieler &e&l" + check.getPlaces().get(1).get(0).getName() + " &8&l(&6&l" + (
+                        check.getPlaces().get(1)).get(0).getId() + "&8&l) &2&lhat das VARO-Projekt gewonnen"));
+            }
 
         VaroDiscordBot db = Main.getBotLauncher().getDiscordbot();
         if (db != null && db.isEnabled()) {
             if (db.getResultChannel() != null && db.isEnabled())
-                db.sendMessage((":first_place: " + first + (second != null ? "\n" + ":second_place: " + second : "") + (third != null ? "\n" + ":third_place: " + third : "")) + "\n\nHerzlichen Glueckwunsch!", "Das Projekt ist nun vorbei!", Color.MAGENTA, Main.getBotLauncher().getDiscordbot().getResultChannel());
+                db.sendMessage(":first_place: " + first + "\n" + ":second_place: " + second + "\n" + ":third_place: " + third + "\n\nHerzlichen Glueckwunsch!", "Das Projekt ist nun vorbei!", Color.MAGENTA, Main.getBotLauncher().getDiscordbot().getResultChannel());
 
             if (Main.getBotLauncher().getDiscordbot().getResultChannel() != null) {
                 File file = new File("plugins/Varo/logs", "logs.yml");
@@ -269,6 +272,17 @@ public class VaroGame implements VaroSerializeable {
 
     private void startRefreshTimer() {
         (mainThread = new VaroMainHeartbeatThread()).runTaskTimer(Main.getInstance(), 0L, 20L);
+    }
+
+    private void sendWinnerTitle(VaroPlayer vp, VaroTeam team) {
+        String message = (team != null) ? String.format(ChatColor.GREEN + "" + ChatColor.BOLD + "Das Team " + ChatColor.DARK_GREEN + "#%s " + ChatColor.GREEN +
+                "hat gewonnen.", team.getName()) : String.format(ChatColor.GREEN + "" + ChatColor.BOLD + "Der Spieler " + ChatColor.DARK_GREEN + "%s " + ChatColor.GREEN +
+                "hat gewonnen.", vp.getName());
+        for (VaroPlayer current : VaroPlayer.getOnlinePlayer()) {
+            Player p = current.getPlayer();
+            p.playSound(p.getLocation(), Sounds.LEVEL_UP.bukkitSound(), 1.0F, 1.0F);
+            current.getVersionAdapter().sendTitle(ChatColor.DARK_GREEN + "GEWINNER", message);
+        }
     }
 
     public TopScoreList getTopScores() {
@@ -369,6 +383,30 @@ public class VaroGame implements VaroSerializeable {
 
     public void setFirstTime(boolean firstTime) {
         this.firstTime = firstTime;
+    }
+
+    public void setFirstblood(boolean firstblood) {
+        this.firstblood = firstblood;
+    }
+
+    public boolean isFirstblood() {
+        return firstblood;
+    }
+
+    public void setDeactivatePortal(boolean deactivatePortal) {
+        this.deactivatePortal = deactivatePortal;
+    }
+
+    public boolean isDeactivatePortal() {
+        return deactivatePortal;
+    }
+
+    public void setCanHunger(boolean canHunger) {
+        this.canHunger = canHunger;
+    }
+
+    public boolean isCanHunger() {
+        return canHunger;
     }
 
     @Override

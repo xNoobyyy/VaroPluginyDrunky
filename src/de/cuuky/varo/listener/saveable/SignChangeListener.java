@@ -62,7 +62,6 @@ public class SignChangeListener implements Listener {
 			for (VaroSaveable saves : teamSaves) {
 				if (saves.getType() == SaveableType.CHEST)
 					sorted.add(saves);
-				continue;
 			}
 
 			if (sorted.size() >= ConfigSetting.PLAYER_CHEST_LIMIT.getValueAsInt() || secChest != null && sorted.size() + 1 >= ConfigSetting.PLAYER_CHEST_LIMIT.getValueAsInt()) {
@@ -78,20 +77,8 @@ public class SignChangeListener implements Listener {
 			}
 
 			if (secChest != null) {
-				for (int i = 0; i < 6; i++)
-					p.getWorld().playEffect(secChest.getLocation(), Effect.ENDER_SIGNAL, 1);
-
 				new VaroSaveable(SaveableType.CHEST, secChest.getLocation(), player);
-				player.sendMessage(ConfigMessages.CHEST_SAVED_CHEST);
 			}
-
-			event.setLine(0, "§8--------------");
-			event.setLine(1, "§lSavedChest");
-			event.setLine(2, Main.getColorCode() + (player.getTeam() != null ? player.getTeam().getDisplay() : player.getName()));
-			event.setLine(3, "§8--------------");
-			p.playSound(p.getLocation(), Sounds.NOTE_PLING.bukkitSound(), 1, 1);
-			for (int i = 0; i < 6; i++)
-				p.getWorld().playEffect(chest.getLocation(), Effect.ENDER_SIGNAL, 1);
 
 			new VaroSaveable(SaveableType.CHEST, chest.getLocation(), player);
 			player.sendMessage(ConfigMessages.CHEST_SAVED_CHEST);
@@ -128,15 +115,7 @@ public class SignChangeListener implements Listener {
 					return;
 				}
 
-			event.setLine(0, "§8--------------");
-			event.setLine(1, "§lSavedFurnace");
-			event.setLine(2, Main.getColorCode() + (player.getTeam() != null ? player.getTeam().getDisplay() : player.getName()));
-			event.setLine(3, "§8--------------");
-			p.playSound(furnace.getLocation(), Sounds.NOTE_PLING.bukkitSound(), 1, 1);
-			for (int i = 0; i < 6; i++)
-				p.getWorld().playEffect(furnace.getLocation(), Effect.ENDER_SIGNAL, 1);
 			new VaroSaveable(SaveableType.FURNACE, furnace.getBlock().getLocation(), player);
-			player.sendMessage(ConfigMessages.CHEST_SAVED_FURNACE);
 		}
 	}
 }

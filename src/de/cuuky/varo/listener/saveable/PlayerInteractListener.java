@@ -33,8 +33,13 @@ public class PlayerInteractListener implements Listener {
 		VaroPlayer varoPlayer = VaroPlayer.getPlayer(player);
 		VaroSaveable saveable = VaroSaveable.getByLocation(block.getLocation());
 
-		if (saveable == null || saveable.canModify(varoPlayer) || saveable.holderDead())
+		if (saveable == null || saveable.holderDead())
 			return;
+
+		if (saveable.canModify(varoPlayer)) {
+			player.sendMessage(ConfigMessages.TEAMCHEST_OPENED.getValue(varoPlayer));
+			return;
+		}
 
 		if (!player.hasPermission("varo.ignoreSaveable")) {
 			player.sendMessage((saveable.getType() == SaveableType.CHEST ? ConfigMessages.CHEST_NOT_TEAM_CHEST.getValue(varoPlayer).replace("%player%", saveable.getPlayer().getName()) : ConfigMessages.CHEST_NOT_TEAM_FURNACE.getValue(varoPlayer).replace("%player%", saveable.getPlayer().getName())));

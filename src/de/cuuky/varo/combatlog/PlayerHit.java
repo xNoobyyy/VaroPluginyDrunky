@@ -34,7 +34,7 @@ public class PlayerHit {
 			if (!Main.getVaroGame().isRunning() || event.isCancelled())
 				return;
 
-			VaroPlayer vp = VaroPlayer.getPlayer(((Player) event.getEntity()).getName());
+			VaroPlayer vp = VaroPlayer.getPlayer(event.getEntity().getName());
 			VaroPlayer vp1 = VaroPlayer.getPlayer(damager);
 
 			if (!vp1.getStats().isAlive() || vp1.isAdminIgnore())
@@ -43,8 +43,9 @@ public class PlayerHit {
 			if (vp.getTeam() != null && vp1.getTeam() != null && vp.getTeam().equals(vp1.getTeam()))
 				return;
 
-			vp.getStats().setLastEnemyContact(new Date());
-			vp1.getStats().setLastEnemyContact(new Date());
+			Date current = new Date();
+			vp.getStats().setLastEnemyContact(current);
+			vp1.getStats().setLastEnemyContact(current);
 
 			if (!ConfigSetting.COMBATLOG_TIME.isIntActivated()) return;
 
@@ -60,7 +61,6 @@ public class PlayerHit {
 
 	public PlayerHit(Player player, Player opponent) {
 		VaroPlayer vp = VaroPlayer.getPlayer(player);
-		if (!hasOld(player)) vp.sendMessage(ConfigMessages.COMBAT_IN_FIGHT);
 
 		this.player = player;
 		this.opponent = opponent;
@@ -92,8 +92,6 @@ public class PlayerHit {
 	}
 
 	public void over() {
-		VaroPlayer vp = VaroPlayer.getPlayer(player);
-		vp.sendMessage(ConfigMessages.COMBAT_NOT_IN_FIGHT);
 		remove();
 	}
 
