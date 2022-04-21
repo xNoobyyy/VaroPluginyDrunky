@@ -51,6 +51,7 @@ public abstract class VaroCommand {
 		new PlaytimeCommand();
 		new CheckCombatCommand();
 		new PortalCommand();
+		new InvseeCommand();
 		new CommandCommand();
 		// new TestCommand();
 	}

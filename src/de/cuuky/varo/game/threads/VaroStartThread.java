@@ -71,7 +71,7 @@ public class VaroStartThread extends BukkitRunnable {
 					if (this.startcountdown <= 10 && this.startcountdown >= 4) {
 						pl.playSound(pl.getLocation(), Sounds.NOTE_PLING.bukkitSound(), 1.0F, 2.0F);
 					} else {
-						pl.playSound(pl.getLocation(), Sounds.NOTE_BASS_DRUM.bukkitSound(), 1.0F, 2.0F);
+						pl.playSound(pl.getLocation(), Sounds.NOTE_BASS_DRUM.bukkitSound(), 1.0F, 1.0F);
 					}
 				}
 

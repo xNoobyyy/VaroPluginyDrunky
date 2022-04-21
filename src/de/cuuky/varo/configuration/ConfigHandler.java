@@ -140,6 +140,7 @@ public class ConfigHandler {
 							entry.setValue(config.get(entry.getPath()));
 						} else {
 							config.addDefault(entry.getPath(), YamlConfiguration.loadConfiguration(resource).get(entry.getPath()));
+							entry.setDefaultValue(YamlConfiguration.loadConfiguration(resource).get(entry.getPath()));
 							entry.setValue(config.get(entry.getPath()));
 						}
 

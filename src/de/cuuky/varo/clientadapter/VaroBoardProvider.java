@@ -1,6 +1,7 @@
 package de.cuuky.varo.clientadapter;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import de.cuuky.cfw.player.clientadapter.BoardUpdateHandler;
 import de.cuuky.cfw.version.BukkitVersion;
@@ -13,6 +14,7 @@ import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessa
 import de.cuuky.varo.entity.player.VaroPlayer;
 import de.cuuky.varo.entity.player.stats.stat.Rank;
 import de.cuuky.varo.entity.team.VaroTeam;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 public class VaroBoardProvider extends BoardUpdateHandler<VaroPlayer> {
@@ -38,6 +40,36 @@ public class VaroBoardProvider extends BoardUpdateHandler<VaroPlayer> {
         }
 
         return newList;
+    }
+
+    private ArrayList<String> replaceScoreboardList(ArrayList<String> list) {
+        ArrayList<String> newList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            String line = list.get(i);
+            line = Main.getLanguageManager().replaceMessage(line, player);
+            if (line.length() > 16) {
+                newList.add(getColorcodeAt16Char(line)/*line.substring(0, 16) + getColorcodeAt16Char(line) + line.substring(16)*/);
+            } else {
+                newList.add(line);
+            }
+        }
+
+        return newList;
+    }
+
+    private String getColorcodeAt16Char(String line) {
+        ArrayList<String> parts = new ArrayList<>();
+        parts.add(line.substring(0, 16));
+        if (line.charAt(15) == '§') {
+            //Bukkit.getLogger().log(Level.INFO, ("debug 0: " + line + " | " + line.substring(0, 17) + ": " + ChatColor.getLastColors(line.substring(0, 17))).replace("§", "&"));
+            String color = ChatColor.getLastColors(line.substring(0, 17));
+            parts.add(color + line.substring(17));
+        } else {
+            //Bukkit.getLogger().log(Level.INFO, ("debug 1: " + line + " | " + parts.get(0) + ": " + ChatColor.getLastColors(parts.get(0)) + " | " + line.substring(16)).replace("§", "&"));
+            parts.add(ChatColor.getLastColors(parts.get(0)) + line.substring(16));
+        }
+        //Bukkit.getLogger().log(Level.INFO, ("debug 3: " + parts.get(0) + " | " + parts.get(1)).replace("§", "&"));
+        return parts.get(0) + parts.get(1);
     }
 
     @Override
@@ -87,7 +119,7 @@ public class VaroBoardProvider extends BoardUpdateHandler<VaroPlayer> {
 
     @Override
     public ArrayList<String> getScoreboardEntries() {
-        return replaceList(scoreboard.getScoreboardLines());
+        return replaceScoreboardList(scoreboard.getScoreboardLines());
     }
 
     @Override

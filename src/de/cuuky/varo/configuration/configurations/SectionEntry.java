@@ -12,6 +12,8 @@ public interface SectionEntry {
 
 	public String[] getDescription();
 
+	public void setDefaultValue(Object value);
+
 	public void setValue(Object value);
 
 	public SectionConfiguration getSection();

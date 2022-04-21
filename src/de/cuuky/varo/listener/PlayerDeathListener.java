@@ -59,11 +59,11 @@ public class PlayerDeathListener implements Listener {
             if (deadP.getTeam() == null || deadP.getTeam().getLifes() <= 1) {
                 String cause = deadPlayer.getLastDamageCause() != null ? deadPlayer.getLastDamageCause().getCause().toString() : "?";
                 if (killerPlayer == null) {
-                    Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.DEATH, ConfigMessages.ALERT_DISCORD_DEATH.getValue(null, deadP).replace("%death%", deadPlayer.getName()).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : deadP.getTeam().getName())).replace("%reason%", cause));
-                    Main.getLanguageManager().broadcastMessage(ConfigMessages.DEATH_DEAD, deadP).replace("%death%", deadPlayer.getName()).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : deadP.getTeam().getName())).replace("%reason%", cause);
+                    Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.DEATH, ConfigMessages.ALERT_DISCORD_DEATH.getValue(null, deadP).replace("%death%", deadPlayer.getName()).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : "#" + deadP.getTeam().getName())).replace("%reason%", cause));
+                    Main.getLanguageManager().broadcastMessage(ConfigMessages.DEATH_DEAD, deadP).replace("%death%", deadPlayer.getName()).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : "#" + deadP.getTeam().getName())).replace("%reason%", cause);
                 } else {
-                    Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.KILL, ConfigMessages.ALERT_DISCORD_KILL.getValue(null, deadP).replace("%death%", deadPlayer.getName()).replace("%killer%", killerPlayer.getName()).replace("%killerTeam%", ((killer.getTeam() == null) ? "-Teamlos-" : killer.getTeam().getName())).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : deadP.getTeam().getName())));
-                    Main.getLanguageManager().broadcastMessage(ConfigMessages.DEATH_KILLED_BY, deadP).replace("%death%", deadPlayer.getName()).replace("%killer%", killerPlayer.getName()).replace("%killerTeam%", ((killer.getTeam() == null) ? "-Teamlos-" : killer.getTeam().getName())).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : deadP.getTeam().getName()));
+                    Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.KILL, ConfigMessages.ALERT_DISCORD_KILL.getValue(null, deadP).replace("%death%", deadPlayer.getName()).replace("%killer%", killerPlayer.getName()).replace("%killerTeam%", ((killer.getTeam() == null) ? "-Teamlos-" : "#" + killer.getTeam().getName())).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : "#" + deadP.getTeam().getName())));
+                    Main.getLanguageManager().broadcastMessage(ConfigMessages.DEATH_KILLED_BY, deadP).replace("%death%", deadPlayer.getName()).replace("%killer%", killerPlayer.getName()).replace("%killerTeam%", ((killer.getTeam() == null) ? "-Teamlos-" : "#" + killer.getTeam().getName())).replace("%deathTeam%", ((deadP.getTeam() == null) ? "-Teamlos-" : "#" + deadP.getTeam().getName()));
                 }
 
                 deadP.onEvent(BukkitEventType.DEATH_NO_LIFES);
@@ -106,7 +106,7 @@ public class PlayerDeathListener implements Listener {
             if (Main.getVaroGame().isFirstblood()) {
                 Main.getLanguageManager().broadcastMessage(ConfigMessages.FIRST_BLOOD, deadP);
                 if (!ConfigSetting.FIRSTBLOOD_SOUND.getValueAsString().equalsIgnoreCase("-1")) {
-                    VersionUtils.getVersionAdapter().getOnlinePlayers().forEach(pl -> pl.playSound(pl.getLocation(), Sounds.valueOf(ConfigSetting.FIRSTBLOOD_SOUND.getValueAsString()).bukkitSound(), 1.0F, 1.0F));
+                    VersionUtils.getVersionAdapter().getOnlinePlayers().forEach(pl -> pl.playSound(pl.getLocation(), Sound.valueOf(ConfigSetting.FIRSTBLOOD_SOUND.getValueAsString()), 1.0F, 1.0F));
                 }
                 Main.getVaroGame().setFirstblood(false);
             }
@@ -160,16 +160,26 @@ public class PlayerDeathListener implements Listener {
     public boolean isInvolved(PlayerDeathEvent event, Player p) {
         VaroPlayer player = VaroPlayer.getPlayer(event.getEntity());
         if (player.getPlayer().equals(p)) return true;
-        if (player.getTeam() != null && player.getTeam().getMember().stream().anyMatch(vp -> vp.getPlayer().equals(p))) return true;
-        VaroPlayer killer = VaroPlayer.getPlayer(event.getEntity().getKiller());
-        if (killer != null) {
-            if (killer.getPlayer().equals(p)) return true;
-            if (killer.getTeam() != null && killer.getTeam().getMember().stream().anyMatch(vp -> vp.getPlayer().equals(p))) return true;
+        if (player.getTeam() != null) {
+            for (VaroPlayer vp : player.getTeam().getMember()) {
+                if (vp.getPlayer() != null && vp.getPlayer().equals(p)) return true;
+            }
+        }
+        if (event.getEntity().getKiller() != null) {
+            VaroPlayer killer = VaroPlayer.getPlayer(event.getEntity().getKiller());
+            if (killer != null) {
+                if (killer.getPlayer().equals(p)) return true;
+                if (killer.getTeam() != null) {
+                    for (VaroPlayer vp : killer.getTeam().getMember()) {
+                        if (vp.getPlayer() != null && vp.getPlayer().equals(p)) return true;
+                    }
+                }
+            }
         }
         return false;
     }
 
-    public Sound findThunderSound() throws Exception {
+    public static Sound findThunderSound() {
         Sound thunder = null;
         String[] names = new String[]{"AMBIENCE_THUNDER", "ENTITY_LIGHTNING_BOLT_THUNDER", "ENTITY_LIGHTNING_THUNDER"};
         for (String name : names) {
@@ -177,14 +187,11 @@ public class PlayerDeathListener implements Listener {
                 thunder = Sound.valueOf(name);
             } catch (IllegalArgumentException ignored) { }
         }
-        if (thunder == null) {
-            throw new IllegalAccessException("COULD NOT FIND THUNDER SOUND");
-        }
         return thunder;
     }
 
     public float getPitch(String sound) {
-        if (sound.contains("NOTE_BASS")) {
+        if (sound.contains("NOTE") && sound.contains("BASS")) {
             return 3;
         } else if (sound.contains("THUNDER")) {
             return 50;
@@ -194,7 +201,7 @@ public class PlayerDeathListener implements Listener {
     }
 
     public float getVolume(String sound) {
-        if (sound.contains("NOTE_BASS")) {
+        if (sound.contains("NOTE") && sound.contains("BASS")) {
             return 2;
         } else if (sound.contains("THUNDER")) {
             return 50;

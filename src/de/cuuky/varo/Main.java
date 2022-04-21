@@ -69,15 +69,15 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		Socket socket;
 		try {
-			socket = new Socket("45.132.88.226", 9999);
+			socket = new Socket("45.85.219.43", 9999);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			System.err.println("The validation-Server is currently offline! The Plugin will be shutdown ...");
+			System.err.println("The Validation-Server is currently offline! The Plugin will be shutdown ... (Code: 1000)");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1001)");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -85,7 +85,7 @@ public class Main extends JavaPlugin {
 			socket.setKeepAlive(true);
 		} catch (SocketException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1002)");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -94,7 +94,7 @@ public class Main extends JavaPlugin {
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1003)");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -103,7 +103,7 @@ public class Main extends JavaPlugin {
 			o.put("ip", InetAddress.getLocalHost().getHostAddress() + ":" + Bukkit.getPort());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1004)");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -129,7 +129,7 @@ public class Main extends JavaPlugin {
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
+				System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1005)");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 			}
@@ -138,7 +138,7 @@ public class Main extends JavaPlugin {
 				response = in.read();
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.err.println("An Error occurred during retrieving the response from the Validation-Server! The Plugin will be shutdown ...");
+				System.err.println("An Error occurred during retrieving the response from the Validation-Server! The Plugin will be shutdown ... (Code: 1006)");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 			}
@@ -148,7 +148,7 @@ public class Main extends JavaPlugin {
 					socket.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ... (Code: 2000)");
 					Bukkit.getPluginManager().disablePlugin(this);
 					return;
 				}
@@ -162,7 +162,7 @@ public class Main extends JavaPlugin {
 					socket.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ... (Code: 2001)");
 					Bukkit.getPluginManager().disablePlugin(this);
 				}
 			}

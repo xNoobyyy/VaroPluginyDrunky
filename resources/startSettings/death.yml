@@ -74,7 +74,7 @@
 #   Default-Value: 30
 # -------------------------
 
-firstbloodSound: -1
+firstbloodSound: '-1'
 deathThunderSoundEnabled: true
 teamLife:
   addOnKill: -1
@@ -82,7 +82,6 @@ teamLife:
   maxLifes: 5
 deathSound:
   enabled: false
-  sound: WITHER_IDLE
 kickDelayAfterDeath: 10
 killerHealthAddOnKill: -1
 playerSpectateAfterDeath: false

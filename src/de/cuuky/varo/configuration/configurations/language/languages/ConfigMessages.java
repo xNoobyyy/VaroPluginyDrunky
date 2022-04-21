@@ -276,6 +276,8 @@ public enum ConfigMessages implements DefaultLanguage {
 	VARO_COMMANDS_CHECKCOMBAT_HELP("varoCommands.checkcombat.help", "%colorcode%/varo checkcombat"),
 	VARO_COMMANDS_CHECKCOMBAT_INCOMBAT("varoCommands.checkcombat.incombat", "&3Du bist momentan im %colorcode%Combat&3!"),
 	VARO_COMMANDS_CHECKCOMBAT_NOTINCOMBAT("varoCommands.checkcombat.notincombat", "&3Du bist momentan nicht im %colorcode%Combat&3!"),
+	VARO_COMMANDS_INVSEE_HELP("varoCommands.invsee.help", "%colorcode%/varo invsee <Player>"),
+	VARO_COMMANDS_INVSEE_INVALID("varoCommands.invsee.invalid", "%colorcode%Dieser Spieler ist nicht online oder konnte nicht gefunden werden!"),
 	VARO_COMMANDS_PORTAL_ACTIVATED("varoCommands.activated", "%colorcode%Portale sind nun aktiviert!"),
 	VARO_COMMANDS_PORTAL_DEACTIVATED("varoCommands.deactivated", "%colorcode%Portale sind nun deaktiviert!"),
 	VARO_COMMANDS_RESTART_IN_LOBBY("varoCommands.restart.inlobby", "&3Das Spiel befindet sich bereits in der Lobby-Phase!"),

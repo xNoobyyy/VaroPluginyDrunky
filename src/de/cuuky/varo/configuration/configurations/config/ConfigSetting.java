@@ -1,5 +1,6 @@
 package de.cuuky.varo.configuration.configurations.config;
 
+import de.cuuky.varo.listener.PlayerDeathListener;
 import org.bukkit.Bukkit;
 
 import de.cuuky.cfw.version.BukkitVersion;
@@ -102,7 +103,7 @@ public enum ConfigSetting implements SectionEntry {
 
 	// DEATH
 	DEATH_SOUND_ENABLED(ConfigSettingSection.DEATH, "deathSound.enabled", false, "Ob ein Sound fuer alle abgespielt werden soll,\nsobald ein Spieler stirbt", true),
-	DEATH_SOUND(ConfigSettingSection.DEATH, "deathSound.sound", Sounds.AMBIENCE_THUNDER.bukkitSound().name(), "Sound der abgespielt werden soll", true),
+	DEATH_SOUND(ConfigSettingSection.DEATH, "deathSound.sound", PlayerDeathListener.findThunderSound().name(), "Sound der abgespielt werden soll", true),
 	DEATH_SOUND_INVOLVED(ConfigSettingSection.DEATH, "deathSound.soundInvolved", Sounds.NOTE_BASS.bukkitSound().name(), "Sound der für den Killer abgespielt werden soll\n-1 für den gleichen Sound wie alle anderen"),
 	DEBUG_OPTIONS(ConfigSettingSection.OTHER, "debugOptions", false, "Ob Debug Funktionen verfuegbar sein sollen.\nVorsicht: Mit Bedacht oder nur\nauf Anweisung nutzen!"),
 	BLOCK_ADVANCEMENTS(ConfigSettingSection.OTHER, "blockAdvancements", true, "Ob Advancements deaktiviert werden sollen [1.12+]"),
@@ -223,6 +224,9 @@ public enum ConfigSetting implements SectionEntry {
 	REPORT_SEND_DELAY(ConfigSettingSection.REPORT, "reportDelay", 30, "Zeit in Sekunden, die ein Spieler warten muss,\nbevor er einen neuen Spieler reporten kann.\nOff = -1"),
 	REPORT_STAFF_MEMBER(ConfigSettingSection.REPORT, "reportStaffMember", true, "Ob Spieler mit der Permission\n'varo.report' reportet werden koennen."),
 	CRACKED_SERVER(ConfigSettingSection.MAIN, "crackedServer", false, "Ob der Server mit Mojang-UUIDs arbeiten soll.\nVorsicht: Spieler müssen neu eingetragen werden."),
+	REMOVE_ZERO_MIN(ConfigSettingSection.MAIN, "removeZero.min", true, "Ob bei %min% die 0 removed werden soll."),
+	REMOVE_ZERO_HOUR(ConfigSettingSection.MAIN, "removeZero.hour", true, "Ob bei %hour% die 0 removed werden soll."),
+
 
 	// REPORT
 	REPORTSYSTEM_ENABLED(ConfigSettingSection.REPORT, "enabled", false, "Ob das Report-System angeschaltet sein soll."),
@@ -305,33 +309,33 @@ public enum ConfigSetting implements SectionEntry {
 	// COMMANDS
 	COMMAND_VARO_ENABLED(ConfigSettingSection.COMMANDS, "varo.enabled", true, "Ob /varo aktiviert sein soll"),
 	COMMAND_VARO_NAME(ConfigSettingSection.COMMANDS, "varo.name", "varo", "Custom name für /varo"),
-	COMMAND_ANTIXRAY_ENABLED(ConfigSettingSection.COMMANDS, "antixray.enabled", false, "Ob /antixray aktiviert sein soll"),
+	//COMMAND_ANTIXRAY_ENABLED(ConfigSettingSection.COMMANDS, "antixray.enabled", false, "Ob /antixray aktiviert sein soll"),
 	COMMAND_BROADCAST_ENABLED(ConfigSettingSection.COMMANDS, "broadcast.enabled", true, "Ob /broadcast aktiviert sein soll"),
 	COMMAND_CHATCLEAR_ENABLED(ConfigSettingSection.COMMANDS, "chatclear.enabled", false, "Ob /chatclear aktiviert sein soll"),
-	COMMAND_TIME_ENABLED(ConfigSettingSection.COMMANDS, "time.enabled", false, "Ob /day und /night aktiviert sein soll"),
+	//COMMAND_TIME_ENABLED(ConfigSettingSection.COMMANDS, "time.enabled", false, "Ob /day und /night aktiviert sein soll"),
 	COMMAND_FLY_ENABLED(ConfigSettingSection.COMMANDS, "fly.enabled", true, "Ob /fly und /unfly aktiviert sein soll"),
 	COMMAND_FREEZE_ENABLED(ConfigSettingSection.COMMANDS, "freeze.enabled", true, "Ob /freeze und /unfreeze aktiviert sein soll"),
 	COMMAND_GAMEMODE_ENABLED(ConfigSettingSection.COMMANDS, "gamemode.enabled", true, "Ob /gamemode aktiviert sein soll"),
 	COMMAND_HEAL_ENABLED(ConfigSettingSection.COMMANDS, "heal.enabled", false, "Ob /heal aktiviert sein soll"),
-	COMMAND_INFO_ENABLED(ConfigSettingSection.COMMANDS, "info.enabled", false, "Ob /info aktiviert sein soll"),
+	//COMMAND_INFO_ENABLED(ConfigSettingSection.COMMANDS, "info.enabled", false, "Ob /info aktiviert sein soll"),
 	COMMAND_INVSEE_ENABLED(ConfigSettingSection.COMMANDS, "invsee.enabled", true, "Ob /invsee aktiviert sein soll"),
-	COMMAND_MESSAGE_ENABLED(ConfigSettingSection.COMMANDS, "message.enabled", false, "Ob /message und /reply aktiviert sein soll"),
-	COMMAND_MUTE_ENABLED(ConfigSettingSection.COMMANDS, "mute.enabled", false, "Ob /mute und /unmute aktiviert sein soll"),
+	//COMMAND_MESSAGE_ENABLED(ConfigSettingSection.COMMANDS, "message.enabled", false, "Ob /message und /reply aktiviert sein soll"),
+	//COMMAND_MUTE_ENABLED(ConfigSettingSection.COMMANDS, "mute.enabled", false, "Ob /mute und /unmute aktiviert sein soll"),
 	COMMAND_PING_ENABLED(ConfigSettingSection.COMMANDS, "ping.enabled", true, "Ob /ping aktiviert sein soll"),
-	COMMAND_SPEED_ENABLED(ConfigSettingSection.COMMANDS, "speed.enabled", true, "Ob /speed aktiviert sein soll"),
+	//COMMAND_SPEED_ENABLED(ConfigSettingSection.COMMANDS, "speed.enabled", true, "Ob /speed aktiviert sein soll"),
 	COMMAND_VANISH_ENABLED(ConfigSettingSection.COMMANDS, "vanish.enabled", true, "Ob /vanish aktiviert sein soll"),
-	COMMAND_REPORT_ENABLED(ConfigSettingSection.COMMANDS, "report.enabled", false, "Ob /report aktiviert sein soll"),
+	//COMMAND_REPORT_ENABLED(ConfigSettingSection.COMMANDS, "report.enabled", false, "Ob /report aktiviert sein soll"),
 	COMMAND_USAGE_ENABLED(ConfigSettingSection.COMMANDS, "usage.enabled", false, "Ob /usage aktiviert sein soll"),
-	COMMAND_BORDER_ENABLED(ConfigSettingSection.COMMANDS, "border.enabled", false, "Ob /border aktiviert sein soll"),
+	//COMMAND_BORDER_ENABLED(ConfigSettingSection.COMMANDS, "border.enabled", false, "Ob /border aktiviert sein soll"),
 	COMMAND_SETSPAWN_ENABLED(ConfigSettingSection.COMMANDS, "setworldspawn.enabled", true, "Ob /setworldspawn aktiviert sein soll"),
-	COMMAND_SPAWN_ENABLED(ConfigSettingSection.COMMANDS, "spawn.enabled", false, "Ob /spawn aktiviert sein soll"),
+	//COMMAND_SPAWN_ENABLED(ConfigSettingSection.COMMANDS, "spawn.enabled", false, "Ob /spawn aktiviert sein soll"),
 	COMMAND_TR_ENABLED(ConfigSettingSection.COMMANDS, "tr.enabled", true, "Ob /tr aktiviert sein soll"),
 	COMMAND_TR_NAME(ConfigSettingSection.COMMANDS, "tr.name", "tr", "Custom name für /tr"),
-	COMMAND_WEATHER_ENABLED(ConfigSettingSection.COMMANDS, "weather.enabled", false, "Ob /sun, /rain und /thunder aktiviert sein soll"),
+	//COMMAND_WEATHER_ENABLED(ConfigSettingSection.COMMANDS, "weather.enabled", false, "Ob /sun, /rain und /thunder aktiviert sein soll"),
 	COMMAND_PROTECT_ENABLED(ConfigSettingSection.COMMANDS, "protect.enabled", false, "Ob /protect und /unprotect aktiviert sein soll"),
-	COMMAND_COUNTDOWN_ENABLED(ConfigSettingSection.COMMANDS, "countdown.enabled", false, "Ob /countdown aktiviert sein soll"),
+	//COMMAND_COUNTDOWN_ENABLED(ConfigSettingSection.COMMANDS, "countdown.enabled", false, "Ob /countdown aktiviert sein soll"),
 	COMMAND_PERFORMANCE_ENABLED(ConfigSettingSection.COMMANDS, "performance.enabled", false, "Ob /performance aktiviert sein soll"),
-	COMMAND_LANGUAGE_ENABLED(ConfigSettingSection.COMMANDS, "language.enabled", false, "Ob /language aktiviert sein soll"),
+	//COMMAND_LANGUAGE_ENABLED(ConfigSettingSection.COMMANDS, "language.enabled", false, "Ob /language aktiviert sein soll"),
 	COMMAND_VT_ENABLED(ConfigSettingSection.COMMANDS, "vt.enabled", true, "Ob /vt aktiviert sein soll"),
 	COMMAND_CLS_ENABLED(ConfigSettingSection.COMMANDS, "cls.enabled", true, "Ob /cls aktiviert sein soll"),
 	COMMAND_MIDDLE_ENABLED(ConfigSettingSection.COMMANDS, "middle.enabled", true, "Ob /middle aktiviert sein soll"),
@@ -428,6 +432,11 @@ public enum ConfigSetting implements SectionEntry {
 
 		if (save)
 			save();
+	}
+
+	@Override
+	public void setDefaultValue(Object value) {
+		this.defaultValue = value;
 	}
 
 	/**
