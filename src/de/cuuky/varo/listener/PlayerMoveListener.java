@@ -46,7 +46,7 @@ public class PlayerMoveListener implements Listener {
 
 			if (vp.isInProtection()) {
 				event.setTo(from);
-				vp.sendMessage(ConfigMessages.JOIN_NO_MOVE_IN_PROTECTION);
+				//vp.sendMessage(ConfigMessages.JOIN_NO_MOVE_IN_PROTECTION);
 				return;
 			}
 		}

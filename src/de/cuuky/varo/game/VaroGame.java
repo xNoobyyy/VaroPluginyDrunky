@@ -27,7 +27,7 @@ import de.cuuky.varo.recovery.recoveries.VaroBackup;
 import de.cuuky.varo.serialize.identifier.VaroSerializeField;
 import de.cuuky.varo.serialize.identifier.VaroSerializeable;
 import de.cuuky.varo.spawns.sort.PlayerSort;
-import de.cuuky.varo.threads.daily.dailycheck.checker.YouTubeCheck;
+import de.cuuky.varo.entity.threads.daily.dailycheck.checker.YouTubeCheck;
 import de.cuuky.varo.utils.VaroUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

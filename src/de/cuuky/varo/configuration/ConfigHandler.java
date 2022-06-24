@@ -27,6 +27,8 @@ public class ConfigHandler {
 	private HashMap<String, File> files;
 	private boolean legacyFound;
 
+	public static YamlConfiguration antiSpamConfig;
+
 	public ConfigHandler() {
 		this.configurations = new HashMap<>();
 		this.files = new HashMap<>();
@@ -78,11 +80,11 @@ public class ConfigHandler {
 			moveLegacyFiles();
 
 		File antispamFile = files.get(ConfigSettingSection.ANTISPAM.getFolder() + "/" + ConfigSettingSection.ANTISPAM.getName());
-		YamlConfiguration antispamConfig = configurations.get(ConfigSettingSection.ANTISPAM.getFolder() + "/" + ConfigSettingSection.ANTISPAM.getName());
-		antispamConfig.addDefault("bannedWords", Arrays.asList("fuck", "shit", "kacke", "hurensohn", "bastard", "schlampe", "nutte", "fotze", "spast", "spasti", "hure", "neger", "nigger", "niger", "negger"));
+		antiSpamConfig = configurations.get(ConfigSettingSection.ANTISPAM.getFolder() + "/" + ConfigSettingSection.ANTISPAM.getName());
+		antiSpamConfig.addDefault("bannedWords", Arrays.asList("fuck", "shit", "kacke", "hurensohn", "bastard", "schlampe", "nutte", "fotze", "spast", "spasti", "hure", "neger", "nigger", "niger", "negger"));
 
 		try {
-			antispamConfig.save(antispamFile);
+			antiSpamConfig.save(antispamFile);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

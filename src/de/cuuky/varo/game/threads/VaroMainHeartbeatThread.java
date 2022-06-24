@@ -1,7 +1,9 @@
 package de.cuuky.varo.game.threads;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -90,7 +92,9 @@ public class VaroMainHeartbeatThread extends BukkitRunnable {
 					if (countdown == playTime - protectionTime - 1 && !game.isFirstTime() && !VaroEvent.getEvent(VaroEventType.MASS_RECORDING).isEnabled())
 						Main.getLanguageManager().broadcastMessage(ConfigMessages.JOIN_PROTECTION_OVER, vp);
 
-					if (countdown == 30 || countdown == 10 || countdown == 5 || countdown == 4 || countdown == 3 || countdown == 2 || countdown == 1 || countdown == 0) {
+					List<Integer> countdowns = Arrays.asList(300, 180, 60, 30, 20, 15, 10, 5, 4, 3, 2, 1, 0);
+
+					if (countdowns.contains(countdown)) {
 						if (countdown == 0 && !VaroEvent.getEvent(VaroEventType.MASS_RECORDING).isEnabled()) {
 							Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_BROADCAST, vp);
 							vp.onEvent(BukkitEventType.KICKED);
@@ -101,8 +105,35 @@ public class VaroMainHeartbeatThread extends BukkitRunnable {
 							if (countdown == 1) {
 								if (!vp.canBeKicked(noKickDistance)) {
 									if (!this.nearbyPlayerMessage.contains(vp)) {
-										vp.sendMessage(ConfigMessages.QUIT_KICK_PLAYER_NEARBY).replace("%distance%", String.valueOf(ConfigSetting.NO_KICK_DISTANCE.getValueAsInt()));
+										vp.sendMessage((Main.getPrefix() + ConfigMessages.QUIT_KICK_PLAYER_NEARBY.getValue()).replace("%distance%", String.valueOf(ConfigSetting.NO_KICK_DISTANCE.getValueAsInt())));
 										this.nearbyPlayerMessage.add(vp);
+									}
+									countdown += 1;
+								} else {
+									Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS, vp)
+											.replace("%countdown%", "einer");
+								}
+							} else {
+								switch (countdown) {
+									case 300: {
+										Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_MINUTES, vp)
+												.replace("%countdown%", "5");
+										break;
+									}
+									case 180: {
+										Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_MINUTES, vp)
+												.replace("%countdown%", "3");
+										break;
+									}
+									case 60: {
+										Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_MINUTES, vp)
+												.replace("%countdown%", "einer");
+										break;
+									}
+									default: {
+										Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS, vp)
+												.replace("%countdown%", String.valueOf(countdown));
+										break;
 									}
 								}
 							}

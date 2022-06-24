@@ -56,6 +56,10 @@ public class PlayerDeathListener implements Listener {
             if (hit != null)
                 hit.over();
 
+            if (killer.getStats().getCountdown() < ConfigSetting.ADD_COUNTDOWN_TO_LOOT.getValueAsInt()) {
+                killer.getStats().setCountdown(killer.getStats().getCountdown() + ConfigSetting.ADD_COUNTDOWN_TO_LOOT.getValueAsInt());
+            }
+
             if (deadP.getTeam() == null || deadP.getTeam().getLifes() <= 1) {
                 String cause = deadPlayer.getLastDamageCause() != null ? deadPlayer.getLastDamageCause().getCause().toString() : "?";
                 if (killerPlayer == null) {
@@ -70,6 +74,7 @@ public class PlayerDeathListener implements Listener {
 
                 if (!ConfigSetting.PLAYER_SPECTATE_AFTER_DEATH.getValueAsBoolean()) {
                     if (ConfigSetting.KICK_DELAY_AFTER_DEATH.isIntActivated()) {
+                        Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS_Died, deadP).replace("%countdown%", String.valueOf(ConfigSetting.KICK_DELAY_AFTER_DEATH.getValueAsInt()));
                         deadP.getStats().setState(PlayerState.SPECTATOR);
                         deadP.setSpectacting();
                         new BukkitRunnable() {

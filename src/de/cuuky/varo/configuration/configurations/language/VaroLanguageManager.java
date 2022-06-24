@@ -89,7 +89,7 @@ public class VaroLanguageManager extends LanguageManager {
         if (Main.getVaroGame() != null) {
 	        for (int rank : getConvNumbers(replaced, "%topplayer-")) {
 	            VaroPlayer player = Main.getVaroGame().getTopScores().getPlayer(rank);
-	            replaced = replaced.replace("%topplayer-" + rank + "%", (player == null ? "ynikk" : player.getName().toLowerCase()));
+	            replaced = replaced.replace("%topplayer-" + rank + "%", (player == null ? "Unbekannt" : player.getName().toLowerCase()));
 	        }
 
 	        for (int rank : getConvNumbers(replaced, "%topplayerkills-")) {

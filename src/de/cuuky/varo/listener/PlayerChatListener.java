@@ -1,6 +1,9 @@
 package de.cuuky.varo.listener;
 
+import de.cuuky.varo.configuration.ConfigHandler;
 import de.cuuky.varo.configuration.configurations.config.ConfigSettingSection;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,8 +59,6 @@ public class PlayerChatListener implements Listener {
 		Player player = event.getPlayer();
 
 		{
-			final File fileas = new File("plugins/varo/config/" + ConfigSettingSection.ANTISPAM.getName().toLowerCase() + ".yml");
-			final YamlConfiguration as = YamlConfiguration.loadConfiguration(fileas);
 			if (!player.isOp()) {
 				if (ConfigSetting.ANTISPAM_ENABLED.getValueAsBoolean()) {
 					if (this.spamblock.contains(player)) {
@@ -105,7 +106,7 @@ public class PlayerChatListener implements Listener {
 					}
 				}
 				if (ConfigSetting.BANWORDS_ENABLED.getValueAsBoolean()) {
-					for (final String bannedwords : as.getStringList("bannedWords")) {
+					for (String bannedwords : ConfigHandler.antiSpamConfig.getStringList("bannedWords")) {
 						if (message.toLowerCase().contains(bannedwords.toLowerCase())) {
 							player.sendMessage(Main.getPrefix() + "§4AntiSpam §8| §cBitte keine Beleidigungen verwenden.");
 							event.setCancelled(true);

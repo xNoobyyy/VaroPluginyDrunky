@@ -28,6 +28,8 @@ public class StartCommand extends VaroCommand {
 		}
 
 		game.prepareStart();
-		sender.sendMessage(Main.getPrefix() + "Spiel erfolgreich gestartet!");
+		sender.sendMessage(Main.getPrefix() + "§7Das Projekt wird jetzt gestartet. Gib §c/varo abort §7ein um den Countdown zu stoppen.");
+		sender.sendMessage(Main.getPrefix() + "§aWelt-Backup wurde erstellt");
+		sender.sendMessage(Main.getPrefix() + "§aLade Scoreboards...");
 	}
 }

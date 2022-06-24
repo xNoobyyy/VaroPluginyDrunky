@@ -61,14 +61,39 @@ public class VaroBoardProvider extends BoardUpdateHandler<VaroPlayer> {
         ArrayList<String> parts = new ArrayList<>();
         parts.add(line.substring(0, 16));
         if (line.charAt(15) == '§') {
-            //Bukkit.getLogger().log(Level.INFO, ("debug 0: " + line + " | " + line.substring(0, 17) + ": " + ChatColor.getLastColors(line.substring(0, 17))).replace("§", "&"));
             String color = ChatColor.getLastColors(line.substring(0, 17));
-            parts.add(color + line.substring(17));
+            String part1 = parts.get(0);
+            boolean addBlank = false;
+            if (part1.charAt(15) == '§') {
+                part1 = part1.substring(0, 15) + " ";
+            }
+
+            if (part1.charAt(14) == ' ' && part1.charAt(15) == ' ') {
+                part1 = part1.substring(0, 14) + color;
+                addBlank = true;
+            }
+
+            if (line.substring(17).startsWith(" ")) {
+                parts.clear();
+                parts.add(part1);
+                if (addBlank) {
+                    parts.add(" " + line.substring(18));
+                } else {
+                    parts.add(color + line.substring(18));
+                }
+            } else {
+                parts.clear();
+                parts.add(part1);
+                if (addBlank) {
+                    parts.add(" " + line.substring(17));
+                } else {
+                    parts.add(color + line.substring(17));
+                }
+            }
+
         } else {
-            //Bukkit.getLogger().log(Level.INFO, ("debug 1: " + line + " | " + parts.get(0) + ": " + ChatColor.getLastColors(parts.get(0)) + " | " + line.substring(16)).replace("§", "&"));
             parts.add(ChatColor.getLastColors(parts.get(0)) + line.substring(16));
         }
-        //Bukkit.getLogger().log(Level.INFO, ("debug 3: " + parts.get(0) + " | " + parts.get(1)).replace("§", "&"));
         return parts.get(0) + parts.get(1);
     }
 

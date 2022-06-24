@@ -121,7 +121,7 @@ public class EventLogger extends CachedVaroLogger<String> {
 		String log = getCurrentDate() + " || " + "[" + type.getName() + "] " + message.replace("%noDiscord%", "").replace("%noBot%", "");
 		this.queueLog(log);
 
-		if (message.contains("%noBot%") || message.contains("%noDiscord%"))
+		if (message.contains("%noBot%") || message.contains("%noDiscord%") || message.contains("%null%"))
 			return;
 
 		if (Main.getBotLauncher() == null) {

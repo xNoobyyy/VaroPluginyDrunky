@@ -1,13 +1,15 @@
 package de.cuuky.varo.listener.saveable;
 
-import java.util.ArrayList;
-
-import org.bukkit.Effect;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
-import org.bukkit.block.Furnace;
+import de.cuuky.cfw.version.BukkitVersion;
+import de.cuuky.cfw.version.VersionUtils;
+import de.cuuky.varo.Main;
+import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
+import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessages;
+import de.cuuky.varo.entity.player.VaroPlayer;
+import de.cuuky.varo.entity.player.stats.stat.inventory.VaroSaveable;
+import de.cuuky.varo.entity.player.stats.stat.inventory.VaroSaveable.SaveableType;
+import org.bukkit.Bukkit;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,19 +17,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.InventoryHolder;
 
-import de.cuuky.cfw.version.VersionUtils;
-import de.cuuky.cfw.version.types.Sounds;
-import de.cuuky.varo.Main;
-import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
-import de.cuuky.varo.configuration.configurations.language.languages.ConfigMessages;
-import de.cuuky.varo.entity.player.VaroPlayer;
-import de.cuuky.varo.entity.player.stats.stat.inventory.VaroSaveable;
-import de.cuuky.varo.entity.player.stats.stat.inventory.VaroSaveable.SaveableType;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class SignChangeListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSignChange(SignChangeEvent event) {
+
 		if (event.getPlayer().isOp())
 			for (int i = 0; i < event.getLines().length; i++)
 				event.setLine(i, event.getLines()[i].replace("&", "§"));
@@ -35,7 +33,28 @@ public class SignChangeListener implements Listener {
 		if (!Main.getVaroGame().hasStarted())
 			return;
 
-		BlockFace attachedFace = VersionUtils.getVersionAdapter().getSignAttachedFace(event.getBlock());
+		BlockFace attachedFace;
+
+		if (VersionUtils.getVersion().isHigherThan(BukkitVersion.ONE_13) && VersionUtils.getVersion().isLowerThan(BukkitVersion.ONE_17)) {
+
+			try {
+
+				Object state = event.getBlock().getClass().getMethod("getState").invoke(event.getBlock());
+				Object blockData = event.getBlock().getClass().getMethod("getBlockData").invoke(event.getBlock());
+				if (Class.forName("org.bukkit.block.data.type.WallSign").isInstance(blockData)) {
+					Method attachedFaceMethod = Class.forName("org.bukkit.block.data.type.WallSign").getMethod("getFacing");
+					attachedFace = ((BlockFace) attachedFaceMethod.invoke(blockData)).getOppositeFace();
+				} else {
+					attachedFace = BlockFace.DOWN;
+				}
+
+			} catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException | ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+
+		} else {
+			attachedFace = VersionUtils.getVersionAdapter().getSignAttachedFace(event.getBlock());
+		}
 		
 		if(attachedFace == null)
 			throw new Error("attachedFace should not be null");
@@ -44,7 +63,7 @@ public class SignChangeListener implements Listener {
 
 		if (attached.getState() instanceof Chest) {
 			Chest chest = (Chest) attached.getState();
-			InventoryHolder ih = ((InventoryHolder) chest).getInventory().getHolder();
+			InventoryHolder ih = chest.getInventory().getHolder();
 			Chest secChest = (ih instanceof DoubleChest ? (Chest) ((DoubleChest) ih).getLeftSide() : null);
 			if (chest.equals(secChest) && secChest != null)
 				secChest = (Chest) ((DoubleChest) ih).getRightSide();

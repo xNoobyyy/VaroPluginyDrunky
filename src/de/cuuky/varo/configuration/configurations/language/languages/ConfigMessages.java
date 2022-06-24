@@ -108,8 +108,10 @@ public enum ConfigMessages implements DefaultLanguage {
 	QUIT_TOO_OFTEN("quitmessage.quitTooOften", "%null%"),
 	QUIT_WITH_REMAINING_TIME("quitmessage.quitRemainingTime", "&4- %colorcode%%player% &3hat den Server &cverlassen&3."),
 	QUIT_KICK_BROADCAST("quitmessage.broadcast", "%null%"),
-	QUIT_KICK_DELAY_OVER("quitmessage.protectionOver", "%null%"),
-	QUIT_KICK_IN_SECONDS("quitmessage.kickInSeconds", "%null%"),
+	QUIT_KICK_DELAY_OVER("quitmessage.protectionOver", "kick in %countdown%"),
+	QUIT_KICK_IN_SECONDS("quitmessage.kickInSeconds", "kick in %countdown%"),
+	QUIT_KICK_IN_SECONDS_Died("quitmessage.kickInSecondsDied", "kick in %countdown% weil tot"),
+	QUIT_KICK_IN_MINUTES("quitmessage.kickInMinutes", "%null%"),
 	QUIT_KICK_PLAYER_NEARBY("quitmessage.noKickPlayerNearby", "&cDu besitzt den CombatLog-Status. Du wirst automatisch gekickt, wenn dieser entfernt wird."),
 	QUIT_KICK_SERVER_CLOSE_SOON("quitmessage.serverCloseSoon", "&3Der Server schliesst in %colorcode%%minutes% &3Minuten!"),
 

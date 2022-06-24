@@ -19,7 +19,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import de.cuuky.cfw.CuukyFrameWork;
 import de.cuuky.cfw.utils.JavaUtils;
 import de.cuuky.cfw.utils.UUIDUtils;
 import de.cuuky.cfw.version.ServerSoftware;
@@ -34,7 +33,7 @@ import de.cuuky.varo.data.DataManager;
 import de.cuuky.varo.game.VaroGame;
 import de.cuuky.varo.gui.VaroInventoryManager;
 import de.cuuky.varo.recovery.recoveries.VaroBugreport;
-import de.cuuky.varo.threads.SmartLagDetector;
+import de.cuuky.varo.entity.threads.SmartLagDetector;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -56,6 +55,8 @@ public class Main extends JavaPlugin {
 	private boolean failed;
 	private boolean accepted;
 
+	private String validatorVersion = "1.7-RELEASE";
+
 	@Override
 	public void onLoad() {
 		this.failed = false;
@@ -69,15 +70,15 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		Socket socket;
 		try {
-			socket = new Socket("45.85.219.43", 9999);
+			socket = new Socket("45.85.219.43", 6969);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			System.err.println("The Validation-Server is currently offline! The Plugin will be shutdown ... (Code: 1000)");
+			System.err.println("The Validation-Server is currently offline! The Plugin will be shutdown ...");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1001)");
+			System.err.println("Ohoh, looks like the Validation-Server is offline! Please contact the maintainer of the plugin!");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -85,7 +86,7 @@ public class Main extends JavaPlugin {
 			socket.setKeepAlive(true);
 		} catch (SocketException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1002)");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -94,7 +95,7 @@ public class Main extends JavaPlugin {
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1003)");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -103,13 +104,19 @@ public class Main extends JavaPlugin {
 			o.put("ip", InetAddress.getLocalHost().getHostAddress() + ":" + Bukkit.getPort());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1004)");
+			System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
 		JSONArray array = new JSONArray();
 		Bukkit.getOperators().forEach(op -> array.add(op.getName()));
 		o.put("ops", array);
+		o.put("version", validatorVersion);
+		try {
+			o.put("ip", InetAddress.getLocalHost().getHostAddress() + ":" + Bukkit.getPort());
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 		out.println(o.toJSONString());
 		out.flush();
 		System.out.println("Send Request to enable the plugin!");
@@ -129,7 +136,7 @@ public class Main extends JavaPlugin {
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ... (Code: 1005)");
+				System.err.println("An Error occurred during connecting to the Validation-Server! The Plugin will be shutdown ...");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 			}
@@ -138,7 +145,7 @@ public class Main extends JavaPlugin {
 				response = in.read();
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.err.println("An Error occurred during retrieving the response from the Validation-Server! The Plugin will be shutdown ... (Code: 1006)");
+				System.err.println("An Error occurred during retrieving the response from the Validation-Server! The Plugin will be shutdown ...");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 			}
@@ -148,7 +155,7 @@ public class Main extends JavaPlugin {
 					socket.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ... (Code: 2000)");
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
 					Bukkit.getPluginManager().disablePlugin(this);
 					return;
 				}
@@ -162,9 +169,21 @@ public class Main extends JavaPlugin {
 					socket.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ... (Code: 2001)");
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
 					Bukkit.getPluginManager().disablePlugin(this);
 				}
+			} else if (response == 2) {
+				this.accepted = true;
+				System.out.println("A new Verification-System was detected, please update your plugin!");
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.err.println("An Error occurred during closing the connection to the Validation-Server! The Plugin will be shutdown ...");
+					Bukkit.getPluginManager().disablePlugin(this);
+					return;
+				}
+				Bukkit.getPluginManager().disablePlugin(this);
 			}
 		}).start();
 	}

@@ -97,16 +97,15 @@ public final class BukkitRegisterer {
 		//registerDynamicCommand("day", "Setzt die Tageszeit auf Tag", new DayCommand(), ConfigSetting.COMMAND_TIME_ENABLED);
 		registerDynamicCommand("fly", "Lässt dich oder einen Spieler fliegen", new FlyCommand(), ConfigSetting.COMMAND_FLY_ENABLED);
 		registerDynamicCommand("freeze", "Lässt einen Spieler einfrieren", new FreezeCommand(), ConfigSetting.COMMAND_FREEZE_ENABLED, "nomove");
-		registerDynamicCommand("gamemode", "Setzt den Spielmodus von dir oder einem Spieler", new GamemodeCommand(), ConfigSetting.COMMAND_GAMEMODE_ENABLED, "gm");
+		//registerDynamicCommand("gamemode", "Setzt den Spielmodus von dir oder einem Spieler", new GamemodeCommand(), ConfigSetting.COMMAND_GAMEMODE_ENABLED, "gm");
 		registerDynamicCommand("heal", "Heilt einen Spieler", new HealCommand(), ConfigSetting.COMMAND_HEAL_ENABLED, "feed");
 		//registerDynamicCommand("info", "Zeigt Infos über einen Spieler", new InfoCommand(), ConfigSetting.COMMAND_INFO_ENABLED, "life");
-		registerDynamicCommand("invsee", "Zeigt das Inventar eines anderen Spielers", new InvSeeCommand(), ConfigSetting.COMMAND_INVSEE_ENABLED, "inventorysee");
 		//registerDynamicCommand("message", "Schreibt einem Spieler eine Nachricht", new MessageCommand(), ConfigSetting.COMMAND_MESSAGE_ENABLED, "msg");
 		//registerDynamicCommand("mute", "Mutet einen Spieler", new MuteCommand(), ConfigSetting.COMMAND_MUTE_ENABLED);
 		//registerDynamicCommand("night", "Setzt die Tageszeit auf Nacht", new NightCommand(), ConfigSetting.COMMAND_TIME_ENABLED);
 		registerDynamicCommand("ping", "Zeigt den Ping von dir oder einem Spieler", new PingCommand(), ConfigSetting.COMMAND_PING_ENABLED);
 		//registerDynamicCommand("reply", "Antwortet einem Spieler", new ReplyCommand(), ConfigSetting.COMMAND_MESSAGE_ENABLED, "r");
-		//registerDynamicCommand("speed", "Setzt die Geschwindigkeit von dir oder einem Spieler", new SpeedCommand(), ConfigSetting.COMMAND_SPEED_ENABLED);
+		registerDynamicCommand("speed", "Setzt die Geschwindigkeit von dir oder einem Spieler", new SpeedCommand(), ConfigSetting.COMMAND_SPEED_ENABLED);
 		registerDynamicCommand("vanish", "Versteckt dich oder einen Spieler vor allen anderen", new VanishCommand(), ConfigSetting.COMMAND_VANISH_ENABLED, "v");
 		//registerDynamicCommand("report", "Reporte einen Spieler", new ReportCommand(), ConfigSetting.COMMAND_REPORT_ENABLED);
 		registerDynamicCommand("unfly", "Lässt dich oder einen Spieler nicht mehr fliegen", new UnflyCommand(), ConfigSetting.COMMAND_FLY_ENABLED);

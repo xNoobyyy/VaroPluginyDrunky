@@ -1,5 +1,6 @@
 package de.cuuky.varo.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -10,7 +11,8 @@ public class PlayerHungerListener implements Listener {
 
 	@EventHandler
 	public void on(FoodLevelChangeEvent e) {
-		if (!Main.getVaroGame().hasStarted() || Main.getVaroGame().isStarting() || !Main.getVaroGame().isCanHunger())
+		if (!Main.getVaroGame().hasStarted() || Main.getVaroGame().isStarting()/* || !Main.getVaroGame().isCanHunger()*/) {
 			e.setFoodLevel(40);
+		}
 	}
 }

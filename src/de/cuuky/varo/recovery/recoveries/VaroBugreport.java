@@ -15,7 +15,7 @@ import de.cuuky.cfw.recovery.FileZipper;
 import de.cuuky.cfw.utils.JavaUtils;
 import de.cuuky.varo.Main;
 import de.cuuky.varo.configuration.configurations.config.ConfigSetting;
-import de.cuuky.varo.threads.LagCounter;
+import de.cuuky.varo.entity.threads.LagCounter;
 
 public class VaroBugreport extends FileZipper {
 

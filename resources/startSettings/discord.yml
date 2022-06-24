@@ -171,31 +171,4 @@ announcementPingRoleID: -1
 commandTrigger: '!bv '
 enabledPriviliges: true
 discordBotEnabled: false
-eventChannel:
-  alert: -1
-  border: -1
-  death: -1
-  joinLeave: -1
-  kill: -1
-  strike: -1
-  win: -1
-  youtube: -1
-eventChannelID: -1
 gameState: "BärVaro Plugin | by Nooby & Nik"
-inviteLink: ENTER LINK HERE
-randomMessageColor: false
-useEmbeds: false
-resultChannelID: -1
-serverGuildID: -1
-setTeamAsGroup: false
-botToken: ENTER TOKEN HERE
-verify:
-  enabled: false
-  optional: false
-  registerChannelID: -1
-  mysql:
-    enabled: false
-    database: DATABASE_HERE
-    host: HOST_HERE
-    password: PASSWORD_HERE
-    user: USER_HERE

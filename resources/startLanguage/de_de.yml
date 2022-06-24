@@ -375,7 +375,7 @@ quitmessage:
   quit: '&4- &e%player% &3hat den Server &cverlassen&3.'
   disconnectKilled: '%null%'
   serverCloseSoon: '%null%'
-  kickInSeconds: '%null%'
+
   quitTooOften: '%null%'
   quitRemainingTime: '&4- &e%player% &3hat den Server &cverlassen&3.'
   noKickPlayerNearby: '&cDu besitzt den CombatLog-Status. Du wirst automatisch gekickt,

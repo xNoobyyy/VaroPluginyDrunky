@@ -280,7 +280,7 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 					return;
 
 				VersionUtils.getVersionAdapter().setXpCooldown(player, Integer.MAX_VALUE);
-				new Vanish(player);
+				if (ConfigSetting.SPECTATING_PLAYERS_SET_VANISH.getValueAsBoolean()) new Vanish(player);
 				player.setAllowFlight(true);
 
 				if (!adminIgnore) {
@@ -644,7 +644,7 @@ public class VaroPlayer extends CustomLanguagePlayer implements CustomPlayer, Va
 			else if (vp.getUUID() == null)
 				continue;
 
-			if (!vp.getName().equals(player.getName())) {
+			if (!vp.getName().equals(player.getName()) && vp.getName() != null && player.getName() != null) {
 				Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.ALERT, ConfigMessages.ALERT_SWITCHED_NAME.getValue(null, vp).replace("%newName%", player.getName()));
 				Bukkit.broadcastMessage("§c" + vp.getName() + " §7hat seinen Namen gewechselt und ist nun unter §c" + player.getName() + " §7bekannt!");
 				new Alert(AlertType.NAME_SWITCH, vp.getName() + " §7hat seinen Namen gewechselt und ist nun unter §c" + player.getName() + " §7bekannt!");

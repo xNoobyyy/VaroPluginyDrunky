@@ -108,6 +108,7 @@ public enum ConfigSetting implements SectionEntry {
 	DEBUG_OPTIONS(ConfigSettingSection.OTHER, "debugOptions", false, "Ob Debug Funktionen verfuegbar sein sollen.\nVorsicht: Mit Bedacht oder nur\nauf Anweisung nutzen!"),
 	BLOCK_ADVANCEMENTS(ConfigSettingSection.OTHER, "blockAdvancements", true, "Ob Advancements deaktiviert werden sollen [1.12+]"),
 	DISABLE_LABYMOD_FUNCTIONS(ConfigSettingSection.OTHER, "disableLabyModFunctions", false, "Ob die Addons von LabyMod beim Spieler\ndeaktviert werden sollen.\nFuer diese Funktion wird dieses Plugin automatisch installiert:\nhttps://www.spigotmc.org/resources/52423/"),
+	ADD_COUNTDOWN_TO_LOOT(ConfigSettingSection.DEATH, "addCountdownToLoot", 30, "Wie viele Sekunden zum Countdown hinzugefügt werden sollen, um im Falle eines Last-Second-Fights, noch zu looten"),
 
 	// DISCONNECT
 	DISCONNECT_PER_SESSION(ConfigSettingSection.DISCONNECT, "maxDisconnectsPerSessions", 3, "Wie oft ein Spieler pro\nSession maximal disconnecten darf,\nbevor er bestraft wird.Off = -1"),
@@ -205,6 +206,7 @@ public enum ConfigSetting implements SectionEntry {
 	PLAYER_CHEST_LIMIT(ConfigSettingSection.OTHER, "playerChestLimit", 2, "Wie viele Chests ein Team\nregistrieren darf.\nOff = 0, Unendlich = -1"),
 	PLAYER_FURNACE_LIMIT(ConfigSettingSection.OTHER, "playerFurnaceLimit", -1, "Wie viele Furnaces ein\nSpieler registrieren darf.\nOff = 0, Undendlich = -1"),
 	PLAYER_SPECTATE_AFTER_DEATH(ConfigSettingSection.DEATH, "playerSpectateAfterDeath", false, "Ob ein Spieler nach seinem Tod Spectator wird."),
+	SPECTATING_PLAYERS_SET_VANISH(ConfigSettingSection.OTHER, "autoVanishInSpectate", false, "Ob man automatisch gevanisht wird\nwenn man in den Spectator State geht"),
 
 	// FINALE
 	PLAYER_SPECTATE_IN_FINALE(ConfigSettingSection.FINALE, "playerSpectateInFinale", true, "Ob die toten Spieler waehrend des Finales spectaten duerfen."),
@@ -226,6 +228,7 @@ public enum ConfigSetting implements SectionEntry {
 	CRACKED_SERVER(ConfigSettingSection.MAIN, "crackedServer", false, "Ob der Server mit Mojang-UUIDs arbeiten soll.\nVorsicht: Spieler müssen neu eingetragen werden."),
 	REMOVE_ZERO_MIN(ConfigSettingSection.MAIN, "removeZero.min", true, "Ob bei %min% die 0 removed werden soll."),
 	REMOVE_ZERO_HOUR(ConfigSettingSection.MAIN, "removeZero.hour", true, "Ob bei %hour% die 0 removed werden soll."),
+	ADD_HOURS_TO_MIN(ConfigSettingSection.MAIN, "addHoursToMin", true, "Ob bei %min% über 60 Minuten\ndie Minuten weiter hochzählen\nsollen."),
 
 
 	// REPORT
@@ -315,14 +318,13 @@ public enum ConfigSetting implements SectionEntry {
 	//COMMAND_TIME_ENABLED(ConfigSettingSection.COMMANDS, "time.enabled", false, "Ob /day und /night aktiviert sein soll"),
 	COMMAND_FLY_ENABLED(ConfigSettingSection.COMMANDS, "fly.enabled", true, "Ob /fly und /unfly aktiviert sein soll"),
 	COMMAND_FREEZE_ENABLED(ConfigSettingSection.COMMANDS, "freeze.enabled", true, "Ob /freeze und /unfreeze aktiviert sein soll"),
-	COMMAND_GAMEMODE_ENABLED(ConfigSettingSection.COMMANDS, "gamemode.enabled", true, "Ob /gamemode aktiviert sein soll"),
+	//COMMAND_GAMEMODE_ENABLED(ConfigSettingSection.COMMANDS, "gamemode.enabled", true, "Ob /gamemode aktiviert sein soll"),
 	COMMAND_HEAL_ENABLED(ConfigSettingSection.COMMANDS, "heal.enabled", false, "Ob /heal aktiviert sein soll"),
 	//COMMAND_INFO_ENABLED(ConfigSettingSection.COMMANDS, "info.enabled", false, "Ob /info aktiviert sein soll"),
-	COMMAND_INVSEE_ENABLED(ConfigSettingSection.COMMANDS, "invsee.enabled", true, "Ob /invsee aktiviert sein soll"),
 	//COMMAND_MESSAGE_ENABLED(ConfigSettingSection.COMMANDS, "message.enabled", false, "Ob /message und /reply aktiviert sein soll"),
 	//COMMAND_MUTE_ENABLED(ConfigSettingSection.COMMANDS, "mute.enabled", false, "Ob /mute und /unmute aktiviert sein soll"),
 	COMMAND_PING_ENABLED(ConfigSettingSection.COMMANDS, "ping.enabled", true, "Ob /ping aktiviert sein soll"),
-	//COMMAND_SPEED_ENABLED(ConfigSettingSection.COMMANDS, "speed.enabled", true, "Ob /speed aktiviert sein soll"),
+	COMMAND_SPEED_ENABLED(ConfigSettingSection.COMMANDS, "speed.enabled", true, "Ob /speed aktiviert sein soll"),
 	COMMAND_VANISH_ENABLED(ConfigSettingSection.COMMANDS, "vanish.enabled", true, "Ob /vanish aktiviert sein soll"),
 	//COMMAND_REPORT_ENABLED(ConfigSettingSection.COMMANDS, "report.enabled", false, "Ob /report aktiviert sein soll"),
 	COMMAND_USAGE_ENABLED(ConfigSettingSection.COMMANDS, "usage.enabled", false, "Ob /usage aktiviert sein soll"),
