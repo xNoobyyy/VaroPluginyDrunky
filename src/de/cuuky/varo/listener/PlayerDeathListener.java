@@ -74,7 +74,7 @@ public class PlayerDeathListener implements Listener {
 
                 if (!ConfigSetting.PLAYER_SPECTATE_AFTER_DEATH.getValueAsBoolean()) {
                     if (ConfigSetting.KICK_DELAY_AFTER_DEATH.isIntActivated()) {
-                        Main.getLanguageManager().broadcastMessage(ConfigMessages.QUIT_KICK_IN_SECONDS_Died, deadP).replace("%countdown%", String.valueOf(ConfigSetting.KICK_DELAY_AFTER_DEATH.getValueAsInt()));
+                        deadP.sendMessage(ConfigMessages.QUIT_KICK_IN_SECONDS_Died, deadP).replace("%countdown%", String.valueOf(ConfigSetting.KICK_DELAY_AFTER_DEATH.getValueAsInt()));
                         deadP.getStats().setState(PlayerState.SPECTATOR);
                         deadP.setSpectacting();
                         new BukkitRunnable() {
