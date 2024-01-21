@@ -1,0 +1,24 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- YouTube -----------
+# Beschreibung: Hier kannst du Einstellungen zu den Videos deines Projektes vornehmen.
+# 
+#  enabled:
+#   Checkt jeden Tag bei den Spielern,
+#   die einen YouTube Link registriert haben,
+#   nach den Uploads
+#   Default-Value: false
+# 
+#  strike:
+#   Ob ein spieler einen Strike erhalten soll wenn er kein video hochläd
+#   Default-Value: false
+# 
+#  videoIdentifier:
+#   Was die Videotitel enthalten
+#   müssen, um als Varo-Video zu gelten.
+#   Default-Value: Varo
+# -------------------------
+
+enabled: false
+strike: false
+videoIdentifier: Varo

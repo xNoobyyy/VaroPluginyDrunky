@@ -1,0 +1,93 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Death -----------
+# Beschreibung: Hier kannst du Einstellungen zum Tod eines Spielers vornehmen.
+# 
+#  firstbloodSound:
+#   Welcher Sound soll bei dem Firstblood abgespielt werden
+#   Default-Value: -1
+# 
+#  deathThunderSoundEnabled:
+#   Ob ein Thunder Sound abgespielt werden soll
+#   Default-Value: true
+# 
+#  teamLife.addOnKill:
+#   Wie viele Leben ein Team bekommen soll,
+#   sobald es einen Spieler toetet.
+#   Default-Value: -1
+# 
+#  deathSound.enabled:
+#   Ob ein Sound fuer alle abgespielt werden soll,
+#   sobald ein Spieler stirbt
+#   Default-Value: false
+# 
+#  deathSound.sound:
+#   Sound der abgespielt werden soll
+#   Default-Value: WITHER_IDLE
+# 
+#  kickDelayAfterDeath:
+#   Zeit in Sekunden, nach der ein Spieler
+#   nach Tod gekickt wird.
+#   Off = -1
+#   Default-Value: -1
+# 
+#  killerHealthAddOnKill:
+#   Anzahl halber Herzen, die der Killer nach Kill bekommt.
+#   Off = -1
+#   Default-Value: -1
+# 
+#  playerSpectateAfterDeath:
+#   Ob ein Spieler nach seinem Tod Spectator wird.
+#   Default-Value: false
+# 
+#  respawnProtection:
+#   Wie lange in Sekunden Spieler
+#   nach Respawn geschuetzt sind
+#   Default-Value: 120
+# 
+#  stopServerOnWin:
+#   Zeit in Sekunden, nachdem der Server nach
+#   Win eines Teams heruntergefahren wird.
+#   Default-Value: -1
+# 
+#  teamLife.default:
+#   Wie viele Leben ein Team hat
+#   Default-Value: 1
+# 
+#  teamLife.maxLifes:
+#   Wie viele Leben ein maximal haben kann
+#   Default-Value: 5
+# 
+#  deathLightningEffect:
+#   Ob beim Tod eines Spielers
+#   ein Blitz-Effekt kommen soll
+#   Default-Value: true
+# 
+#  deathTimeAdd:
+#   Zusätzliche zeit die der Killer
+#   durch einen kill bekommt (in Sekunden)
+#   Default-Value: -1
+# 
+#  deathTimeMin:
+#   Zeit die der Killer
+#   nach einem Kill nicht gekickt werden soll (in Sekunden)
+#   Default-Value: 30
+# -------------------------
+
+firstbloodSound: -1
+deathThunderSoundEnabled: true
+teamLife:
+  addOnKill: -1
+  default: 1
+  maxLifes: 5
+deathSound:
+  enabled: false
+  sound: WITHER_IDLE
+kickDelayAfterDeath: 10
+killerHealthAddOnKill: -1
+playerSpectateAfterDeath: false
+respawnProtection: 60
+stopServerOnWin: -1
+deathLightningEffect: false
+deathTimeAdd: -1
+deathTimeMin: 30

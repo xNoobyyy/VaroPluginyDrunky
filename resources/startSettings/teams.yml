@@ -1,0 +1,107 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Teams -----------
+# Beschreibung: Hier kannst du Einstellungen zu Teams vornehmen.
+#
+#  chatTrigger:
+#   Definiert den Buchstaben am Anfang einer
+#   Nachricht, der den Teamchat ausloest.
+#   Default-Value: ```
+#
+#  friendlyFire:
+#   Zufuegen von Schaden unter Teamkameraden.
+#   Default-Value: false
+#
+#  teamNameLength:
+#   Maximal Laenge eines Teamnamens.
+#   Default-Value: 10
+#
+#  teamPlaceSpawn:
+#   Anzahl an Spawnplaetzen in einer Teambasis
+#   Wenn angeschaltet (nicht -1) wird eine Luecke fuer fehlende Teammitglieder gelassen.
+#   Anschalten, wenn jedes Team einen eigenen Spawnplatz besitzt und es keinen grossen Kreis gibt.
+#   Default-Value: -1
+#
+#  teamRequest.expiretime:
+#   Die Zeit in Sekunden, nachdem eine Teamanfrage ablaufen soll.
+#   Default-Value: 30
+#
+#  teamRequest.maxTeamMembers:
+#   Anzahl an Teammitglieder pro Team.
+#   Default-Value: 2
+#
+#  teamRequest.enabled:
+#   Ob Spieler sich gegenseitig in Teams
+#   mit /tr einladen koennen.
+#   Sehr gute Funktion fuer ODV's.
+#   Default-Value: false
+#
+#  teamRequest.items.enabled:
+#   Ob die Spieler Items in
+#   der Lobby erhalten sollen,
+#   womit sie sich einladen können
+#   Default-Value: true
+#
+#  teamRequest.items.invite.item:
+#   Item um andere Spieler in ein Team einzuladen
+#   Default-Value: ItemStack{DIAMOND_SWORD x 1}
+#
+#  teamRequest.items.invite.slot:
+#   Slot des Items um andere Spieler in ein Team einzuladen
+#   Default-Value: 0
+#
+#  teamRequest.items.leave.item:
+#   Item zum Verlassen eines Teams
+#   Default-Value: ItemStack{REDSTONE x 1}
+#
+#  teamRequest.items.leave.slot:
+#   Slot des Items zum Verlassen eines Teams
+#   Default-Value: 6
+#
+#  teamRequest.items.rename.enabled:
+#   Ob die spieler in
+#   der Lobby ein Item haben
+#   sollen um ihren Teamnamen
+#   zu ändern
+#   Default-Value: true
+#
+#  teamRequest.items.rename.item:
+#   Item zum Umbenennen eines Teams
+#   Default-Value: ItemStack{NAME_TAG x 1}
+#
+#  teamRequest.items.rename.slot:
+#   Slot des Items zum Umbenennen eines Teams
+#   Default-Value: 4
+#
+#  triggerForGlobal:
+#   Wenn aktiviert, wird standardmaessig in den Teamchat geschrieben und mit dem Triggerbuchstaben am Anfang in den globalen Chat, ansonsten umgekehrt.
+#   Default-Value: false
+# -------------------------
+
+chatTrigger: '``'
+friendlyFire: false
+teamNameLength: 30
+teamPlaceSpawn: -1
+teamRequest:
+  expiretime: 999999
+  maxTeamMembers: 2
+  enabled: true
+  items:
+    enabled: false
+    invite:
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        type: DIAMOND_SWORD
+      slot: 0
+    leave:
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        type: REDSTONE
+      slot: 6
+    rename:
+      enabled: true
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        type: NAME_TAG
+      slot: 4
+triggerForGlobal: false

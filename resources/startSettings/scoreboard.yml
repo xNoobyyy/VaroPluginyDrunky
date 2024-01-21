@@ -1,0 +1,14 @@
+# Die Liste alle Placeholder findest du unter /varo placeholder!
+header: '&7[%colorcode%%projectname%&7]'
+scoreboard:
+- '&3Team: &e%team% &8(&e%teamID%&8)'
+- '%space%'
+- '&3Episode: &b%episodesPlayedPlus1%'
+- '&3Zeit: &b%time%'
+- '&3Kills: &b%kills%'
+- '&3Strikes: &b%strikes%'
+- '%space%'
+- '&cTOP Spieler:'
+- '&c1&8: &4%topplayer-1% &8- &4%topplayerkills-1%   '
+- '&c2&8: &4%topplayer-2% &8- &4%topplayerkills-2%   '
+- '&c3&8: &4%topplayer-3% &8- &4%topplayerkills-3%   '

@@ -1,0 +1,107 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Autosetup -----------
+# Beschreibung: Hier kannst das Autosetup einstellen!
+# 
+#  border:
+#   Wie gross die Border beim
+#   AutoSetup gesetzt werden soll
+#   Default-Value: 2000
+# 
+#  enabled:
+#   Wenn Autosetup aktiviert ist, werden beim
+#   Start des Servers alle Spawns automatisch gesetzt und
+#   optional ein Autostart eingerichtet.
+#   Default-Value: false
+# 
+#  lobby.enabled:
+#   Ob eine Lobby beim AutoSetup gespawnt werden soll
+#   Default-Value: true
+# 
+#  lobby.height:
+#   Hoehe der Lobby, die gespawnt werden soll
+#   Default-Value: 10
+# 
+#  lobby.schematic:
+#   Schreibe hier den Pfad deiner Lobby-Schematic
+#   hin, die gepastet werden soll.
+#   Hinweis: WorldEdit benoetigt
+#   Default-Value: plugins/Varo/schematics/lobby.schematic
+# 
+#  lobby.size:
+#   Groesse der Lobby, die gespawnt werden soll
+#   Default-Value: 25
+# 
+#  portal.enabled:
+#   Ob ein Portal gespawnt werden soll
+#   Default-Value: true
+# 
+#  portal.height:
+#   Hoehe des gespawnten Portals
+#   Default-Value: 5
+# 
+#  portal.width:
+#   Breite des gespawnten Portals
+#   Default-Value: 4
+# 
+#  spawns.amount:
+#   Zu welcher Anzahl die Loecher
+#   generiert werden sollen
+#   Default-Value: 40
+# 
+#  spawns.block.material:
+#   Welche Block-ID der Halftstep am Spawn haben soll
+#   Default-Value: STONE_BRICK_SLAB
+# 
+#  spawns.radius:
+#   In welchem Radius die Loecher
+#   generiert werden sollen
+#   Default-Value: 30
+# 
+#  spawns.sideblock.material:
+#   Welche Block-ID der Block,
+#   den man abbaut haben soll
+#   Default-Value: GRASS
+# 
+#  autostart.time.hour:
+#   Um welche Zeit der Stunde der
+#   AutoStart gesetzt werden soll
+#   Default-Value: -1
+# 
+#  autostart.time.minute:
+#   Um welche Zeit der Minute der
+#   AutoStart gesetzt werden soll
+#   Default-Value: -1
+# 
+#  spawnGeneratorYTolerance:
+#   Wie viel Hoehe die Spawns von einander
+#   Abstand haben duerfen beim
+#   generieren der Spawns
+#   Beispiel: Spawn ist 10 Bloecke hoeher als andere
+#   ->wird weiter nach Terrain gesucht
+#   Default-Value: 8
+# -------------------------
+
+border: 2000
+enabled: false
+lobby:
+  enabled: true
+  height: 10
+  schematic: plugins/Varo/schematics/lobby.schematic
+  size: 25
+portal:
+  enabled: true
+  height: 5
+  width: 4
+spawns:
+  amount: 40
+  block:
+    material: STONE_BRICK_SLAB
+  radius: 30
+  sideblock:
+    material: GRASS
+autostart:
+  time:
+    hour: -1
+    minute: -1
+spawnGeneratorYTolerance: 8

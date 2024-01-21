@@ -1,0 +1,21 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Finale -----------
+# Beschreibung: Hier kannst du Einstellungen zum Finale des Projektes vornehmen.
+#
+#  borderSizeInFinale:
+#   Auf diese Groesse wird die Border beim Starten des Finales gestellt.
+#   Default-Value: 300
+#
+#  finaleProtectionTime:
+#   Laenge der Schutzzeit nachdem alle Spieler in die Mitte teleportiert werden.
+#   Default-Value: 30
+#
+#  playerSpectateInFinale:
+#   Ob die toten Spieler waehrend des Finales spectaten duerfen.
+#   Default-Value: true
+# -------------------------
+
+borderSizeInFinale: 300
+finaleProtectionTime: 30
+playerSpectateInFinale: false

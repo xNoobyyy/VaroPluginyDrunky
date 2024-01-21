@@ -1,0 +1,417 @@
+varoCommands:
+  autostart:
+    alreadystarted: '&cProjekt wurde bereits gestartet!'
+    delayhelp: '%colorcode%/autostart delay &3<Delay in Minutes>'
+    removed: '%colorcode%AutoStart &3erfolgreich entfernt!'
+    nonumber: Eines der Argumente ist %colorcode%keine &3Zahl!
+    startdelayed: '&3Der Start wurde um %colorcode%%delay% &3Minuten verzoegert!'
+    info:
+      date: '%colorcode%Datum: &3%date%'
+      randomteamsize: '%colorcode%AutoRandomteamgroesse: &3%teamsize%'
+      autosort: '%colorcode%AutoSort: &3%active%'
+    dateinthepast: '&3Das %colorcode%Datum &3darf nicht in der Vergangenheit sein!'
+    active: 'AutoStart &aaktiv&3:'
+    alreadysetup: '&3Entferne erst den AutoStart, bevor du einen neuen setzt!'
+    delaytosmall: Der Delay darf nicht kleiner als 1 sein!
+    notactive: AutoStart nicht aktiv
+    helpset: '%colorcode%/autostart &3set <Hour> <Minute> <Day> <Month> <Year>'
+    notsetupyet: '&3Es wurde noch kein %colorcode%Autostart &3festegelegt!'
+  discord:
+    verificationremoved: '&3Deine Verifizierung wurde entfernt.'
+    noeventchannel: '&3Dem Bot wurde keine Event-Channel gegeben.'
+    status:
+      active: '&aaktiv'
+      inactive: '%colorcode%inaktiv'
+    verifysystemdisabled: '&3Das Verifysystem ist deaktiviert.'
+    botoffline: '&3Der Discordbot ist nicht online!'
+    pleasereload: '&3Der DiscordBot wurde beim Start nicht aufgesetzt, bitte reloade!'
+    notverified: '&3Du bist noch nicht verifiziert!'
+    discordbotdisabled: '&3Der Discordbot ist deaktiviert.'
+    shutdown: '&3Der Discordbot wurde &aerfolgreich &3heruntergefahren.'
+    remove:
+      usage: '&3Nutze %colorcode%/varo discord verify remove &3ein, um die Verifizierung
+        zu entfernen.'
+    usernotfound: '&3User fuer diesen Spieler nicht gefunden!'
+    unverify: '&3Der Discord Account wurde erfolgreich von %colorcode%%player% &3entkoppelt!'
+    verifydisabled: '&3Das Verifzierungs-System wurde in der Config deaktiviert!'
+    notsetup: '&3Der DiscordBot wurde beim Start nicht aufgesetzt!'
+    verifyenabled: '&3Das Verifysystem wurde aktiviert.'
+    reloaded: '&3Der Discordbot wurde &aerfolgreich &3neu geladen.'
+    discordmessagetitle: MESSAGE
+    account: '&3Account: %colorcode%%account%'
+    bypassinactive: '&3%player% umgeht nicht mehr das Verifysystem.'
+    getlink: '&3Der Discord Account von %colorcode%%player% heisst %colorcode%%user%&3
+      und die ID lautet %colorcode%%id%&3!'
+    botdisabled: '&3Der DiscordBot wurde nicht aktiviert!'
+    bypassactive: '&3%player% umgeht nun das Verifysystem.'
+  config:
+    noimgameset: '&cDu kannst diesen Eintrag nur im File-System manipulieren!'
+    entrynotfound: '&3Der Eintrag ''%colorcode%%entry%&3'' wurde nicht gefunden.'
+    reloaded: '&aConfig erfolgreich neu geladen!'
+    searchlisttitle: '&lFolgende Einstellungen wurden gefunden:'
+    errorset: '%colorcode%Es ist ein fehler aufgetreten: &c%error%'
+    helpsearch: '%colorcode%/varo config &3search <key>'
+    helpset: '%colorcode%/varo config &3set <key> <value>'
+    reset: '&3Alle Eintraege wurden erfolgreich zurueckgesetzt.'
+    entryset: '&3Der Eintrag ''%colorcode%%entry%&3'' wurde erfolgreich auf ''%colorcode%%value%&3''
+      gesetzt.'
+    searchlistformat: '%colorcode%%entry% &8- &3%description%'
+  checkcombat:
+    help: '%colorcode%/varo checkcombat'
+    incombat: '%null%'
+    notincombat: '%null%'
+  xray:
+    statusDeactivated: '%colorcode%deaktiviert'
+    alreadyDactivated: Das Anti-Xray ist bereits deaktiviert.
+    installingPlugin: Das Anti-Xray-Plugin wird installiert und der Server danach heruntergefahren.
+    installingError: 'Es gab einen kritischen Fehler beim Download des Plugins. Du
+      kannst dir das externe Plugin hier manuell herunterladen: %colorcode%&nhttps://www.spigotmc.org/resources/22818/'
+    alreadyActivated: Das Anti-Xray ist bereits aktiviert.
+    dectivated: Das Anti-Xray wurde deaktiviert.
+    errorNotAvailable: "%colorcode%Es gab einen Fehler mit dem Anti-Xray-System. Bitte\
+      \ \xfcberpr\xfcfe, ob deine Serverversion (%version%) auf Spigot basiert."
+    statusActivated: '&aaktiviert'
+    versionNotAvailable: "%colorcode%Auf deiner Serverversion ist kein X-Ray verf\xfc\
+      gbar (%version%)."
+    status: 'Anti-Xray ist momentan: %status%&3.'
+    activated: Das Anti-Xray wurde aktiviert.
+  error:
+    usernotfound: "&3Es konnte kein User f\xfcr diesen Spieler gefunden werden!"
+    nonumber: '&cDein Eintrag ist kein Integer!'
+    notstarted: Das Projekt wurde noch nicht gestaret!
+    error: '&cEin unbekannter Fehler ist aufgetreten!'
+    wrongVersion: "&3Dieses Feature ist vor der Version %colorcode%%version% nicht\
+      \ verf\xfcgbar!"
+    unknownplayer: '&cSpieler wurde nicht in der Datenbank gefunden!'
+    usage: '%colorcode%Fehler! &3Nutze %colorcode%/varo %command% &3fuer Hilfe.'
+    noconsole: "Dieser Befehl kann nur als Spieler ausgef\xfchrt werden!"
+  bugreport:
+    uploading: Lade Bugreport hoch...
+    collectingdata: Daten werden gesammelt...
+    uploaderror: Der Bugreport konnte nicht hochgeladen werden!
+    created: Bugreport wurde unter %colorcode%%filename% &3gespeichert!
+    clickme: ' &3(&aKlick mich&3)'
+    currentversion: 'Derzeitige Version: %colorcode%%version%'
+    sendtodiscord: Bitte sende den Bugreport als DATEI manuell auf den Discord in den Support, da das Hochladen nicht funktioniert hat!
+    outdatedversion: Du kannst keine Bugreports von einer alten Plugin-Version machen!
+    update: '&3Nutze %colorcode%/varo update &3zum updaten.'
+    newestversion: 'Neueste Version: &a%version%'
+    uploaded: Bugreport wurde auf %colorcode%%url% &3hochgeladen!
+  sort:
+    nospawnwithteam: '&3Es konnte nicht fuer jeden Spieler ein Loch bei den Teampartnern
+      gefunden werden!'
+    help: '%colorcode%/varo sort'
+    nospawn: '&3Es konnte nicht fuer jeden Spieler ein Loch gefunden werden!'
+    sorted: '&3Alle Spieler wurden erfolgreich sortiert.'
+  backpack:
+    noteam: befindest dich in keinem Team und hast deshalb keinen Teamrucksack.
+    choosetype: waehle aus, welchen Rucksack du oeffnen willst %colorcode%(Player/Team)&3.
+    playerdoesntexist: Spieler %colorcode%%player% &3existiert nicht.
+    teamdoesntexist: Team %colorcode%%team% &3existiert nicht.
+    cantshowbackpack: Rucksack kann dir daher nicht angezeigt werden.
+    notenabled: Rucksacke sind nicht aktiviert.
+  preset:
+    saved: Die aktuellen Einstellungen wurden &aerfolgreich &3als Preset %colorcode%%preset% &3gespeichert.
+    helploaded: '%colorcode%/varo preset &3load <PresetPath>'
+    list: '&lListe aller Presets:'
+    notfound: Das Preset %colorcode%%preset% &3wurde nicht gefunden.
+    helpsave: '%colorcode%/varo preset &3save <PresetPath>'
+    loaded: Das Preset %colorcode%%preset% &3wurde &aerfolgreich &3geladen.
+  broadcast:
+    format: '%prefix%%colorcode%Benachrichtigung &8| &7%message%'
+  chatclear:
+    cleared: Der Chat wurde %colorcode%gecleart&3.
+  middle: '&3Die Koordinaten (XYZ) der Location &eMittle/Portal &3lauten: &e%value%'
+  autosetup:
+    attention: '%colorcode%Vorsicht: &3Dieser Befehl setzt neue Spawns, Lobby, Portal,
+      Border und &loptional&3 einen Autostart.'
+    finished: Der AutoSetup ist fertig.
+    help: '%colorcode%/varo autosetup run &3startet den Autosetup'
+    notsetupyet: Das AutoSetup wurde noch nicht in der Config eingerichtet!
+  help:
+    header: '&3-------- %colorcode%%category% &3-------'
+    footer: '&3------------------------'
+  playtime: '&3Deine verbleibende Zeit: %formattedCountdown%&3.'
+  border:
+    distance: Du bist %colorcode%%distance% Bloecke &3von der Border entfernt.
+    usage: Du kannst die Groesse der Border mit %colorcode%/border <Durchmesser> [Sekunden] &3setzen. Der Mittelpunkt der Border wird zu deinem derzeiten Punkt gesetzt.
+    size: Die Border ist momentan %colorcode%%size% Bloecke &3gross.
+  weather:
+    thunder: Es %colorcode%gewittert &3nun.
+    sun: Es ist jetzt %colorcode%sonnig&3.
+    rain: Es ist jetzt %colorcode%regnerisch&3.
+  randomteam:
+    sorted: '&3Alle Spieler ohne Team sind nun in %colorcode%%teamsize%er &3Teams!'
+    teamsizetoosmall: '&3Die Teamgroesse muss mindestens 1 betragen.'
+    nopartner: '&3Fuer dich konnten nicht genug Teampartner gefunden werden.'
+    help: "%colorcode%/varo randomTeam <Teamgr\xf6sse>"
+  scoreboard:
+    enabled: '&3Du siehst nun das Scoreboard.'
+    deactivated: '&3Scoreboard sind deaktiviert.'
+    disabled: '&3Du siehst nun das Scoreboard.'
+  restart:
+    inlobby: '&3Das Spiel befindet sich bereits in der Lobby-Phase!'
+    restarted: '&3Das Spiel wurde neugestartet.'
+  countdown:
+    abort: Der Countdown wurde abgebrochen.
+    format: '%colorcode%%seconds%'
+    tooSmall: Der Countdown kann nicht negativ oder 0 sein!
+    start: Los!
+  abort:
+    stopped: Startcountdown erfolgreich gestoppt!
+    notactive: Der Startcountdown ist nicht aktiv!
+  deactivated: '%colorcode%Portale sind nun deaktiviert!'
+  blockedcommand: Du darst diesen Befehl nicht benutzen!
+  activated: '%colorcode%Portale sind nun aktiviert!'
+  time:
+    night: Es ist jetzt %colorcode%Nacht&3.
+    day: Es ist jetzt %colorcode%Tag&3.
+  intro:
+    alreadystarted: '&3Das Intro wurde bereits gestartet!'
+    gamealreadystarted: '&3Das Spiel wurde bereits gestartet!'
+    started: '&3Und los geht''s!'
+  setworldspawn:
+    setworldspawn: Weltspawn erfolgreich gesetzt.
+  export:
+    players: '&3Alle Spieler wurden erfolgreich in ''%colorcode%%file%&3'' exportiert.'
+  actionbar:
+    deactivated: Du siehst nun nicht mehr die Zeit in der Actionbar!
+    activated: Du siehst nun die Zeit in der Actionbar!
+blockLoggerFilter:
+  setFilter: '&7%filterName% wurde auf %colorcode%%newContent% &7gesetzt (vorher:
+    %oldContent%).'
+  invalidFilter: "&c%filterName% \"%content%\" ist nicht g\xfcltig!"
+  materialFilterMessage: '&7Bitte gib einen Materialnamen ein:'
+  resetFilter: "&7%filterName% wurde zur\xfcckgesetzt (vorher: %oldContent%)."
+  playerFilterMessage: '&7Bitte gib einen Spielernamen ein:'
+alerts:
+  BOTS_ALERT:
+    death: '%null%'
+    autostartAt: '%null%'
+    borderDecrease:
+      days: '%null%'
+      minutes: '%null%'
+      death: '%null%'
+    teleportedToMiddle: '%null%'
+    noBloodlustStrike: '%null%'
+    combatlog: '%null%'
+    gameStarted: '%null%'
+    firstStrikeNeverOnline: '%null%'
+    firstStrike: '%null%'
+    notJoin: '%null%'
+    playerJoinNormal: '%null%'
+    newSessions: '%null%'
+    switchedName: '%null%'
+    newSessionsForAll: '%null%'
+    combatlogStrike: '%null%'
+    finale: '%null%'
+    playerJoinMassrec: '%null%'
+    win:
+      player: '%null%'
+      team: '%null%'
+    sessionsEnded: '%null%'
+    disconnectTooOften: '%null%'
+    noBloodlust: '%null%'
+    secondStrike: '%null%'
+    kill: '%null%'
+    playerQuit: '%null%'
+    kickedPlayer: '%null%'
+    playerReconnect: '%null%'
+    generalStrike: '%null%'
+    playerQuitToEarly: '%null%'
+    thirdStrike: '%null%'
+    borderChanged: '%null%'
+    playerJoined: '%null%'
+    notJoinStrike: '%null%'
+combat:
+  friendlyfire: '%prefix%&cDu kannst deinen eigenen Teamkameraden nicht angreifen.'
+  loggedOut: '%null%'
+  inFight: '%null%'
+  notInFight: '%null%'
+joinmessage:
+  joinWithRemainingTime: '&a+ &e%player% &3hat den Server &abetreten&3.'
+  massrecording: '%prefix%&a%player% &3hat den Server in der Massenaufnahme betreten
+    und ist in %colorcode%%protectionTime% &3Sekunden angreifbar!'
+  notMoveinProtection: '%null%'
+  finale: '&a+ &e%player% &3hat den Server &abetreten&3.'
+  finaleplayer: '%null%'
+  spectator: '&a+ &e%player% &3hat den Server &abetreten&3.'
+  join: '&a+ &e%player% &3hat den Server &abetreten&3.'
+  requiredplayers: "%prefix%Es werden noch %required% Spieler zum Start ben\xf6tigt!"
+  joinProtectionTime: '&a+ &e%player% &3hat den Server &abetreten&3. %nextLine%%prefix%&3Die
+    Schutzzeit von &e%player% ist in &e%protectionTime% &3Sekunden vorbei.'
+  joinProtectionOver: '%prefix%&a%player% &3ist nun angreifbar!'
+sort:
+  sorted: '%null%'
+  numberHoleTeleport: '%null%'
+  spectatorTeleport: '%null%'
+  ownHoleTeleport: '%null%'
+  noHoleFound: '&3%null%'
+  noHoleFoundTeam: '%null%'
+teamRequest:
+  items:
+    invite:
+      name: '&6Spieler Einladen'
+      lore: |-
+        &7Schlage einen Spieler um ihn
+        &7in dein Team einzuladen
+    leave:
+      lore: "&7Schlage einen anderen\n&7Spieler mit diesem Item, um\n&7ihn in dein\
+        \ Team einzuladen\n "
+      name: '&cTeam Verlassen'
+    rename:
+      name: '&cTeam Umbenennen'
+      lore: ''
+nametag:
+  nametagWithTeam: '&7'
+  normalNametagPrefix: '&7'
+  normalSuffix: '&7'
+death:
+  killMessage: '&e%player% &7(&c%deathTeam%&7) &7ist gestorben.'
+  respawnProtectionOver: '%colorcode%%player% ist nun wieder verwundbar!'
+  respawnProtection: '%null%'
+  teamLifeLost: '%null%'
+  killed: "&e%player% &7(&c%deathTeam%&7) &7wurde von &e%killer% &7(&c%killerTeam%&7)\
+    \ &7get\xf6tet."
+  killLifeAdd: Dein Team hat aufgrund eines Kills ein Teamleben erhalten!
+  killTimeAdd: "Aufgrund deines Kills hast du zus\xe4tzlich %colorcode%%timeAdded%\
+    \ &7Sekunden Zeit erhalten!"
+tablist:
+  player:
+    withoutTeam: '&7-Teamlos- &8| %colorcode%%player%'
+    withTeam: '&7%team% &8| %colorcode%%player%'
+    withoutTeamWithRank: '&4Admin &4| &4%player%'
+    withTeamAndRank: '&7%team% &8| &4%player%'
+spawns:
+  spawnNameTag:
+    number: '%null%'
+    player: '%null%'
+teamrequest:
+  invitedInTeam: '&e%invited% &3wurde in dein Team eingeladen!'
+  enterTeamName: '&3Gib nun deinen &2Teamnamen &3in den Chat ein!'
+  playerNotOnline: '&e%invitor% &3ist nicht mehr auf dem Server online!'
+  teamRequestRecieved: '&e%invitor% &3hat dich in ein Team eingeladen!'
+  noteamname: "&3Du hast noch &ckeinen &3Teamnamen gew\xe4hlt!"
+  invationRevoked: "&cEinladung zur\xfcckgezogen!"
+  teamIsFull: '&cSpieler dem Team nicht beitreten, da es voll ist!'
+mods:
+  blockedModsKick: "&3Folgende Mods m\xfcssen entfernt werden, um dich freizuschalten:\
+    \ &e%mods%"
+  blockedModsBroadcast: '&3Der Spieler %colorcode%%player% &3hat versucht mit folgenden
+    blockierten Mods zu joinen: %colorcode%%mods%'
+  blockedModsListSplit: '&3, '
+protection:
+  protectionOver: '%prefix%&aDie Schutzzeit ist nun &czuende&a.'
+  start: '%prefix%&aDie Schutzzeit ist in &2%seconds% &2Sekunden &avorbei.'
+  protectionUpdate: '%prefix%&aDie Schutzzeit ist in &2%minutes%:%seconds% &2Minuten
+    &avorbei.'
+  timeRunning: '%null%'
+  noMoveStart: '&cVor dem Projektstart ist dir das Bewegen untersagt!'
+chest:
+  newChestSaved: '%prefix%&7Neue Teamchest erfolgreich erstellt.'
+  notTeamChest: "%prefix%&7Diese Chest geh\xf6rt &c%team%&7! %nextLine%&7Dein Team\
+    \ kann auf diese Chest nicht zugreifen."
+  notTeamFurnace: "%prefix%&7Dieser Furnace geh\xf6rt &c%team%&7! %nextLine%&7Dein\
+    \ Team kann auf diesen Furnace nicht zugreifen."
+  removedChest: '%prefix%&7Teamchest erfolgreich entfernt.'
+  newFurnaceSaved: '%prefix%&7Neuer Teamofen erfolgreich erstellt.'
+border:
+  decreaseMinutes: '&3Die Border wird jetzt um %colorcode%%size% &3Bloecke mit %colorcode%%speed%
+    &3Bloecken/s verkleinert. &3Naechste Verkleinerung in %colorcode%%days% &3Minuten!'
+  borderSet: '&3Die Border wurde auf %colorcode%%size% &3gesetzt!'
+  decreaseDeath: '&3Die Border wird jetzt um %colorcode%%size% &3Bloecke mit %colorcode%%speed%
+    &3Bloecken/s aufgrund eines Todes verkleinert.'
+  decreaseDays: '&3Die Border wird jetzt um %colorcode%%size% &3Bloecke mit %colorcode%%speed%
+    &3Bloecken/s verkleinert. &3Naechste Verkleinerung in %colorcode%%days% &3Tagen!'
+  minimumReached: '%colorcode%Die Border hat ihr Minimum erreicht!'
+  distanceToBorder: '&3Distanz zur Border: %colorcode%%size% &3Bloecke'
+  minuteTimeUpdate: '&3Die Border wird in %colorcode%%minutes%&3:%colorcode%%seconds%
+    &3verkleinert!'
+teamchestTeamDied: '&7Die Teamchests von &e%team% &7wurden entsichert.'
+kick:
+  kickedKilled: '&cDu bist ausgeschieden!'
+  noSessionLeft: "&cDu hast keine Episoden mehr zur Verf\xfcgung!"
+  kick: '%colorcode%%player% &3wurde gekickt!'
+  banned: ur banned lol
+  tooManyStrikes: '&cDu bist ausgeschieden!'
+  noPreproduceLeft: "&cDu hast keine Episoden mehr zur Verf\xfcgung!"
+  kickMessage: '&cDeine Aufnahme-Zeit ist vorbei!'
+  noTimeLeft: '&cDu darfst im Moment keine Episode spielen!'
+  strikeBan: "&cDu wurdest aufgrund von Strikes tempor\xe4r blockiert!"
+  notUserOfTheProject: '&fYou are not white-listed on this server!'
+  killedKick: '&cDu bist ausgeschieden!'
+  kickMessageMassRec: '&cDeine Aufnahme-Zeit ist vorbei!'
+  notStarted: '&fYou are not white-listed on this server!'
+  serverFull: '&cDer Server ist voll!'
+chat:
+  teamchatFormat: "&3[%team%&3] %from% &8\xbb &f%message%"
+  format:
+    withoutTeamWithRank: '&4Admin &4| &4%player%&4: &f%message%'
+    withTeam: '&7%team% &8| %colorcode%%player%&8: &f%message%'
+    withTeamAndRank: '&7%team% &8| &4%player%&8: &f%message%'
+    withoutTeam: '&7-Teamlos- &8| %colorcode%%player%&8: &f%message%'
+  muted: '&3Du wurdest gemutet!'
+  chatOnStart: '&3Das Schreiben vor dem Projektstart ist dir untersagt!'
+motd:
+  serverOpen: 'null'
+  cantJoinHours: 'null'
+  serverNotOpened: 'null'
+nopermission:
+  noLowerFlight: '%null%'
+  noPermission: "&7[%colorcode%projectname&7] &cDu hast keine Permissions f\xfcr diesen\
+    \ Befehl."
+  notAllowedCraft: '&cDiese Aktion ist dir untersagt!'
+team:
+  name:
+    invalid: "%prefix%&cUng\xfcltiger Name!"
+    tooLong: Dein Teamname darf maximal %colorcode%%maxLength% &3Zeichen enthalten!
+    duplicate: '%prefix%&cDieser Name ist bereits vergeben!'
+  rename: '%prefix%%colorcode%&lBitte gib einen neuen Teamnamen ein'
+  renamed: "%prefix%&7Das Team %colorcode%%teamId% &7hat seinen namen zu %colorcode%%newName%\
+    \ &7ge\xe4ndert"
+quitmessage:
+  broadcast: '%null%'
+  spectator: '&4- &e%player% &3hat den Server &cverlassen&3.'
+  quit: '&4- &e%player% &3hat den Server &cverlassen&3.'
+  disconnectKilled: '%null%'
+  serverCloseSoon: '%null%'
+  kickInSeconds: '%null%'
+  quitTooOften: '%null%'
+  quitRemainingTime: '&4- &e%player% &3hat den Server &cverlassen&3.'
+  noKickPlayerNearby: '&cDu besitzt den CombatLog-Status. Du wirst automatisch gekickt,
+    wenn dieser entfernt wird.'
+  protectionOver: '%null%'
+labymod:
+  labyMod: '%colorcode%LabyMod isn''t allowed on this server.'
+  labyModDisabled: '&3Alle deine LabyMod Funktionen wurden deaktiviert!'
+game:
+  win:
+    single: '''%prefix%&2&lDer Spieler &e&l%player%&8&l(&6&l7&8&l) &2&lhat das VARO-Projekt
+      gewonnen.'
+    team: '%prefix%&2&lDie Spieler &e&l%winnerPlayers%&8&l(&6&l7&8&l) &2&lhaben das
+      VARO-Projekt gewonnen.'
+  start:
+    startCountdown: '%prefix%&3%projectname% &3startet in &e%countdown% Sekunden&3.'
+    varoStart: '%projectname% &3wurde gestartet! &5Viel Erfolg!'
+bots:
+  notRegisteredDiscord: |-
+    %colorcode%Du bist noch nicht mit dem Discord authentifiziert!
+    &3Um dich zu authentifizieren, schreibe in den #verify -Channel %colorcode%'varo verify <Deine ID>' &3auf dem Discord!
+    Link zum Discordserver: %colorcode%%discordLink%
+    &3Deine ID lautet: %colorcode%%code%
+  noServerUser: '%colorcode%Dein Account ist nicht auf dem Discord!%nextLine%&3Joine
+    dem Discord und versuche es erneut.'
+spawn:
+  spawnNether: '%colorcode%Koordinaten&3 vom Portal zur Oberwelt: %colorcode%%x%&3,
+    %colorcode%%y%&3, %colorcode%%z%'
+  spawnDistanceNether: '&3Du bist %colorcode%%distance% &3Bloecke vom Portal zur Oberwelt
+    entfernt!'
+  spawnDistance: '&3Du bist %colorcode%%distance% &3Bloecke vom Spawn entfernt!'
+  spawn: '%colorcode%Koordinaten&3 vom Spawn: %colorcode%%x%&3, %colorcode%%y%&3,
+    %colorcode%%z%'
+deactivatedPortal: '&cPortale sind momentan deaktiviert!'
+other:
+  configReload: '&3Die %colorcode%Config &3wurde neu geladen'
+  ping: '&3Dein %colorcode%Ping &3betraegt: %colorcode%%ping%&3ms'
+teamchestOpened: "&3Du hast die Teamchest deines Teams ge\xf6ffnet!"
+firstblood: '%prefix%&4&lFIRST BLOOD!'

@@ -1,0 +1,30 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- Strike -----------
+# Beschreibung: Hier kannst du Einstellungen zu den Strikes vornehmen.
+# 
+#  banOnPostHours:
+#   Fuer wie viele Stunden die Spieler
+#   nach einem Strike gestriket werden
+#   Default-Value: -1
+# 
+#  clearArmor:
+#   Ob die Rüstung beim 2ten Strike
+#   auch gecleart werden soll
+#   Default-Value: true
+# 
+#  banAtPost:
+#   Ob der Spieler beim Posten des Strikes
+#   um die oben genannte Zahl gebannt werden soll.
+#   Sonst wird dieser beim Erhalten gebannt
+#   Default-Value: true
+# 
+#  postAtResetHour:
+#   Ob die Strikes erst um die ResetHour gepostet werden sollen
+#   Default-Value: false
+# -------------------------
+
+banOnPostHours: -1
+clearArmor: true
+banAtPost: true
+postAtResetHour: false

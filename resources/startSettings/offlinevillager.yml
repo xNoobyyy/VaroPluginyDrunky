@@ -1,0 +1,12 @@
+# WARNUNG: DIE RICHTIGE CONFIG BEFINDET SICH UNTEN, NICHT DIE '#' VOR DEN EINTRAEGEN WEGNEHMEN!
+#  Hier ist die Beschreibung der Config:
+# ----------- OfflineVillager -----------
+# Beschreibung: Einstellungen zu den OfflineVillagern
+# 
+#  enableOfflineVillager:
+#   Ob Villager, welche representativ fuer den Spieler waehrend
+#   seiner Onlinezeit auf dem Server warten und gekillt werden koennen.
+#   Default-Value: false
+# -------------------------
+
+enableOfflineVillager: false
